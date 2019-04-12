@@ -9,7 +9,7 @@ At this time the only major API difference (other than the function names, prefi
 
 A minimal Core Foundation implementation is baked-in for Windows and Linux, since these are required for many of the Quartz/CoreText calls.
 
-Instructions for building the demo will be coming soon, but in the meantime, check out the `examples/apidemo/build` subdirs for your platform. Regardless of your platform / build location, the `_democontent` subdir must be present relative to your current-working-directory when running the demo.
+Instructions for building the demo will be coming soon, but in the meantime, check out the `examples/apidemo/build` subdirs for your platform. Regardless of your platform / build location, the `_democontent` subdir must be present relative to your current-working-directory when running the demo. And don't forget to `git submodule init` / `git submodule update` !
 
 Once running the demo, the number keys 1-8 switch pages.
 

@@ -1,3 +1,4 @@
+[![Gitter](https://badges.gitter.im/OpenWL-DL/community.svg)](https://gitter.im/OpenWL-DL/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 # OpenDL
 
 This library provides a Quartz2D/CoreText-compatible API on multiple platforms:

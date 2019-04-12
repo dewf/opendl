@@ -23,14 +23,6 @@
     <ClCompile Include="..\..\..\source\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\build\msvc\2017\opendl.vcxproj">
-      <Project>{59c967f3-72e7-4557-b1db-2399f02103c5}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\deps\openwl\build\msvc\2017\openwl.vcxproj">
-      <Project>{fa29149a-bdd5-4337-a73e-b2dae9dab812}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\..\..\source\common.h" />
     <ClInclude Include="..\..\..\source\page01.hpp" />
     <ClInclude Include="..\..\..\source\page02.hpp" />
@@ -40,6 +32,14 @@
     <ClInclude Include="..\..\..\source\page06.hpp" />
     <ClInclude Include="..\..\..\source\page07.hpp" />
     <ClInclude Include="..\..\..\source\page08.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\build\msvc\2017\opendl.vcxproj">
+      <Project>{59c967f3-72e7-4557-b1db-2399f02103c5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\deps\openwl\build\msvc\2017\openwl.vcxproj">
+      <Project>{52532b4b-2f4b-4e59-a589-f10c4060cd73}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

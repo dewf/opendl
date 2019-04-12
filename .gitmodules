@@ -1,0 +1,3 @@
+[submodule "examples/apidemo/deps/openwl"]
+	path = examples/apidemo/deps/openwl
+	url = https://github.com/dewf/openwl.git

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$">
+    <contentRoot DIR="$PROJECT_DIR$/../../../.." />
+  </component>
+  <component name="CidrRootsConfiguration">
+    <excludeRoots>
+      <file path="$PROJECT_DIR$/../../../../build/msvc" />
+      <file path="$PROJECT_DIR$/../../../../build/xcode" />
+      <file path="$PROJECT_DIR$/../msvc" />
+      <file path="$PROJECT_DIR$/../xcode" />
+      <file path="$PROJECT_DIR$/../../deps/openwl/build/msvc" />
+      <file path="$PROJECT_DIR$/../../deps/openwl/build/xcode" />
+      <file path="$PROJECT_DIR$/../../../common/CFMinimalTest" />
+      <file path="$PROJECT_DIR$/../../../osx-quartz" />
+      <file path="$PROJECT_DIR$/../../../win-direct2d" />
+      <file path="$PROJECT_DIR$/../../../../source/osx-quartz" />
+      <file path="$PROJECT_DIR$/../../../../source/win-direct2d" />
+    </excludeRoots>
+  </component>
+</project>

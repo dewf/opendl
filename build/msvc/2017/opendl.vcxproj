@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\source\common\AbstractRangeManager.h" />
+    <ClInclude Include="..\..\..\source\common\classes\CF\CFArray.h" />
+    <ClInclude Include="..\..\..\source\common\classes\CF\CFAttributedString.h" />
+    <ClInclude Include="..\..\..\source\common\classes\CF\CFBoolean.h" />
+    <ClInclude Include="..\..\..\source\common\classes\CF\CFDictionary.h" />
+    <ClInclude Include="..\..\..\source\common\classes\CF\CFMisc.h" />
+    <ClInclude Include="..\..\..\source\common\classes\CF\CFMutableArray.h" />
+    <ClInclude Include="..\..\..\source\common\classes\CF\CFMutableAttributedString.h" />
+    <ClInclude Include="..\..\..\source\common\classes\CF\CFMutableDictionary.h" />
+    <ClInclude Include="..\..\..\source\common\classes\CF\CFMutableString.h" />
+    <ClInclude Include="..\..\..\source\common\classes\CF\CFNumber.h" />
+    <ClInclude Include="..\..\..\source\common\classes\CF\CFObject.h" />
+    <ClInclude Include="..\..\..\source\common\classes\CF\CFString.h" />
+    <ClInclude Include="..\..\..\source\common\classes\CF\CFTypes.h" />
+    <ClInclude Include="..\..\..\source\common\classes\CF\CFURL.h" />
+    <ClInclude Include="..\..\..\source\common\ExoClass.h" />
+    <ClInclude Include="..\..\..\source\common\geometry.h" />
+    <ClInclude Include="..\..\..\source\common\util.h" />
+    <ClInclude Include="..\..\..\source\dlcf.h" />
+    <ClInclude Include="..\..\..\source\opendl.h" />
+    <ClInclude Include="..\..\..\source\prologue.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\caching.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CG\CGBitmapContext.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CG\CGColor.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CG\CGColorSpace.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CG\CGContext.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CG\CGGradient.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CG\CGImage.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CG\CGPath.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CT\CTFont.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CT\CTFontDescriptor.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CT\CTFrame.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CT\CTFrameSetter.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CT\CTLine.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CT\CTParagraphStyle.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CT\CTRun.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\COMStuff.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\directwrite\CoreTextFormatSpec.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\directwrite\CoreTextRenderer.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\directwrite\DWriteFontUtils.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\directwrite\DWriteLayout.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\directwrite\MyTextRenderer.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\directwrite\MyUnknown.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\header.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\private_defs.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\targetver.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\unicodestuff.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\common\AbstractRangeManager.cpp" />
+    <ClCompile Include="..\..\..\source\common\classes\CF\CFArray.cpp" />
+    <ClCompile Include="..\..\..\source\common\classes\CF\CFAttributedString.cpp" />
+    <ClCompile Include="..\..\..\source\common\classes\CF\CFBoolean.cpp" />
+    <ClCompile Include="..\..\..\source\common\classes\CF\CFDictionary.cpp" />
+    <ClCompile Include="..\..\..\source\common\classes\CF\CFMisc.cpp" />
+    <ClCompile Include="..\..\..\source\common\classes\CF\CFMutableArray.cpp" />
+    <ClCompile Include="..\..\..\source\common\classes\CF\CFMutableAttributedString.cpp" />
+    <ClCompile Include="..\..\..\source\common\classes\CF\CFMutableDictionary.cpp" />
+    <ClCompile Include="..\..\..\source\common\classes\CF\CFMutableString.cpp" />
+    <ClCompile Include="..\..\..\source\common\classes\CF\CFNumber.cpp" />
+    <ClCompile Include="..\..\..\source\common\classes\CF\CFObject.cpp" />
+    <ClCompile Include="..\..\..\source\common\classes\CF\CFString.cpp" />
+    <ClCompile Include="..\..\..\source\common\classes\CF\CFURL.cpp" />
+    <ClCompile Include="..\..\..\source\common\ExoClass.cpp" />
+    <ClCompile Include="..\..\..\source\common\geometry.c" />
+    <ClCompile Include="..\..\..\source\common\util.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\caching.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CG\CGBitmapContext.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CG\CGColor.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CG\CGColorSpace.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CG\CGContext.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CG\CGGradient.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CG\CGImage.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CG\CGPath.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CT\CTFont.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CT\CTFontDescriptor.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CT\CTFrame.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CT\CTFrameSetter.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CT\CTLine.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CT\CTParagraphStyle.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CT\CTRun.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\directwrite\CoreTextFormatSpec.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\directwrite\CoreTextRenderer.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\directwrite\DWriteFontUtils.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\directwrite\DWriteLayout.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\directwrite\MyTextRenderer.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\directwrite\MyUnknown.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\dllmain.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\OpenDL.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\unicodestuff.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{59C967F3-72E7-4557-B1DB-2399F02103C5}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>opendl</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>OPENDL</TargetName>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>OPENDL</TargetName>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>OPENDL</TargetName>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>OPENDL</TargetName>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;OPENDL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d2d1.lib;windowscodecs.lib;dwrite.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;OPENDL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d2d1.lib;windowscodecs.lib;dwrite.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;OPENDL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d2d1.lib;windowscodecs.lib;dwrite.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;OPENDL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d2d1.lib;windowscodecs.lib;dwrite.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -223,8 +223,8 @@ int main()
     wl_MenuBarAddMenu(menuBar, "File", fileMenu);
     wl_WindowSetMenuBar(mainWin, menuBar);
 #elif defined(WL_PLATFORM_APPLE)
-    auto appMenu = wlGetApplicationMenu();
-    wlMenuAddAction(appMenu, quitAction);
+    auto appMenu = wl_GetApplicationMenu();
+    wl_MenuAddAction(appMenu, quitAction);
 #endif
 
     animTimer = wl_TimerCreate(mainWin, ANIM_TIMER, 1000 / 60);

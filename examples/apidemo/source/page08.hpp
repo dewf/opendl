@@ -97,9 +97,9 @@ public:
         dl_CFRelease(fs);
     }
     
-    void onKeyEvent(WLKeyEvent &keyEvent) override {
-        if (keyEvent.eventType == WLKeyEventType_Down) {
-            if (keyEvent.key == WLKey_Space) {
+    void onKeyEvent(wl_KeyEvent &keyEvent) override {
+        if (keyEvent.eventType == wl_kKeyEventTypeDown) {
+            if (keyEvent.key == wl_kKeySpace) {
                 if (currentAttrString == latinString) {
                     currentAttrString = arabicString;
                     textDirection = RightToLeft;
@@ -113,7 +113,7 @@ public:
         }
     }
 
-	void onSizeEvent(WLResizeEvent &resizeEvent) override {
+	void onSizeEvent(wl_ResizeEvent &resizeEvent) override {
         auto width = resizeEvent.newWidth;
         viewportHeight = resizeEvent.newHeight;
         textRect = dl_CGRectMake(20.5, 20.5, width - 39, viewportHeight - 39);
@@ -121,10 +121,10 @@ public:
         doLayout(viewportHeight);
 	}
 
-	void onMouseEvent(WLMouseEvent &mouseEvent) override {
+	void onMouseEvent(wl_MouseEvent &mouseEvent) override {
 		mousePos = dl_CGPointMake(mouseEvent.x, mouseEvent.y);
 
-		if (mouseEvent.eventType == WLMouseEventType_MouseMove) {
+		if (mouseEvent.eventType == wl_kMouseEventTypeMouseMove) {
 			// calculate the cursor position (line/col etc)
 			auto origins = new dl_CGPoint[numLines];
 			dl_CTFrameGetLineOrigins(frame, dl_CFRangeZero, origins);
@@ -155,18 +155,18 @@ public:
 				}
 			}
 			delete[] origins;
-		} else if (mouseEvent.eventType == WLMouseEventType_MouseDown) {
+		} else if (mouseEvent.eventType == wl_kMouseEventTypeMouseDown) {
 			// already know what line/index it is (if any)
 			if (mouseIndex >= 0) {
 				// begin selection drag
 				startIndex = mouseIndex;
 				dragging = true;
 			}
-		} else if (mouseEvent.eventType == WLMouseEventType_MouseUp) {
+		} else if (mouseEvent.eventType == wl_kMouseEventTypeMouseUp) {
 			startIndex = dl_kCFNotFound;
 			endIndex = dl_kCFNotFound;
 			dragging = false;
-        } else if (mouseEvent.eventType == WLMouseEventType_MouseLeave) {
+        } else if (mouseEvent.eventType == wl_kMouseEventTypeMouseLeave) {
             mouseIndex = dl_kCFNotFound;
         }
 

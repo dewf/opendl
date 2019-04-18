@@ -92,11 +92,11 @@ public:
 		}
 	}
 
-	void onMouseEvent(WLMouseEvent &mouseEvent) override {
-		if (mouseEvent.eventType == WLMouseEventType_MouseDown) {
+	void onMouseEvent(wl_MouseEvent &mouseEvent) override {
+		if (mouseEvent.eventType == wl_kMouseEventTypeMouseDown) {
 			animating = !animating;
 		}
-		else if (mouseEvent.eventType == WLMouseEventType_MouseMove) {
+		else if (mouseEvent.eventType == wl_kMouseEventTypeMouseMove) {
 			mouse_x = mouseEvent.x;
 			mouse_y = mouseEvent.y;
 			if (!animating) {
@@ -105,10 +105,10 @@ public:
 		}
 	}
 
-	void onKeyEvent(WLKeyEvent &keyEvent) override {
+	void onKeyEvent(wl_KeyEvent &keyEvent) override {
 		switch (keyEvent.key) {
-			case WLKey_C:
-				if (keyEvent.eventType == WLKeyEventType_Down) {
+			case wl_kKeyC:
+				if (keyEvent.eventType == wl_kKeyEventTypeDown) {
 					doCrossMask = !doCrossMask;
 					if (!animating) {
 						parent->invalidate(0, 0, 0, 0);

@@ -21,7 +21,7 @@ enum actions {
     QUIT_ACTION
 };
 
-wlWindow mainWin;
+wl_WindowRef mainWin;
 int minWidth = 320;
 int minHeight = 240;
 int maxWidth = 1600;
@@ -35,17 +35,17 @@ int height = initHeight;
 enum timers {
     ANIM_TIMER
 };
-wlTimer animTimer;
+wl_TimerRef animTimer;
 
 class MyWindowFuncs : public WindowFuncs
 {
 public:
 	void invalidate(int x, int y, int width, int height) override {
 		if (width > 0 && height > 0) {
-			wlWindowInvalidate(mainWin, x, y, width, height);
+			wl_WindowInvalidate(mainWin, x, y, width, height);
 		}
 		else {
-			wlWindowInvalidate(mainWin, 0, 0, 0, 0);
+			wl_WindowInvalidate(mainWin, 0, 0, 0, 0);
 		}
 	}
 };
@@ -69,18 +69,18 @@ void setPageIndex(int index) {
 	currentPage = pages[index];
     
     // make sure and send a size event first, useful for laying out text or whatever
-    WLResizeEvent sizeEvent;
+    wl_ResizeEvent sizeEvent;
     sizeEvent.newWidth = width;
     sizeEvent.newHeight = height;
     sizeEvent.oldWidth = sizeEvent.oldHeight = -1;
     currentPage->onSizeEvent(sizeEvent);
     
-	wlWindowInvalidate(mainWin, 0, 0, 0, 0);
+	wl_WindowInvalidate(mainWin, 0, 0, 0, 0);
 }
 
 dl_CGContextRef createContext(void *voidPlatformContext) {
 #ifdef WL_PLATFORM_WINDOWS
-    auto platformContext = (WLPlatformContextD2D *)voidPlatformContext;
+    auto platformContext = (wl_PlatformContextD2D *)voidPlatformContext;
     auto context = dl_CGContextCreateD2D(platformContext->target /*, platformContext->writeFactory */);
 #elif defined(WL_PLATFORM_APPLE)
     auto context = dl_CGContextCreateQuartz((CGContextRef)voidPlatformContext, height);
@@ -90,30 +90,30 @@ dl_CGContextRef createContext(void *voidPlatformContext) {
     return context;
 }
 
-int CDECL wlCallback(wlWindow window, struct WLEvent *event, void *userData)
+int CDECL wlCallback(wl_WindowRef window, struct wl_Event *event, void *userData)
 {
     event->handled = true;
     switch(event->eventType) {
-        case WLEventType_WindowDestroyed:
-            wlExitRunloop();
+        case wl_kEventTypeWindowDestroyed:
+            wl_ExitRunloop();
             break;
-        case WLEventType_Action:
+        case wl_kEventTypeAction:
             if (event->actionEvent.id == QUIT_ACTION) {
-                wlWindowDestroy(mainWin);
+                wl_WindowDestroy(mainWin);
             }
             break;
-        case WLEventType_WindowResized:
+        case wl_kEventTypeWindowResized:
             width = event->resizeEvent.newWidth;
             height = event->resizeEvent.newHeight;
             if (mainWin) { // have to check, on win32 we get size events before wlCreateWindow has returned
 				currentPage->onSizeEvent(event->resizeEvent);
                 if (!currentPage->isAnimating()) {
 					// don't bother if it's going to get refreshed anyway ...
-                    wlWindowInvalidate(mainWin, 0, 0, 0, 0);
+                    wl_WindowInvalidate(mainWin, 0, 0, 0, 0);
                 }
             }
             break;
-        case WLEventType_WindowRepaint:
+        case wl_kEventTypeWindowRepaint:
             {
                 auto context = createContext(event->repaintEvent.platformContext);
 				dl_CGContextSaveGState(context);
@@ -129,37 +129,37 @@ int CDECL wlCallback(wlWindow window, struct WLEvent *event, void *userData)
                 dl_CGContextRelease(context);
             }
             break;
-        case WLEventType_Mouse:
+        case wl_kEventTypeMouse:
 			currentPage->onMouseEvent(event->mouseEvent);
             break;
-        case WLEventType_Key:
+        case wl_kEventTypeKey:
 			switch (event->keyEvent.key) {
-			case WLKey_1:
-			case WLKey_2:
-			case WLKey_3:
-			case WLKey_4:
-			case WLKey_5:
-			case WLKey_6:
-			case WLKey_7:
-			case WLKey_8:
-				if (event->keyEvent.eventType == WLKeyEventType_Down) {
-					setPageIndex(event->keyEvent.key - WLKey_1);
+			case wl_kKey1:
+			case wl_kKey2:
+			case wl_kKey3:
+			case wl_kKey4:
+			case wl_kKey5:
+			case wl_kKey6:
+			case wl_kKey7:
+			case wl_kKey8:
+				if (event->keyEvent.eventType == wl_kKeyEventTypeDown) {
+					setPageIndex(event->keyEvent.key - wl_kKey1);
 				}
 				break;
-			case WLKey_Tab:
-				if (event->keyEvent.eventType == WLKeyEventType_Down) {
+			case wl_kKeyTab:
+				if (event->keyEvent.eventType == wl_kKeyEventTypeDown) {
 					if (!renderSecondary) {
 						renderSecondary = true;
 						if (!currentPage->isAnimating()) {
-							wlWindowInvalidate(mainWin, 0, 0, 0, 0);
+							wl_WindowInvalidate(mainWin, 0, 0, 0, 0);
 						}
 					}
 				}
-				else if (event->keyEvent.eventType == WLKeyEventType_Up) {
+				else if (event->keyEvent.eventType == wl_kKeyEventTypeUp) {
 					if (renderSecondary) {
 						renderSecondary = false;
 						if (!currentPage->isAnimating()) {
-							wlWindowInvalidate(mainWin, 0, 0, 0, 0);
+							wl_WindowInvalidate(mainWin, 0, 0, 0, 0);
 						}
 					}
 				}
@@ -169,13 +169,13 @@ int CDECL wlCallback(wlWindow window, struct WLEvent *event, void *userData)
 				break;
 			}
             break;
-        case WLEventType_Timer:
+        case wl_kEventTypeTimer:
         {
 			currentPage->onTimerEvent(event->timerEvent.secondsSinceLast);
             break;
         }
 #ifdef WL_PLATFORM_WINDOWS
-		case WLEventType_D2DTargetRecreated:
+		case wl_kEventTypeD2DTargetRecreated:
 			// this just lets us know to flush any cached stuff we have for a target / init a new cache
 			dl_D2DTargetRecreated(event->d2dTargetRecreatedEvent.newTarget, event->d2dTargetRecreatedEvent.oldTarget);
 			break;
@@ -188,11 +188,11 @@ int CDECL wlCallback(wlWindow window, struct WLEvent *event, void *userData)
 
 int main()
 {
-	WLPlatformOptions wlOptions = {};
+	wl_PlatformOptions wlOptions = {};
 #ifdef WL_PLATFORM_WINDOWS
 	wlOptions.useDirect2D = true;
 #endif
-    wlInit(&wlCallback, &wlOptions);
+    wl_Init(&wlCallback, &wlOptions);
 
 	DLPlatformOptions dlOptions = {};
 #ifdef WL_PLATFORM_WINDOWS
@@ -205,35 +205,35 @@ int main()
 		pages[i]->init();
 	}
 
-    WLWindowProperties props;
-    props.usedFields = WLWindowProp_MinWidth | WLWindowProp_MinHeight | WLWindowProp_MaxWidth | WLWindowProp_MaxHeight;
+    wl_WindowProperties props;
+    props.usedFields = wl_kWindowPropMinWidth | wl_kWindowPropMinHeight | wl_kWindowPropMaxWidth | wl_kWindowPropMaxHeight;
     props.minWidth = minWidth;
     props.minHeight = minHeight;
     props.maxWidth = maxWidth;
     props.maxHeight = maxHeight;
 
-    mainWin = wlWindowCreate(initWidth, initHeight, "woot opendl", nullptr, &props);
+    mainWin = wl_WindowCreate(initWidth, initHeight, "woot opendl", nullptr, &props);
 
-    auto quitAccel = wlAccelCreate(WLKey_Q, WLModifier_Control);
-    auto quitAction = wlActionCreate(QUIT_ACTION, "&Quit", nullptr, quitAccel);
+    auto quitAccel = wl_AccelCreate(wl_kKeyQ, wl_kModifierControl);
+    auto quitAction = wl_ActionCreate(QUIT_ACTION, "&Quit", nullptr, quitAccel);
 #if defined(WL_PLATFORM_WINDOWS) || defined(WL_PLATFORM_LINUX)
-    auto fileMenu = wlMenuCreate();
-    wlMenuAddAction(fileMenu, quitAction);
-    auto menuBar = wlMenuBarCreate();
-    wlMenuBarAddMenu(menuBar, "File", fileMenu);
-    wlWindowSetMenuBar(mainWin, menuBar);
+    auto fileMenu = wl_MenuCreate();
+    wl_MenuAddAction(fileMenu, quitAction);
+    auto menuBar = wl_MenuBarCreate();
+    wl_MenuBarAddMenu(menuBar, "File", fileMenu);
+    wl_WindowSetMenuBar(mainWin, menuBar);
 #elif defined(WL_PLATFORM_APPLE)
     auto appMenu = wlGetApplicationMenu();
     wlMenuAddAction(appMenu, quitAction);
 #endif
 
-    animTimer = wlTimerCreate(mainWin, ANIM_TIMER, 1000 / 60);
+    animTimer = wl_TimerCreate(mainWin, ANIM_TIMER, 1000 / 60);
     
-    wlWindowShow(mainWin);
+    wl_WindowShow(mainWin);
     
-    wlRunloop();
+    wl_Runloop();
 
 	dl_Shutdown();
-    wlShutdown();
+    wl_Shutdown();
     return 0;
 }

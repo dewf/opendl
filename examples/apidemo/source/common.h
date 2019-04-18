@@ -57,9 +57,9 @@ public:
 	}
 	virtual bool isAnimating() { return false; }
 	virtual void onTimerEvent(double secondsSinceLast) {}
-	virtual void onMouseEvent(WLMouseEvent &mouseEvent) {}
-	virtual void onKeyEvent(WLKeyEvent &keyEvent) {}
-	virtual void onSizeEvent(WLResizeEvent &resizeEvent) {}
+	virtual void onMouseEvent(wl_MouseEvent &mouseEvent) {}
+	virtual void onKeyEvent(wl_KeyEvent &keyEvent) {}
+	virtual void onSizeEvent(wl_ResizeEvent &resizeEvent) {}
 };
 
 extern const char *loremIpsum;

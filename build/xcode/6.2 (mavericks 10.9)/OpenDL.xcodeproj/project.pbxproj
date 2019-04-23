@@ -1,0 +1,479 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6563F128226EBFB100EB4A8E /* dlcf.h in Headers */ = {isa = PBXBuildFile; fileRef = 6563F125226EBFB100EB4A8E /* dlcf.h */; };
+		6563F129226EBFB100EB4A8E /* opendl.h in Headers */ = {isa = PBXBuildFile; fileRef = 6563F126226EBFB100EB4A8E /* opendl.h */; };
+		6563F12A226EBFB100EB4A8E /* prologue.h in Headers */ = {isa = PBXBuildFile; fileRef = 6563F127226EBFB100EB4A8E /* prologue.h */; };
+		6563F12D226EBFBA00EB4A8E /* ExoClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6563F12B226EBFBA00EB4A8E /* ExoClass.cpp */; };
+		6563F12E226EBFBA00EB4A8E /* ExoClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 6563F12C226EBFBA00EB4A8E /* ExoClass.h */; };
+		6563F132226EBFC200EB4A8E /* core_foundation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6563F12F226EBFC200EB4A8E /* core_foundation.mm */; };
+		6563F133226EBFC200EB4A8E /* opendl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6563F130226EBFC200EB4A8E /* opendl.mm */; };
+		6563F134226EBFC200EB4A8E /* util.h in Headers */ = {isa = PBXBuildFile; fileRef = 6563F131226EBFC200EB4A8E /* util.h */; };
+		6563F136226EBFED00EB4A8E /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6563F135226EBFED00EB4A8E /* CoreFoundation.framework */; };
+		6563F138226EBFF200EB4A8E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6563F137226EBFF200EB4A8E /* CoreGraphics.framework */; };
+		6563F13A226EBFF700EB4A8E /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6563F139226EBFF700EB4A8E /* CoreText.framework */; };
+		658E6BBF226EBF4A0019E47F /* OpenDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 658E6BB3226EBF4A0019E47F /* OpenDL.framework */; };
+		658E6BC6226EBF4A0019E47F /* OpenDLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 658E6BC5226EBF4A0019E47F /* OpenDLTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		658E6BC0226EBF4A0019E47F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 658E6BAA226EBF4A0019E47F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 658E6BB2226EBF4A0019E47F;
+			remoteInfo = OpenDL;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		6563F125226EBFB100EB4A8E /* dlcf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dlcf.h; path = ../../../../source/dlcf.h; sourceTree = "<group>"; };
+		6563F126226EBFB100EB4A8E /* opendl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = opendl.h; path = ../../../../source/opendl.h; sourceTree = "<group>"; };
+		6563F127226EBFB100EB4A8E /* prologue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prologue.h; path = ../../../../source/prologue.h; sourceTree = "<group>"; };
+		6563F12B226EBFBA00EB4A8E /* ExoClass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ExoClass.cpp; path = ../../../../source/common/ExoClass.cpp; sourceTree = "<group>"; };
+		6563F12C226EBFBA00EB4A8E /* ExoClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExoClass.h; path = ../../../../source/common/ExoClass.h; sourceTree = "<group>"; };
+		6563F12F226EBFC200EB4A8E /* core_foundation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = core_foundation.mm; path = "../../../../source/osx-quartz/core_foundation.mm"; sourceTree = "<group>"; };
+		6563F130226EBFC200EB4A8E /* opendl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = opendl.mm; path = "../../../../source/osx-quartz/opendl.mm"; sourceTree = "<group>"; };
+		6563F131226EBFC200EB4A8E /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = util.h; path = "../../../../source/osx-quartz/util.h"; sourceTree = "<group>"; };
+		6563F135226EBFED00EB4A8E /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		6563F137226EBFF200EB4A8E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		6563F139226EBFF700EB4A8E /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		658E6BB3226EBF4A0019E47F /* OpenDL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpenDL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		658E6BB7226EBF4A0019E47F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		658E6BBE226EBF4A0019E47F /* OpenDLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenDLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		658E6BC4226EBF4A0019E47F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		658E6BC5226EBF4A0019E47F /* OpenDLTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenDLTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		658E6BAF226EBF4A0019E47F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6563F13A226EBFF700EB4A8E /* CoreText.framework in Frameworks */,
+				6563F138226EBFF200EB4A8E /* CoreGraphics.framework in Frameworks */,
+				6563F136226EBFED00EB4A8E /* CoreFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		658E6BBB226EBF4A0019E47F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				658E6BBF226EBF4A0019E47F /* OpenDL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6563F122226EBF9100EB4A8E /* API Headers */ = {
+			isa = PBXGroup;
+			children = (
+				6563F125226EBFB100EB4A8E /* dlcf.h */,
+				6563F126226EBFB100EB4A8E /* opendl.h */,
+				6563F127226EBFB100EB4A8E /* prologue.h */,
+			);
+			name = "API Headers";
+			sourceTree = "<group>";
+		};
+		6563F123226EBF9800EB4A8E /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				6563F12B226EBFBA00EB4A8E /* ExoClass.cpp */,
+				6563F12C226EBFBA00EB4A8E /* ExoClass.h */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		6563F124226EBF9D00EB4A8E /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				6563F12F226EBFC200EB4A8E /* core_foundation.mm */,
+				6563F130226EBFC200EB4A8E /* opendl.mm */,
+				6563F131226EBFC200EB4A8E /* util.h */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		658E6BA9226EBF4A0019E47F = {
+			isa = PBXGroup;
+			children = (
+				6563F139226EBFF700EB4A8E /* CoreText.framework */,
+				6563F137226EBFF200EB4A8E /* CoreGraphics.framework */,
+				6563F135226EBFED00EB4A8E /* CoreFoundation.framework */,
+				658E6BB5226EBF4A0019E47F /* OpenDL */,
+				658E6BC2226EBF4A0019E47F /* OpenDLTests */,
+				658E6BB4226EBF4A0019E47F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		658E6BB4226EBF4A0019E47F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				658E6BB3226EBF4A0019E47F /* OpenDL.framework */,
+				658E6BBE226EBF4A0019E47F /* OpenDLTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		658E6BB5226EBF4A0019E47F /* OpenDL */ = {
+			isa = PBXGroup;
+			children = (
+				6563F122226EBF9100EB4A8E /* API Headers */,
+				6563F123226EBF9800EB4A8E /* Common */,
+				6563F124226EBF9D00EB4A8E /* Source */,
+				658E6BB6226EBF4A0019E47F /* Supporting Files */,
+			);
+			path = OpenDL;
+			sourceTree = "<group>";
+		};
+		658E6BB6226EBF4A0019E47F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				658E6BB7226EBF4A0019E47F /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		658E6BC2226EBF4A0019E47F /* OpenDLTests */ = {
+			isa = PBXGroup;
+			children = (
+				658E6BC5226EBF4A0019E47F /* OpenDLTests.m */,
+				658E6BC3226EBF4A0019E47F /* Supporting Files */,
+			);
+			path = OpenDLTests;
+			sourceTree = "<group>";
+		};
+		658E6BC3226EBF4A0019E47F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				658E6BC4226EBF4A0019E47F /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		658E6BB0226EBF4A0019E47F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6563F134226EBFC200EB4A8E /* util.h in Headers */,
+				6563F129226EBFB100EB4A8E /* opendl.h in Headers */,
+				6563F12A226EBFB100EB4A8E /* prologue.h in Headers */,
+				6563F12E226EBFBA00EB4A8E /* ExoClass.h in Headers */,
+				6563F128226EBFB100EB4A8E /* dlcf.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		658E6BB2226EBF4A0019E47F /* OpenDL */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 658E6BC9226EBF4A0019E47F /* Build configuration list for PBXNativeTarget "OpenDL" */;
+			buildPhases = (
+				658E6BAE226EBF4A0019E47F /* Sources */,
+				658E6BAF226EBF4A0019E47F /* Frameworks */,
+				658E6BB0226EBF4A0019E47F /* Headers */,
+				658E6BB1226EBF4A0019E47F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OpenDL;
+			productName = OpenDL;
+			productReference = 658E6BB3226EBF4A0019E47F /* OpenDL.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		658E6BBD226EBF4A0019E47F /* OpenDLTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 658E6BCC226EBF4A0019E47F /* Build configuration list for PBXNativeTarget "OpenDLTests" */;
+			buildPhases = (
+				658E6BBA226EBF4A0019E47F /* Sources */,
+				658E6BBB226EBF4A0019E47F /* Frameworks */,
+				658E6BBC226EBF4A0019E47F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				658E6BC1226EBF4A0019E47F /* PBXTargetDependency */,
+			);
+			name = OpenDLTests;
+			productName = OpenDLTests;
+			productReference = 658E6BBE226EBF4A0019E47F /* OpenDLTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		658E6BAA226EBF4A0019E47F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0620;
+				ORGANIZATIONNAME = "Daniel G";
+				TargetAttributes = {
+					658E6BB2226EBF4A0019E47F = {
+						CreatedOnToolsVersion = 6.2;
+					};
+					658E6BBD226EBF4A0019E47F = {
+						CreatedOnToolsVersion = 6.2;
+					};
+				};
+			};
+			buildConfigurationList = 658E6BAD226EBF4A0019E47F /* Build configuration list for PBXProject "OpenDL" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 658E6BA9226EBF4A0019E47F;
+			productRefGroup = 658E6BB4226EBF4A0019E47F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				658E6BB2226EBF4A0019E47F /* OpenDL */,
+				658E6BBD226EBF4A0019E47F /* OpenDLTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		658E6BB1226EBF4A0019E47F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		658E6BBC226EBF4A0019E47F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		658E6BAE226EBF4A0019E47F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6563F12D226EBFBA00EB4A8E /* ExoClass.cpp in Sources */,
+				6563F133226EBFC200EB4A8E /* opendl.mm in Sources */,
+				6563F132226EBFC200EB4A8E /* core_foundation.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		658E6BBA226EBF4A0019E47F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				658E6BC6226EBF4A0019E47F /* OpenDLTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		658E6BC1226EBF4A0019E47F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 658E6BB2226EBF4A0019E47F /* OpenDL */;
+			targetProxy = 658E6BC0226EBF4A0019E47F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		658E6BC7226EBF4A0019E47F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		658E6BC8226EBF4A0019E47F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		658E6BCA226EBF4A0019E47F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = OpenDL/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "-fvisibility=hidden";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		658E6BCB226EBF4A0019E47F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = OpenDL/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "-fvisibility=hidden";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		658E6BCD226EBF4A0019E47F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = OpenDLTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		658E6BCE226EBF4A0019E47F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = OpenDLTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		658E6BAD226EBF4A0019E47F /* Build configuration list for PBXProject "OpenDL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				658E6BC7226EBF4A0019E47F /* Debug */,
+				658E6BC8226EBF4A0019E47F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		658E6BC9226EBF4A0019E47F /* Build configuration list for PBXNativeTarget "OpenDL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				658E6BCA226EBF4A0019E47F /* Debug */,
+				658E6BCB226EBF4A0019E47F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		658E6BCC226EBF4A0019E47F /* Build configuration list for PBXNativeTarget "OpenDLTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				658E6BCD226EBF4A0019E47F /* Debug */,
+				658E6BCE226EBF4A0019E47F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 658E6BAA226EBF4A0019E47F /* Project object */;
+}

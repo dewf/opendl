@@ -7,45 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		651A8102219FDEBF00C2B8D6 /* libopendl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 651A80E6219FDD5C00C2B8D6 /* libopendl.dylib */; };
-		651A8103219FDEBF00C2B8D6 /* libopenwl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 651A80F8219FDDA200C2B8D6 /* libopenwl.dylib */; };
 		6579BC332206CD990048136C /* common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6579BC322206CD990048136C /* common.cpp */; };
 		65B5663C219D8E5300BCA920 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B5663B219D8E5300BCA920 /* AppDelegate.m */; };
 		65B56640219D8E5300BCA920 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65B5663F219D8E5300BCA920 /* Images.xcassets */; };
 		65B56643219D8E5300BCA920 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65B56641219D8E5300BCA920 /* MainMenu.xib */; };
 		65B5664F219D8E5300BCA920 /* apidemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B5664E219D8E5300BCA920 /* apidemoTests.m */; };
 		65ED5064219D8EC000B02528 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65ED5062219D8EC000B02528 /* main.cpp */; };
+		65F33C2E226EB80200F21025 /* OpenDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65F33C24226EB75800F21025 /* OpenDL.framework */; };
+		65F33C2F226EB80200F21025 /* OpenWL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65F33C18226EB73D00F21025 /* OpenWL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		651A80E5219FDD5C00C2B8D6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 651A80E0219FDD5C00C2B8D6 /* opendl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 65590E1C219D8807001144E7;
-			remoteInfo = opendl;
-		};
-		651A80E7219FDD5C00C2B8D6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 651A80E0219FDD5C00C2B8D6 /* opendl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 65590E27219D8807001144E7;
-			remoteInfo = opendlTests;
-		};
-		651A80F7219FDDA200C2B8D6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 651A80F2219FDDA200C2B8D6 /* openwl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 659DCE2E2197E15F00FB3D1D;
-			remoteInfo = openwl;
-		};
-		651A80F9219FDDA200C2B8D6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 651A80F2219FDDA200C2B8D6 /* openwl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 659DCE392197E15F00FB3D1D;
-			remoteInfo = openwlTests;
-		};
 		65B56649219D8E5300BCA920 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 65B5662D219D8E5300BCA920 /* Project object */;
@@ -53,11 +25,23 @@
 			remoteGlobalIDString = 65B56634219D8E5300BCA920;
 			remoteInfo = apidemo;
 		};
+		65F33C17226EB73D00F21025 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 65F33C13226EB73C00F21025 /* OpenWL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 65C56BC1226E9E97005D362A;
+			remoteInfo = OpenWL;
+		};
+		65F33C23226EB75800F21025 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 65F33C1F226EB75800F21025 /* OpenDL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 65F33BEB226EB64800F21025;
+			remoteInfo = OpenDL;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		651A80E0219FDD5C00C2B8D6 /* opendl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = opendl.xcodeproj; path = "../../../../../build/xcode/9.2 (sierra 10.12)/opendl.xcodeproj"; sourceTree = "<group>"; };
-		651A80F2219FDDA200C2B8D6 /* openwl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openwl.xcodeproj; path = "../../../deps/openwl/build/xcode/9.2 (sierra 10.12)/openwl.xcodeproj"; sourceTree = "<group>"; };
 		6579BC312206CD990048136C /* common.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = common.h; sourceTree = "<group>"; };
 		6579BC322206CD990048136C /* common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = common.cpp; sourceTree = "<group>"; };
 		6579BC342206CDA30048136C /* page01.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = page01.hpp; sourceTree = "<group>"; };
@@ -77,6 +61,8 @@
 		65B5664D219D8E5300BCA920 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65B5664E219D8E5300BCA920 /* apidemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = apidemoTests.m; sourceTree = "<group>"; };
 		65ED5062219D8EC000B02528 /* main.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = main.cpp; sourceTree = "<group>"; };
+		65F33C13226EB73C00F21025 /* OpenWL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenWL.xcodeproj; path = "../../../deps/openwl/build/xcode/9.2 (sierra 10.12)/OpenWL.xcodeproj"; sourceTree = "<group>"; };
+		65F33C1F226EB75800F21025 /* OpenDL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenDL.xcodeproj; path = "../../../../../build/xcode/9.2 (sierra 10.12)/OpenDL.xcodeproj"; sourceTree = "<group>"; };
 		65F629122220F899000E853E /* page08.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = page08.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -85,8 +71,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				651A8102219FDEBF00C2B8D6 /* libopendl.dylib in Frameworks */,
-				651A8103219FDEBF00C2B8D6 /* libopenwl.dylib in Frameworks */,
+				65F33C2E226EB80200F21025 /* OpenDL.framework in Frameworks */,
+				65F33C2F226EB80200F21025 /* OpenWL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,24 +86,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		651A80E1219FDD5C00C2B8D6 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				651A80E6219FDD5C00C2B8D6 /* libopendl.dylib */,
-				651A80E8219FDD5C00C2B8D6 /* opendlTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		651A80F3219FDDA200C2B8D6 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				651A80F8219FDDA200C2B8D6 /* libopenwl.dylib */,
-				651A80FA219FDDA200C2B8D6 /* openwlTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		651A8101219FDEBF00C2B8D6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -128,8 +96,8 @@
 		65B5662C219D8E5300BCA920 = {
 			isa = PBXGroup;
 			children = (
-				651A80F2219FDDA200C2B8D6 /* openwl.xcodeproj */,
-				651A80E0219FDD5C00C2B8D6 /* opendl.xcodeproj */,
+				65F33C13226EB73C00F21025 /* OpenWL.xcodeproj */,
+				65F33C1F226EB75800F21025 /* OpenDL.xcodeproj */,
 				65ED5060219D8EB000B02528 /* source */,
 				65B56637219D8E5300BCA920 /* apidemo */,
 				65B5664B219D8E5300BCA920 /* apidemoTests */,
@@ -203,6 +171,22 @@
 			path = ../../../source;
 			sourceTree = "<group>";
 		};
+		65F33C14226EB73C00F21025 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				65F33C18226EB73D00F21025 /* OpenWL.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		65F33C20226EB75800F21025 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				65F33C24226EB75800F21025 /* OpenDL.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -272,12 +256,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 651A80E1219FDD5C00C2B8D6 /* Products */;
-					ProjectRef = 651A80E0219FDD5C00C2B8D6 /* opendl.xcodeproj */;
+					ProductGroup = 65F33C20226EB75800F21025 /* Products */;
+					ProjectRef = 65F33C1F226EB75800F21025 /* OpenDL.xcodeproj */;
 				},
 				{
-					ProductGroup = 651A80F3219FDDA200C2B8D6 /* Products */;
-					ProjectRef = 651A80F2219FDDA200C2B8D6 /* openwl.xcodeproj */;
+					ProductGroup = 65F33C14226EB73C00F21025 /* Products */;
+					ProjectRef = 65F33C13226EB73C00F21025 /* OpenWL.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -289,32 +273,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		651A80E6219FDD5C00C2B8D6 /* libopendl.dylib */ = {
+		65F33C18226EB73D00F21025 /* OpenWL.framework */ = {
 			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.dylib";
-			path = libopendl.dylib;
-			remoteRef = 651A80E5219FDD5C00C2B8D6 /* PBXContainerItemProxy */;
+			fileType = wrapper.framework;
+			path = OpenWL.framework;
+			remoteRef = 65F33C17226EB73D00F21025 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		651A80E8219FDD5C00C2B8D6 /* opendlTests.xctest */ = {
+		65F33C24226EB75800F21025 /* OpenDL.framework */ = {
 			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = opendlTests.xctest;
-			remoteRef = 651A80E7219FDD5C00C2B8D6 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		651A80F8219FDDA200C2B8D6 /* libopenwl.dylib */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.dylib";
-			path = libopenwl.dylib;
-			remoteRef = 651A80F7219FDDA200C2B8D6 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		651A80FA219FDDA200C2B8D6 /* openwlTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = openwlTests.xctest;
-			remoteRef = 651A80F9219FDDA200C2B8D6 /* PBXContainerItemProxy */;
+			fileType = wrapper.framework;
+			path = OpenDL.framework;
+			remoteRef = 65F33C23226EB75800F21025 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

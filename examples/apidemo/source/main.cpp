@@ -82,7 +82,7 @@ dl_CGContextRef createContext(void *voidPlatformContext) {
 #ifdef WL_PLATFORM_WINDOWS
     auto platformContext = (wl_PlatformContextD2D *)voidPlatformContext;
     auto context = dl_CGContextCreateD2D(platformContext->target /*, platformContext->writeFactory */);
-#elif defined(WL_PLATFORM_APPLE)
+#elif defined(WL_PLATFORM_MACOS)
     auto context = dl_CGContextCreateQuartz((CGContextRef)voidPlatformContext, height);
 #elif defined(WL_PLATFORM_LINUX)
     auto context = dl_CGContextCreateCairo((cairo_t *)voidPlatformContext, width, height);
@@ -222,7 +222,7 @@ int main()
     auto menuBar = wl_MenuBarCreate();
     wl_MenuBarAddMenu(menuBar, "File", fileMenu);
     wl_WindowSetMenuBar(mainWin, menuBar);
-#elif defined(WL_PLATFORM_APPLE)
+#elif defined(WL_PLATFORM_MACOS)
     auto appMenu = wl_GetApplicationMenu();
     wl_MenuAddAction(appMenu, quitAction);
 #endif

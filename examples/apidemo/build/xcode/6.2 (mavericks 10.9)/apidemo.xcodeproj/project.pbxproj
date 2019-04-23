@@ -7,17 +7,45 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6563F14F226EC09200EB4A8E /* OpenDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6563F14C226EC04C00EB4A8E /* OpenDL.framework */; };
+		6563F150226EC09200EB4A8E /* OpenWL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6563F143226EC03700EB4A8E /* OpenWL.framework */; };
 		65B5663C219D8E5300BCA920 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B5663B219D8E5300BCA920 /* AppDelegate.m */; };
 		65B56640219D8E5300BCA920 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65B5663F219D8E5300BCA920 /* Images.xcassets */; };
 		65B56643219D8E5300BCA920 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65B56641219D8E5300BCA920 /* MainMenu.xib */; };
 		65B5664F219D8E5300BCA920 /* apidemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B5664E219D8E5300BCA920 /* apidemoTests.m */; };
 		65BD68F1222860BF00BC29A9 /* common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65BD68E7222860BF00BC29A9 /* common.cpp */; };
-		65DC85EF219E04650066F13A /* libopenwl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 65DC85E7219E04260066F13A /* libopenwl.dylib */; };
-		65DC85F4219E04D70066F13A /* libopendl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 65DC85DD219E03E10066F13A /* libopendl.dylib */; };
 		65ED5064219D8EC000B02528 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65ED5062219D8EC000B02528 /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6563F142226EC03700EB4A8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6563F13D226EC03600EB4A8E /* OpenWL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 657F9C31226EA66B0027F6A5;
+			remoteInfo = OpenWL;
+		};
+		6563F144226EC03700EB4A8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6563F13D226EC03600EB4A8E /* OpenWL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 657F9C3C226EA66B0027F6A5;
+			remoteInfo = OpenWLTests;
+		};
+		6563F14B226EC04C00EB4A8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6563F146226EC04C00EB4A8E /* OpenDL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 658E6BB3226EBF4A0019E47F;
+			remoteInfo = OpenDL;
+		};
+		6563F14D226EC04C00EB4A8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6563F146226EC04C00EB4A8E /* OpenDL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 658E6BBE226EBF4A0019E47F;
+			remoteInfo = OpenDLTests;
+		};
 		65B56649219D8E5300BCA920 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 65B5662D219D8E5300BCA920 /* Project object */;
@@ -25,51 +53,11 @@
 			remoteGlobalIDString = 65B56634219D8E5300BCA920;
 			remoteInfo = apidemo;
 		};
-		65DC85DC219E03E10066F13A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 65DC85D7219E03E10066F13A /* opendl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 65590E1C219D8807001144E7;
-			remoteInfo = opendl;
-		};
-		65DC85DE219E03E10066F13A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 65DC85D7219E03E10066F13A /* opendl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 65590E27219D8807001144E7;
-			remoteInfo = opendlTests;
-		};
-		65DC85E6219E04260066F13A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 65DC85E1219E04260066F13A /* openwl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 659DCE2E2197E15F00FB3D1D;
-			remoteInfo = openwl;
-		};
-		65DC85E8219E04260066F13A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 65DC85E1219E04260066F13A /* openwl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 659DCE392197E15F00FB3D1D;
-			remoteInfo = openwlTests;
-		};
-		65DC85EA219E04550066F13A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 65DC85D7219E03E10066F13A /* opendl.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 65590E1B219D8807001144E7;
-			remoteInfo = opendl;
-		};
-		65DC85EC219E04590066F13A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 65DC85E1219E04260066F13A /* openwl.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 659DCE2D2197E15F00FB3D1D;
-			remoteInfo = openwl;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6563F13D226EC03600EB4A8E /* OpenWL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenWL.xcodeproj; path = "../../../deps/openwl/build/xcode/6.2 (mavericks 10.9)/OpenWL.xcodeproj"; sourceTree = "<group>"; };
+		6563F146226EC04C00EB4A8E /* OpenDL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenDL.xcodeproj; path = "../../../../../build/xcode/6.2 (mavericks 10.9)/OpenDL.xcodeproj"; sourceTree = "<group>"; };
 		65B56635219D8E5300BCA920 /* apidemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = apidemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65B56639219D8E5300BCA920 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65B5663A219D8E5300BCA920 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -89,8 +77,6 @@
 		65BD68EE222860BF00BC29A9 /* page06.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = page06.hpp; sourceTree = "<group>"; };
 		65BD68EF222860BF00BC29A9 /* page07.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = page07.hpp; sourceTree = "<group>"; };
 		65BD68F0222860BF00BC29A9 /* page08.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = page08.hpp; sourceTree = "<group>"; };
-		65DC85D7219E03E10066F13A /* opendl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = opendl.xcodeproj; path = "../../../../../build/xcode/6.2 (mavericks 10.9)/opendl.xcodeproj"; sourceTree = "<group>"; };
-		65DC85E1219E04260066F13A /* openwl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openwl.xcodeproj; path = "../../../deps/openwl/build/xcode/6.2 (mavericks 10.9)/openwl.xcodeproj"; sourceTree = "<group>"; };
 		65ED5062219D8EC000B02528 /* main.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -99,8 +85,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65DC85F4219E04D70066F13A /* libopendl.dylib in Frameworks */,
-				65DC85EF219E04650066F13A /* libopenwl.dylib in Frameworks */,
+				6563F14F226EC09200EB4A8E /* OpenDL.framework in Frameworks */,
+				6563F150226EC09200EB4A8E /* OpenWL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,11 +100,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6563F13E226EC03600EB4A8E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6563F143226EC03700EB4A8E /* OpenWL.framework */,
+				6563F145226EC03700EB4A8E /* OpenWLTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6563F147226EC04C00EB4A8E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6563F14C226EC04C00EB4A8E /* OpenDL.framework */,
+				6563F14E226EC04C00EB4A8E /* OpenDLTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		65B5662C219D8E5300BCA920 = {
 			isa = PBXGroup;
 			children = (
-				65DC85E1219E04260066F13A /* openwl.xcodeproj */,
-				65DC85D7219E03E10066F13A /* opendl.xcodeproj */,
+				6563F13D226EC03600EB4A8E /* OpenWL.xcodeproj */,
+				6563F146226EC04C00EB4A8E /* OpenDL.xcodeproj */,
 				65ED5060219D8EB000B02528 /* source */,
 				65B56637219D8E5300BCA920 /* apidemo */,
 				65B5664B219D8E5300BCA920 /* apidemoTests */,
@@ -172,24 +176,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		65DC85D8219E03E10066F13A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				65DC85DD219E03E10066F13A /* libopendl.dylib */,
-				65DC85DF219E03E10066F13A /* opendlTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		65DC85E2219E04260066F13A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				65DC85E7219E04260066F13A /* libopenwl.dylib */,
-				65DC85E9219E04260066F13A /* openwlTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		65ED5060219D8EB000B02528 /* source */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,8 +209,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				65DC85ED219E04590066F13A /* PBXTargetDependency */,
-				65DC85EB219E04550066F13A /* PBXTargetDependency */,
 			);
 			name = apidemo;
 			productName = apidemo;
@@ -280,12 +264,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 65DC85D8219E03E10066F13A /* Products */;
-					ProjectRef = 65DC85D7219E03E10066F13A /* opendl.xcodeproj */;
+					ProductGroup = 6563F147226EC04C00EB4A8E /* Products */;
+					ProjectRef = 6563F146226EC04C00EB4A8E /* OpenDL.xcodeproj */;
 				},
 				{
-					ProductGroup = 65DC85E2219E04260066F13A /* Products */;
-					ProjectRef = 65DC85E1219E04260066F13A /* openwl.xcodeproj */;
+					ProductGroup = 6563F13E226EC03600EB4A8E /* Products */;
+					ProjectRef = 6563F13D226EC03600EB4A8E /* OpenWL.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -297,32 +281,32 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		65DC85DD219E03E10066F13A /* libopendl.dylib */ = {
+		6563F143226EC03700EB4A8E /* OpenWL.framework */ = {
 			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.dylib";
-			path = libopendl.dylib;
-			remoteRef = 65DC85DC219E03E10066F13A /* PBXContainerItemProxy */;
+			fileType = wrapper.framework;
+			path = OpenWL.framework;
+			remoteRef = 6563F142226EC03700EB4A8E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		65DC85DF219E03E10066F13A /* opendlTests.xctest */ = {
+		6563F145226EC03700EB4A8E /* OpenWLTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = opendlTests.xctest;
-			remoteRef = 65DC85DE219E03E10066F13A /* PBXContainerItemProxy */;
+			path = OpenWLTests.xctest;
+			remoteRef = 6563F144226EC03700EB4A8E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		65DC85E7219E04260066F13A /* libopenwl.dylib */ = {
+		6563F14C226EC04C00EB4A8E /* OpenDL.framework */ = {
 			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.dylib";
-			path = libopenwl.dylib;
-			remoteRef = 65DC85E6219E04260066F13A /* PBXContainerItemProxy */;
+			fileType = wrapper.framework;
+			path = OpenDL.framework;
+			remoteRef = 6563F14B226EC04C00EB4A8E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		65DC85E9219E04260066F13A /* openwlTests.xctest */ = {
+		6563F14E226EC04C00EB4A8E /* OpenDLTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = openwlTests.xctest;
-			remoteRef = 65DC85E8219E04260066F13A /* PBXContainerItemProxy */;
+			path = OpenDLTests.xctest;
+			remoteRef = 6563F14D226EC04C00EB4A8E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -372,16 +356,6 @@
 			isa = PBXTargetDependency;
 			target = 65B56634219D8E5300BCA920 /* apidemo */;
 			targetProxy = 65B56649219D8E5300BCA920 /* PBXContainerItemProxy */;
-		};
-		65DC85EB219E04550066F13A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = opendl;
-			targetProxy = 65DC85EA219E04550066F13A /* PBXContainerItemProxy */;
-		};
-		65DC85ED219E04590066F13A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = openwl;
-			targetProxy = 65DC85EC219E04590066F13A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

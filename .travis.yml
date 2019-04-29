@@ -1,0 +1,53 @@
+branches:
+  only:
+  - master
+  - /^v\d/
+
+matrix:
+  include:
+    - os: linux
+      dist: xenial
+      language: cpp
+      compiler: gcc
+
+      before_install:
+        - sudo apt-get update
+        - sudo apt-get -y install libpango1.0-dev
+        - sudo apt-get -y install libicu-dev
+        # - sudo apt-get install libboost-locale-dev
+
+      script:
+        - mkdir __build
+        - cd __build
+        - cmake ../build/clion
+        - make
+
+    - os: osx
+      osx_image: xcode9.2
+      language: objective-c
+
+      env: >
+            BUILDPATH="./DerivedData"
+            PROJECTPATH="build/xcode/9.2 (sierra 10.12)/OpenDL.xcodeproj"
+
+      script:
+        - set -o pipefail && xcodebuild -project "$PROJECTPATH" -scheme "OpenDL-Release" -derivedDataPath "$BUILDPATH" -destination 'platform=macOS' clean build test | xcpretty
+
+      before_deploy:
+        - mkdir dmg_contents
+        - cp -R "$BUILDPATH/Build/Products/Release/OpenDL.framework" dmg_contents/
+        - export DMG_FNAME=OpenDL.dmg
+        - hdiutil create $DMG_FNAME -srcfolder dmg_contents/ -ov
+        - python ci/travis/gen_bintray.py $TRAVIS_TAG
+        - cat bintray.json
+
+      deploy:
+        provider: bintray
+        file: bintray.json
+        user: dewf
+        key:
+          secure: qgZvwmumw+KoGvIF+IzJIT2Gv4UB86YwlmsPSWT49kwUD+yPSVqfZpJdR+9+RGCgDWJdYClckKJuDDV4j5HAu74lec/ySs5yd5eEQQHRTnq72p+kgpFPF346Vvb/JbNl/85yKk2F0Wd6z30k0rfXGAu2BMfs0cE/7Phsp+kTMtsJftm6kAHNKnXZJ2drd00rGmIBgvYCHwBPiqHP8DWmuFL+gpRAUGtXQRGyy0QdARjbYHU9/hzM3twTkUKEQAXd2B+pnOxftsmFvuJq/mV/uDykCoVliFqlSDkziRUh8wgFhJ72WTEAH1xTQZfH1Ok+fIaQUmGqwKJGSEQKDwIsef85B+8D/df1fBjtIO2LD/Nn4u00eIECyaOF8p3+f+pWS6EURAPsgHzBE8aHdI+IiIYTLdqBdBKHQo4SlaAl37pBjGYCGeIKlzx50pF89CKH2reA9aivPDEtoZj3NqmKA8P/qR1nik7Rf5lQLgUxvh4chwxDaG4znIEbRP8HnGyq7X1sYhtV+I1/fG6HOdZ+B1FKRp2y3t8JOjAO/JWbPm5DFjTiwbCm8dyXU0HiIALKpZDktkyHKqsnB+53R8VOczVl2wSGaaFc90EvQnlNEoo51DZ3/r03Z76tCL0aakCqZ574o9zLFmVRVa0En2kJitLqClfa6Ka4ZXtyreieJRk=
+        on:
+          repo: dewf/opendl
+          tags: true
+        skip_cleanup: true

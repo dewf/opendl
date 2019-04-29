@@ -1,0 +1,26 @@
+{
+    "package": {
+        "name": "MyPackage",
+        "repo": "OpenWL",
+        "subject": "dewf",
+        "vcs_url": "https://github.com/dewf/openwl.git",
+        "licenses": ["MIT"],
+        "labels": ["cool", "awesome", "gorilla"],
+        "public_download_numbers": true,
+        "public_stats": true
+    },
+
+    "version": {
+        "name": "0.5",
+        "desc": "This is a version",
+        "released": "2015-01-04",
+        "vcs_tag": "0.5",
+        "gpgSign": false
+    },
+
+    "files":
+        [
+        {"includePattern": "OpenWL.dmg", "uploadPattern": "travis-builds/OpenWL.dmg", "matrixParams": { "override": 1 }}
+        ],
+    "publish": true
+}

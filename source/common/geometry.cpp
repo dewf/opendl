@@ -10,7 +10,7 @@ dl_CGPoint normalizeVec2F(dl_CGPoint vec2f)
 {
 	double len = sqrt((vec2f.x * vec2f.x) + (vec2f.y * vec2f.y));
 	if (len > 0) {
-		return (dl_CGPoint){ vec2f.x / len, vec2f.y / len };
+		return dl_CGPointMake(vec2f.x / len, vec2f.y / len);
 	} else {
 		return dl_CGPointZero; // is this correct, for pointInHalfPlane below? or should we avoid even doing the dot calculation in this case?
 	}
@@ -18,7 +18,7 @@ dl_CGPoint normalizeVec2F(dl_CGPoint vec2f)
 
 bool pointInHalfPlane(dl_CGPoint point, dl_CGPoint hp_point, dl_CGPoint hp_vec)
 {
-	dl_CGPoint vec2 = normalizeVec2F((dl_CGPoint){ point.x - hp_point.x, point.y - hp_point.y });
+	dl_CGPoint vec2 = normalizeVec2F(dl_CGPointMake(point.x - hp_point.x, point.y - hp_point.y ));
 	dl_CGFloat dot = (vec2.x * hp_vec.x) + (vec2.y * hp_vec.y);
 	return dot >= -GHETTO_EPSILON;
 }
@@ -47,7 +47,7 @@ IntersectResult segmentIntersectLine(dl_CGPoint p1, dl_CGPoint p2, dl_CGPoint li
 			dl_CGFloat x = p1.x + ua * (p2.x - p1.x);
 			dl_CGFloat y = p1.y + ua * (p2.y - p1.y);
 			res.resultType = PointResult;
-			res.point = (dl_CGPoint){ x, y };
+			res.point = dl_CGPointMake(x, y);
 		}
 		else {
 			res.resultType = OutOfSegment;
@@ -57,10 +57,10 @@ IntersectResult segmentIntersectLine(dl_CGPoint p1, dl_CGPoint p2, dl_CGPoint li
 }
 
 void cornersFromRect(dl_CGRect rect, dl_CGPoint corners[4]) {
-	corners[0] = (dl_CGPoint) { rect.origin.x, rect.origin.y };
-	corners[1] = (dl_CGPoint) { rect.origin.x + rect.size.width, rect.origin.y };
-	corners[2] = (dl_CGPoint) { rect.origin.x + rect.size.width, rect.origin.y + rect.size.height };
-	corners[3] = (dl_CGPoint) { rect.origin.x, rect.origin.y + rect.size.height };
+	corners[0] = dl_CGPointMake(rect.origin.x, rect.origin.y);
+	corners[1] = dl_CGPointMake(rect.origin.x + rect.size.width, rect.origin.y);
+	corners[2] = dl_CGPointMake(rect.origin.x + rect.size.width, rect.origin.y + rect.size.height);
+	corners[3] = dl_CGPointMake(rect.origin.x, rect.origin.y + rect.size.height);
 }
 
 bool pointIsCorner(dl_CGRect rect, dl_CGPoint p)
@@ -80,7 +80,7 @@ bool pointIsCorner(dl_CGRect rect, dl_CGPoint p)
 void clipRectByHalfPlane(dl_CGRect rect, dl_CGPoint hp_point, dl_CGPoint hp_vec, dl_CGPoint *outPoints, int *outCount)
 {
 	// get line perpendicular to vec2f through point (rotating left)
-	dl_CGPoint perp_vec = normalizeVec2F((dl_CGPoint){ hp_vec.y, -hp_vec.x });
+	dl_CGPoint perp_vec = normalizeVec2F(dl_CGPointMake(hp_vec.y, -hp_vec.x));
 
 	dl_CGPoint corners[4];
 	cornersFromRect(rect, corners);

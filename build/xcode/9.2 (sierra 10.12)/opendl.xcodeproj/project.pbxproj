@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		65A0710322759D570094051D /* OpenDLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A0710222759D570094051D /* OpenDLTests.m */; };
+		65A0710522759D570094051D /* OpenDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65F33BEB226EB64800F21025 /* OpenDL.framework */; };
 		65F33BFD226EB68600F21025 /* dlcf.h in Headers */ = {isa = PBXBuildFile; fileRef = 65F33BFA226EB68600F21025 /* dlcf.h */; };
 		65F33BFE226EB68600F21025 /* prologue.h in Headers */ = {isa = PBXBuildFile; fileRef = 65F33BFB226EB68600F21025 /* prologue.h */; };
 		65F33BFF226EB68600F21025 /* opendl.h in Headers */ = {isa = PBXBuildFile; fileRef = 65F33BFC226EB68600F21025 /* opendl.h */; };
@@ -20,7 +22,20 @@
 		65F33C10226EB6CE00F21025 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65F33C0F226EB6CE00F21025 /* CoreText.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		65A0710622759D570094051D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 65F33BE2226EB64800F21025 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 65F33BEA226EB64800F21025;
+			remoteInfo = OpenDL;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		65A0710022759D570094051D /* OpenDLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenDLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		65A0710222759D570094051D /* OpenDLTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenDLTests.m; sourceTree = "<group>"; };
+		65A0710422759D570094051D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65F33BEB226EB64800F21025 /* OpenDL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpenDL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		65F33BEF226EB64800F21025 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65F33BFA226EB68600F21025 /* dlcf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dlcf.h; path = ../../../../source/dlcf.h; sourceTree = "<group>"; };
@@ -37,6 +52,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		65A070FD22759D570094051D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				65A0710522759D570094051D /* OpenDL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		65F33BE7226EB64800F21025 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -50,10 +73,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		65A0710122759D570094051D /* OpenDLTests */ = {
+			isa = PBXGroup;
+			children = (
+				65A0710222759D570094051D /* OpenDLTests.m */,
+				65A0710422759D570094051D /* Info.plist */,
+			);
+			path = OpenDLTests;
+			sourceTree = "<group>";
+		};
 		65F33BE1226EB64800F21025 = {
 			isa = PBXGroup;
 			children = (
 				65F33BED226EB64800F21025 /* OpenDL */,
+				65A0710122759D570094051D /* OpenDLTests */,
 				65F33BEC226EB64800F21025 /* Products */,
 				65F33C0A226EB6C500F21025 /* Frameworks */,
 			);
@@ -63,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				65F33BEB226EB64800F21025 /* OpenDL.framework */,
+				65A0710022759D570094051D /* OpenDLTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -135,6 +169,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		65A070FF22759D570094051D /* OpenDLTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 65A0710A22759D570094051D /* Build configuration list for PBXNativeTarget "OpenDLTests" */;
+			buildPhases = (
+				65A070FC22759D570094051D /* Sources */,
+				65A070FD22759D570094051D /* Frameworks */,
+				65A070FE22759D570094051D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				65A0710722759D570094051D /* PBXTargetDependency */,
+			);
+			name = OpenDLTests;
+			productName = OpenDLTests;
+			productReference = 65A0710022759D570094051D /* OpenDLTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		65F33BEA226EB64800F21025 /* OpenDL */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 65F33BF3226EB64800F21025 /* Build configuration list for PBXNativeTarget "OpenDL" */;
@@ -162,6 +214,10 @@
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Daniel G";
 				TargetAttributes = {
+					65A070FF22759D570094051D = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
 					65F33BEA226EB64800F21025 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
@@ -181,11 +237,19 @@
 			projectRoot = "";
 			targets = (
 				65F33BEA226EB64800F21025 /* OpenDL */,
+				65A070FF22759D570094051D /* OpenDLTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		65A070FE22759D570094051D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		65F33BE9226EB64800F21025 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -196,6 +260,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		65A070FC22759D570094051D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				65A0710322759D570094051D /* OpenDLTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		65F33BE6226EB64800F21025 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -208,7 +280,39 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		65A0710722759D570094051D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 65F33BEA226EB64800F21025 /* OpenDL */;
+			targetProxy = 65A0710622759D570094051D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		65A0710822759D570094051D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = OpenDLTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.whatever.OpenDLTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		65A0710922759D570094051D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = OpenDLTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.whatever.OpenDLTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		65F33BF1226EB64800F21025 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -363,6 +467,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		65A0710A22759D570094051D /* Build configuration list for PBXNativeTarget "OpenDLTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				65A0710822759D570094051D /* Debug */,
+				65A0710922759D570094051D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		65F33BE5226EB64800F21025 /* Build configuration list for PBXProject "OpenDL" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

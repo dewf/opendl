@@ -1,4 +1,7 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/i177hjljqsumfn60/branch/master?svg=true)](https://ci.appveyor.com/project/dewf/opendl/branch/master) [![Build status](https://travis-ci.org/dewf/opendl.svg?branch=master)](https://travis-ci.org/dewf/opendl)
+
 [![Gitter](https://badges.gitter.im/GUImakers/OpenWL-DL.svg)](https://gitter.im/GUImakers/OpenWL-DL?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 # OpenDL
 
 This library provides a Quartz2D/CoreText-compatible API on multiple platforms:

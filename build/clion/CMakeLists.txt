@@ -23,7 +23,7 @@ set(SOURCE_FILES
         "../../source/dlcf.h"
         "../../source/opendl.h"
         "../../source/common/dlcf.cpp"
-        "../../source/common/geometry.c"
+        "../../source/common/geometry.cpp"
         "../../source/common/AbstractRangeManager.h"
         "../../source/common/AbstractRangeManager.cpp"
         "../../source/common/util.h"

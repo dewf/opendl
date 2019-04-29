@@ -254,9 +254,6 @@
     <ClCompile Include="..\..\..\source\common\ExoClass.cpp">
       <Filter>Source Files\common</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\common\geometry.c">
-      <Filter>Source Files\common</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\common\util.cpp">
       <Filter>Source Files\common</Filter>
     </ClCompile>
@@ -304,6 +301,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\win-direct2d\directwrite\DWriteLayout.cpp">
       <Filter>Source Files\win-direct2d\directwrite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\common\geometry.cpp">
+      <Filter>Source Files\common</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

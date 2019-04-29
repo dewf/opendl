@@ -1,0 +1,92 @@
+version: 0.1.{build}
+image: Visual Studio 2017
+configuration:
+  # - Debug
+  - Release
+platform:
+  - x86
+  - x64
+
+# only run CI on master + pull requests (not other branches, which would duplicate the build during local PRs)
+branches:
+  only:
+    - master
+
+environment:
+  BINTRAY_API_KEY:
+    secure: tvgn22L0dgoUk0G7K/DLqZtal1R86eDVAA1bwGygnxmiIT+SGCbTvgdWGZ/2kt5u
+
+for:
+-
+  matrix:
+    only:
+      - platform: x86
+  
+  environment:
+    VCPKG_LIBS_FNAME: vcpkg-x86-boost-icu
+    VCPKG_LIBS_URL: https://dl.dropbox.com/s/b90kkd0dru8hbif/vcpkg-x86-boost-icu.7z?dl=0
+    BINARY_ROOT: build\msvc\2017
+
+-
+  matrix:
+    only:
+      - platform: x64
+  
+  environment:
+    VCPKG_LIBS_FNAME: vcpkg-x64-boost-icu
+    VCPKG_LIBS_URL: https://dl.dropbox.com/s/5exezlmunyuo0re/vcpkg-x64-boost-icu.7z?dl=0
+    BINARY_ROOT: build\msvc\2017\x64
+
+matrix:
+  fast_finish: true
+  
+cache:
+  - C:\ProgramData\chocolatey\bin
+  - C:\ProgramData\chocolatey\lib
+  - C:\Downloads
+  # - C:\tools\vcpkg\installed\
+
+install:
+  - choco install 7zip
+  - if not exist C:\Downloads ( mkdir C:\Downloads )
+  - cd C:\Downloads
+  - if not exist %VCPKG_LIBS_FNAME%.7z ( appveyor DownloadFile %VCPKG_LIBS_URL% )
+  - 7z x %VCPKG_LIBS_FNAME%.7z -aos -oc:\tools\vcpkg
+  - cd c:\tools\vcpkg
+  - vcpkg integrate install
+
+build:
+  project: build/msvc/2017/opendl.sln
+  parallel: true
+  verbosity: normal
+
+after_build:
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - if %APPVEYOR_REPO_TAG% == true (
+      set ARTIFACT_NAME=OpenDL-%APPVEYOR_REPO_TAG_NAME%-Windows-%PLATFORM%-%CONFIGURATION%) 
+      else (
+      set ARTIFACT_NAME=OpenDL-%APPVEYOR_BUILD_ID%-Windows-%PLATFORM%-%CONFIGURATION%)
+  - echo "[%ARTIFACT_NAME%]"
+  - 7z a %ARTIFACT_NAME%.zip .\source\prologue.h .\source\dlcf.h .\source\opendl.h .\%BINARY_ROOT%\%CONFIGURATION%\opendl.lib .\%BINARY_ROOT%\%CONFIGURATION%\*.dll
+
+artifacts:
+  - path: '%ARTIFACT_NAME%.zip'
+    name: '%ARTIFACT_NAME%'
+
+deploy_script:
+  - if %APPVEYOR_REPO_TAG% == true (
+      curl -T %ARTIFACT_NAME%.zip -udewf:%BINTRAY_API_KEY% https://api.bintray.com/content/dewf/TeamGUI/OpenDL/%APPVEYOR_REPO_TAG_NAME%/OpenDL/%APPVEYOR_REPO_TAG_NAME%/%ARTIFACT_NAME%.zip &
+      curl -X POST -udewf:%BINTRAY_API_KEY% https://api.bintray.com/content/dewf/TeamGUI/OpenDL/%APPVEYOR_REPO_TAG_NAME%/publish)
+
+# deploy:
+#   provider: GitHub
+#   release: OpenDL-$(APPVEYOR_REPO_TAG_NAME)
+#   description: Open Drawing Library $(APPVEYOR_REPO_TAG_NAME)
+#   auth_token:
+#     secure: L2Dp9+JWE/yIj+yrgpiRFo2lEleDxrmdS2kzzy0H4h6jiq8nR9WQG9KkI6rzqlmA
+#   draft: true
+#   on:
+#     APPVEYOR_REPO_TAG: true
+
+# on_finish:
+#   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))

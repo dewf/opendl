@@ -83,7 +83,7 @@
     <ClCompile Include="..\..\..\source\common\classes\CF\CFString.cpp" />
     <ClCompile Include="..\..\..\source\common\classes\CF\CFURL.cpp" />
     <ClCompile Include="..\..\..\source\common\ExoClass.cpp" />
-    <ClCompile Include="..\..\..\source\common\geometry.c" />
+    <ClCompile Include="..\..\..\source\common\geometry.cpp" />
     <ClCompile Include="..\..\..\source\common\util.cpp" />
     <ClCompile Include="..\..\..\source\win-direct2d\caching.cpp" />
     <ClCompile Include="..\..\..\source\win-direct2d\classes\CG\CGBitmapContext.cpp" />

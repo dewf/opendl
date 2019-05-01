@@ -11,6 +11,7 @@ platform:
 branches:
   only:
     - master
+    - /v\d*\.\d*\.\d*/
 
 environment:
   BINTRAY_API_KEY:

@@ -194,7 +194,7 @@ int main()
 #endif
     wl_Init(&wlCallback, &wlOptions);
 
-	DLPlatformOptions dlOptions = {};
+	dl_PlatformOptions dlOptions = {};
 #ifdef WL_PLATFORM_WINDOWS
 	dlOptions.factory = wlOptions.outParams.factory;
 #endif

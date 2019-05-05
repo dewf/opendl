@@ -20,14 +20,14 @@ extern "C" {
 #endif
     
     // API proper begin
-	struct DLPlatformOptions {
+	struct dl_PlatformOptions {
 #ifdef DL_PLATFORM_WINDOWS
 		ID2D1Factory *factory;
 #else
 		int reserved;
 #endif
 	};
-	OPENDL_API int CDECL dl_Init(struct DLPlatformOptions *options);
+	OPENDL_API int CDECL dl_Init(struct dl_PlatformOptions *options);
 	OPENDL_API void CDECL dl_Shutdown();
 
 #ifdef DL_PLATFORM_APPLE

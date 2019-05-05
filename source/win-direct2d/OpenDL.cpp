@@ -46,7 +46,7 @@ IDWriteFactory *writeFactory = nullptr;
 IWICImagingFactory *wicFactory = nullptr;
 
 // ENTRY POINT
-OPENDL_API int CDECL dl_Init(struct DLPlatformOptions *options)
+OPENDL_API int CDECL dl_Init(struct dl_PlatformOptions *options)
 {
 	d2dFactory = options->factory;
 	d2dFactory->AddRef();

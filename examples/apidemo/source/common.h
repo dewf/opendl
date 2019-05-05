@@ -12,7 +12,7 @@
 #   define TIMES_FONT_NAME "Times New Roman"
 #   define TIMES_ITALIC_FONT_NAME "TimesNewRomanPS-ItalicMT" // currently a hardcoded switch in the font ctor, need to create a proper PS name mapping
 #   define FUTURA_FONT_NAME "Impact"
-#elif defined DL_PLATFORM_APPLE
+#elif defined DL_PLATFORM_MACOS
 #   define HELVETICA_FONT_NAME "Helvetica"
 #   define TIMES_FONT_NAME "TimesNewRomanPSMT"
 #   define TIMES_ITALIC_FONT_NAME "TimesNewRomanPS-ItalicMT"

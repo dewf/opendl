@@ -47,7 +47,7 @@ OPENDL_API dl_CGAffineTransform CDECL dl_CGAffineTransformInvert(dl_CGAffineTran
     return cairo_to_dl_matrix(mat);
 }
 
-OPENDL_API int CDECL dl_Init(struct DLPlatformOptions *options)
+OPENDL_API int CDECL dl_Init(dl_PlatformOptions *options)
 {
     // nothing yet
 }

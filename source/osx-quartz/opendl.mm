@@ -54,7 +54,7 @@ OPENDL_API dl_CGPoint CDECL dl_CGPointApplyAffineTransform(dl_CGPoint p, dl_CGAf
 
 // API functions begin  ==========
 
-OPENDL_API int CDECL dl_Init(struct DLPlatformOptions *options)
+OPENDL_API int CDECL dl_Init(struct dl_PlatformOptions *options)
 {
     // nothing yet
     return 0;

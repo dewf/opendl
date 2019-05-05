@@ -6,7 +6,7 @@
 #elif defined __linux__
 #   define DL_PLATFORM_LINUX
 #elif defined __APPLE__ // could also use TargetConditionals.h ?
-#   define DL_PLATFORM_APPLE
+#   define DL_PLATFORM_MACOS
 #endif
 
 #ifdef DL_PLATFORM_WINDOWS
@@ -26,7 +26,7 @@ typedef __int32 ssize_t;
 #   define OPENDL_API __attribute__((visibility("default")))
 #   define CDECL
 #   include <sys/types.h> // for ssize_t
-#elif defined DL_PLATFORM_APPLE
+#elif defined DL_PLATFORM_MACOS
 #   define OPENDL_API __attribute__((visibility("default")))
 #   define CDECL
 #endif

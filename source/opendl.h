@@ -9,7 +9,7 @@
 #   include <d2d1_1.h>
 #elif defined DL_PLATFORM_LINUX
 #   include <cairo/cairo.h>
-#elif defined DL_PLATFORM_APPLE
+#elif defined DL_PLATFORM_MACOS
 #   include <CoreGraphics/CoreGraphics.h>
 #endif
 
@@ -30,7 +30,7 @@ extern "C" {
 	OPENDL_API int CDECL dl_Init(struct dl_PlatformOptions *options);
 	OPENDL_API void CDECL dl_Shutdown();
 
-#ifdef DL_PLATFORM_APPLE
+#ifdef DL_PLATFORM_MACOS
     typedef CGFloat dl_CGFloat;
 #else
     typedef double dl_CGFloat;
@@ -100,7 +100,7 @@ extern "C" {
 #ifdef DL_PLATFORM_WINDOWS
     OPENDL_API dl_CGContextRef CDECL dl_CGContextCreateD2D(ID2D1RenderTarget *target);
 	OPENDL_API void CDECL dl_D2DTargetRecreated(ID2D1RenderTarget *newTarget, ID2D1RenderTarget *oldTarget);
-#elif defined DL_PLATFORM_APPLE
+#elif defined DL_PLATFORM_MACOS
     OPENDL_API dl_CGContextRef CDECL dl_CGContextCreateQuartz(CGContextRef context, int height); // need height for text flipping (Core Text doesn't know about isFlipped)
 #elif defined DL_PLATFORM_LINUX
     OPENDL_API dl_CGContextRef CDECL dl_CGContextCreateCairo(cairo_t *cr, int width, int height); // need some extra info for various calls
@@ -278,7 +278,7 @@ extern "C" {
         const void* value;
     } dl_CTParagraphStyleSetting;
 
-#ifdef DL_PLATFORM_APPLE
+#ifdef DL_PLATFORM_MACOS
     typedef enum : uint8_t { // must specify enum size for these to work on OSX! (because sizeof() is used when passing to paragraph styles)
 #else
 	typedef enum {

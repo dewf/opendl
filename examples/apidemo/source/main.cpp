@@ -78,14 +78,13 @@ void setPageIndex(int index) {
 	wl_WindowInvalidate(mainWin, 0, 0, 0, 0);
 }
 
-dl_CGContextRef createContext(void *voidPlatformContext) {
+dl_CGContextRef createContext(wl_PlatformContext *platformContext) {
 #ifdef WL_PLATFORM_WINDOWS
-    auto platformContext = (wl_PlatformContextD2D *)voidPlatformContext;
-    auto context = dl_CGContextCreateD2D(platformContext->target /*, platformContext->writeFactory */);
+    auto context = dl_CGContextCreateD2D(platformContext->d2d.target);
 #elif defined(WL_PLATFORM_MACOS)
-    auto context = dl_CGContextCreateQuartz((CGContextRef)voidPlatformContext, height);
+    auto context = dl_CGContextCreateQuartz(platformContext->context, height);
 #elif defined(WL_PLATFORM_LINUX)
-    auto context = dl_CGContextCreateCairo((cairo_t *)voidPlatformContext, width, height);
+    auto context = dl_CGContextCreateCairo(platformContext->cr, width, height);
 #endif
     return context;
 }
@@ -115,7 +114,7 @@ int CDECL wlCallback(wl_WindowRef window, struct wl_Event *event, void *userData
             break;
         case wl_kEventTypeWindowRepaint:
             {
-                auto context = createContext(event->repaintEvent.platformContext);
+                auto context = createContext(&event->repaintEvent.platformContext);
 				dl_CGContextSaveGState(context);
 
 				if (renderSecondary) {

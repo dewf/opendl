@@ -14,7 +14,7 @@ extern "C" {
     OPENDL_API void CDECL dl_CFDump(dl_CFTypeRef ref);
 
 	// helpful to try to track down DLCF memory leaks occurring in a section of code
-#ifndef DL_PLATFORM_APPLE
+#ifndef DL_PLATFORM_MACOS
 	OPENDL_API void CDECL __dl_CFBeginLeakMonitoring();
 	OPENDL_API void CDECL __dl_CFEndLeakMonitoring();
 #endif
@@ -46,7 +46,7 @@ extern "C" {
     DLHANDLE(CF,String);
 	OPENDL_API dl_CFStringRef CDECL __dl_CFStringMakeConstantString(const char *cStr);
     OPENDL_API dl_CFStringRef CDECL dl_CFStringCreateWithCString(const char *cStr);
-#ifdef DL_PLATFORM_APPLE
+#ifdef DL_PLATFORM_MACOS
 #   define dl_CFSTR(x) ((dl_CFStringRef)CFSTR(x))
 #else
 #	define dl_CFSTR(x) __dl_CFStringMakeConstantString("" x "")

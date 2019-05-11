@@ -589,6 +589,11 @@ OPENDL_API dl_CGContextRef CDECL dl_CGBitmapContextCreate(void *data, size_t wid
     return ret;
 }
 
+OPENDL_API void * CDECL dl_CGBitmapContextGetData(dl_CGContextRef bitmap)
+{
+    return CGBitmapContextGetData((CGContextRef)bitmap);
+}
+
 OPENDL_API dl_CGImageRef CDECL dl_CGBitmapContextCreateImage(dl_CGContextRef context)
 {
     return (dl_CGImageRef)CGBitmapContextCreateImage(CC(context));

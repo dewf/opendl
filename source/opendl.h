@@ -367,6 +367,9 @@ extern "C" {
     OPENDL_API dl_CGContextRef CDECL dl_CGBitmapContextCreate(void *data, size_t width,
                                                               size_t height, size_t bitsPerComponent, size_t bytesPerRow,
                                                               dl_CGColorSpaceRef space, dl_CGBitmapInfo bitmapInfo);
+
+    OPENDL_API void * CDECL dl_CGBitmapContextGetData(dl_CGContextRef bitmap);
+        
     DLHANDLE(CG,Image);
     OPENDL_API dl_CGImageRef CDECL dl_CGBitmapContextCreateImage(dl_CGContextRef context);
     OPENDL_API void CDECL dl_CGImageRelease(dl_CGImageRef image);

@@ -327,23 +327,46 @@ extern "C" {
     } dl_CGTextDrawingMode;
     OPENDL_API void CDECL dl_CGContextSetTextDrawingMode(dl_CGContextRef c, dl_CGTextDrawingMode mode);
     
-    // bitaps ===============
+    // bitmaps ===============
+    enum {
+        dl_kCGImageAlphaNone,               /* For example, RGB. */
+        dl_kCGImageAlphaPremultipliedLast,  /* For example, premultiplied RGBA */
+        dl_kCGImageAlphaPremultipliedFirst, /* For example, premultiplied ARGB */
+        dl_kCGImageAlphaLast,               /* For example, non-premultiplied RGBA */
+        dl_kCGImageAlphaFirst,              /* For example, non-premultiplied ARGB */
+        dl_kCGImageAlphaNoneSkipLast,       /* For example, RBGX. */
+        dl_kCGImageAlphaNoneSkipFirst,      /* For example, XRGB. */
+        dl_kCGImageAlphaOnly                /* No color data, alpha data only */
+    };
+    typedef uint32_t dl_CGImageAlphaInfo;
+        
+    enum {
+        dl_kCGImageByteOrderMask     = 0x7000,
+        dl_kCGImageByteOrder16Little = (1 << 12),
+        dl_kCGImageByteOrder32Little = (2 << 12),
+        dl_kCGImageByteOrder16Big    = (3 << 12),
+        dl_kCGImageByteOrder32Big    = (4 << 12)
+    };
+    typedef uint32_t dl_CGImageByteOrderInfo;
+        
     enum {
         dl_kCGBitmapAlphaInfoMask = 0x1F,
+        
+        dl_kCGBitmapFloatInfoMask = 0xF00,
         dl_kCGBitmapFloatComponents = (1 << 8),
-
-        dl_kCGBitmapByteOrderMask = 0x7000,
-        dl_kCGBitmapByteOrderDefault = (0 << 12),
-        dl_kCGBitmapByteOrder16Little = (1 << 12),
-        dl_kCGBitmapByteOrder32Little = (2 << 12),
-        dl_kCGBitmapByteOrder16Big = (3 << 12),
-        dl_kCGBitmapByteOrder32Big = (4 << 12) // huh, why doesn't the ByteOrderMask account for this?
+        
+        dl_kCGBitmapByteOrderMask     = dl_kCGImageByteOrderMask,
+        dl_kCGBitmapByteOrderDefault  = (0 << 12),
+        dl_kCGBitmapByteOrder16Little = dl_kCGImageByteOrder16Little,
+        dl_kCGBitmapByteOrder32Little = dl_kCGImageByteOrder32Little,
+        dl_kCGBitmapByteOrder16Big    = dl_kCGImageByteOrder16Big,
+        dl_kCGBitmapByteOrder32Big    = dl_kCGImageByteOrder32Big
     };
     typedef uint32_t dl_CGBitmapInfo;
+        
     OPENDL_API dl_CGContextRef CDECL dl_CGBitmapContextCreate(void *data, size_t width,
                                                               size_t height, size_t bitsPerComponent, size_t bytesPerRow,
                                                               dl_CGColorSpaceRef space, dl_CGBitmapInfo bitmapInfo);
-    
     DLHANDLE(CG,Image);
     OPENDL_API dl_CGImageRef CDECL dl_CGBitmapContextCreateImage(dl_CGContextRef context);
     OPENDL_API void CDECL dl_CGImageRelease(dl_CGImageRef image);

@@ -604,6 +604,11 @@ OPENDL_API void CDECL dl_CGContextClipToMask(dl_CGContextRef c, dl_CGRect rect, 
     CGContextClipToMask(CC(c), UGLYCAST(CGRect, rect), (CGImageRef)mask);
 }
 
+OPENDL_API void CDECL dl_CGContextDrawImage(dl_CGContextRef c, dl_CGRect rect, dl_CGImageRef image)
+{
+    CGContextDrawImage(CC(c), UGLYCAST(CGRect, rect), (CGImageRef)image);
+}
+
 // testing etc ==================================
 
 //static dl_CGGradientRef getGradient(CGFloat fromR, CGFloat fromG, CGFloat fromB, CGFloat fromA,

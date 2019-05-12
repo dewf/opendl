@@ -64,6 +64,11 @@ OPENDL_API dl_CFURLRef CDECL dl_CFURLCreateWithFileSystemPath(dl_CFStringRef fil
 
 // array ============================================
 
+OPENDL_API dl_CFArrayRef dl_CFArrayCreate(dl_CFTypeRef *values, dl_CFIndex numValues)
+{
+    return (dl_CFArrayRef) CFArrayCreate(kCFAllocatorDefault, (const void **)values, (CFIndex)numValues, &kCFTypeArrayCallBacks);
+}
+
 OPENDL_API dl_CFIndex CDECL dl_CFArrayGetCount(dl_CFArrayRef theArray)
 {
     return (dl_CFIndex)CFArrayGetCount((CFArrayRef)theArray);

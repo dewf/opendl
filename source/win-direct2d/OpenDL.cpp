@@ -532,8 +532,12 @@ OPENDL_API dl_CGContextRef CDECL dl_CGBitmapContextCreate(
 		printf("dl_CGBitmapContextCreate only supports dl_kCGBitmapByteOrderDefault at the moment\n");
 		return nullptr;
 	}
-	if (((CGColorSpaceRef)space)->getColorSpaceName() != CGColorSpace::kCGColorSpace__InternalDeviceGray) {
-		printf("dl_CGBitmapContextCreate only supports Device Gray color space at the moment\n");
+
+	auto colorSpaceName = ((CGColorSpaceRef)space)->getColorSpaceName();
+	// because these are string constants we can just compare pointers
+	if (colorSpaceName != CGColorSpace::kCGColorSpace__InternalDeviceGray &&
+		colorSpaceName != (cf::StringRef)dl_kCGColorSpaceGenericRGB) {
+		printf("dl_CGBitmapContextCreate only supports Device Gray / GenericRGB color spaces at the moment\n");
 		return nullptr;
 	}
 
@@ -568,6 +572,16 @@ OPENDL_API dl_CGContextRef CDECL dl_CGBitmapContextCreate(
 	::createCacheForTarget(wicRenderTarget, nullptr);
 
 	return (dl_CGContextRef) new CGBitmapContext(wicRenderTarget, wicBitmap); // ownership passes in
+}
+
+OPENDL_API void * CDECL dl_CGBitmapContextGetData(dl_CGContextRef bitmap)
+{
+	return ((CGBitmapContext *)bitmap)->lockData();
+}
+
+OPENDL_API void CDECL dl_CGBitmapContextReleaseData(dl_CGContextRef bitmap)
+{
+	((CGBitmapContext *)bitmap)->unlockData();
 }
 
 OPENDL_API dl_CGImageRef CDECL dl_CGBitmapContextCreateImage(dl_CGContextRef context)

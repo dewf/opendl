@@ -368,7 +368,11 @@ extern "C" {
                                                               size_t height, size_t bitsPerComponent, size_t bytesPerRow,
                                                               dl_CGColorSpaceRef space, dl_CGBitmapInfo bitmapInfo);
 
+	// this API differs from stock Quartz, because Windows needs to lock/unlock the data for writing
+	// dl_CGBitmapContextReleaseData will be a no-op on Mac and any other platform that doesn't need locking/unlocking
+	// maybe in the future have a separate CGBitmapLock object with its own GetData() method?
     OPENDL_API void * CDECL dl_CGBitmapContextGetData(dl_CGContextRef bitmap);
+	OPENDL_API void CDECL dl_CGBitmapContextReleaseData(dl_CGContextRef bitmap); // non-standard: added because WICBitmap needs to lock/release data for writing
         
     DLHANDLE(CG,Image);
     OPENDL_API dl_CGImageRef CDECL dl_CGBitmapContextCreateImage(dl_CGContextRef context);

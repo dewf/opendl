@@ -141,7 +141,7 @@ dl_CGFloat CTLine::getOffsetForStringIndex(dl_CFIndex charIndex, dl_CGFloat *sec
 	HR(idwtl->HitTestTextPosition(charIndex, FALSE, &pointX, &pointY, &metrics));
 	// must be relative to origin
 	auto origin = getOrigin();
-	pointX -= origin.x;
+	pointX -= (FLOAT)origin.x;
 	if (secondaryOffset) {
 		*secondaryOffset = pointX; // not sure ...
 	}
@@ -158,7 +158,7 @@ dl_CFIndex CTLine::getStringIndexForPosition(dl_CGPoint position)
 	auto origin = getOrigin();
 	position.x += origin.x;
 	position.y += origin.y;
-	HR(idwtl->HitTestPoint(position.x, position.y, &isTrailingHit, &isInside, &metrics));
+	HR(idwtl->HitTestPoint((FLOAT)position.x, (FLOAT)position.y, &isTrailingHit, &isInside, &metrics));
 	if (isInside) {
 		if (metrics.textPosition >= textRange.location &&
 			(metrics.textPosition < dl_CFRangeEnd(textRange)))

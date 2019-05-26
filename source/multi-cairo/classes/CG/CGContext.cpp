@@ -232,6 +232,17 @@ void CGContext::addArc(dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat
     }
 }
 
+void CGContext::drawImage(dl_CGRect rect, CGImageRef image)
+{
+    int surfaceWidth, surfaceHeight;
+    auto surface = image->getSurface(&surfaceWidth, &surfaceHeight);
+
+    cairo_set_source_surface(cr, surface, rect.origin.x, rect.origin.y);
+    // don't we need to scale, to fit full content of surfaceWidth/Height in rect.size ?
+    cairo_rectangle(cr, rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+    cairo_fill(cr);
+}
+
 
 
 

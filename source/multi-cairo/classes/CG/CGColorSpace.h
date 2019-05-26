@@ -54,6 +54,8 @@ public:
         }
     }
     ColorSpaceEnum getSpaceType() { return spaceType; }
+    DeviceSpaceEnum getDeviceSpace();
+    cf::StringRef getSpaceName();
 };
 
 #endif //__CG_COLORSPACE_H__

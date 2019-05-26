@@ -385,6 +385,7 @@ public:
 
     // image
     void clipToMask(dl_CGRect rect, CGImageRef mask);
+    void drawImage(dl_CGRect rect, CGImageRef image);
 };
 
 #endif //__CG_CONTEXT_H__

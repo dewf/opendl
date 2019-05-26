@@ -18,10 +18,12 @@ class CGBitmapContext : public CGContext {
     cairo_t *cr = nullptr;
     int width = -1;
     int height = -1;
+    CGColorSpaceRef colorSpace = nullptr;
+
+    CGBitmapContext(cairo_surface_t *surface, cairo_t *cr, int width, int height, CGColorSpaceRef colorSpace);
 public:
     CGBitmapContextRef copy() override;
 
-    CGBitmapContext(cairo_surface_t *surface, cairo_t *cr, int width, int height);
     ~CGBitmapContext() override;
 
     CGImageRef createImage();
@@ -29,6 +31,8 @@ public:
     static CGBitmapContextRef create(void *data, size_t width,
                                size_t height, size_t bitsPerComponent, size_t bytesPerRow,
                                CGColorSpaceRef space, dl_CGBitmapInfo bitmapInfo);
+    void *getData();
+    void releaseData();
 
     RETAIN_AND_AUTORELEASE(CGBitmapContext);
 };

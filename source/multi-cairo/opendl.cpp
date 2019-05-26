@@ -441,6 +441,16 @@ OPENDL_API dl_CGContextRef CDECL dl_CGBitmapContextCreate(void *data, size_t wid
     return (dl_CGContextRef) CGBitmapContext::create(data, width, height, bitsPerComponent, bytesPerRow, (CGColorSpaceRef)space, bitmapInfo);
 }
 
+OPENDL_API void * CDECL dl_CGBitmapContextGetData(dl_CGContextRef bitmap)
+{
+    return ((CGBitmapContextRef)bitmap)->getData();
+}
+
+OPENDL_API void CDECL dl_CGBitmapContextReleaseData(dl_CGContextRef bitmap)
+{
+    ((CGBitmapContextRef)bitmap)->releaseData();
+}
+
 OPENDL_API dl_CGImageRef CDECL dl_CGBitmapContextCreateImage(dl_CGContextRef context)
 {
     // takes a snapshot of a bitmap context, to be used as a mask or what-have-you
@@ -456,6 +466,11 @@ OPENDL_API void dl_CGImageRelease(dl_CGImageRef image)
 OPENDL_API void CDECL dl_CGContextClipToMask(dl_CGContextRef c, dl_CGRect rect, dl_CGImageRef mask)
 {
     ((CGContextRef)c)->clipToMask(rect, (CGImageRef)mask);
+}
+
+OPENDL_API void CDECL dl_CGContextDrawImage(dl_CGContextRef c, dl_CGRect rect, dl_CGImageRef image)
+{
+    ((CGContextRef)c)->drawImage(rect, (CGImageRef)image);
 }
 
 // old font page code below ======================

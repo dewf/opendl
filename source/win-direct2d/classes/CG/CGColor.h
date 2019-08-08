@@ -12,6 +12,7 @@ class CGColor; typedef CGColor* CGColorRef;
 class CGColor : public cf::Object {
 protected:
 	D2D1_COLOR_F color;
+	dl_CGFloat components[4];
 public:
 	static CGColorRef White;
 	static CGColorRef Black;
@@ -31,6 +32,17 @@ public:
 	D2D1_COLOR_F getD2DColor() { return color; }
 	ID2D1SolidColorBrush *getCachedBrush(ID2D1RenderTarget *target) { 
 		return ::getCachedColorBrush(target, color.r, color.g, color.b, color.a);
+	}
+
+	size_t getNumberOfComponents() {
+		return 4;
+	}
+	const dl_CGFloat* getComponents() {
+		components[0] = color.r;
+		components[1] = color.g;
+		components[2] = color.b;
+		components[3] = color.a;
+		return components;
 	}
 
 	virtual CGColorRef copy() {

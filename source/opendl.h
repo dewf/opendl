@@ -171,6 +171,9 @@ extern "C" {
 	OPENDL_API extern const dl_CFStringRef dl_kCGColorBlack;
 	OPENDL_API extern const dl_CFStringRef dl_kCGColorClear;
     OPENDL_API dl_CGColorRef CDECL dl_CGColorGetConstantColor(dl_CFStringRef colorName);
+    
+    OPENDL_API size_t CDECL dl_CGColorGetNumberOfComponents(dl_CGColorRef color);
+    OPENDL_API const CGFloat* CDECL dl_CGColorGetComponents(dl_CGColorRef color);
 
     // gradients =============
 	DLHANDLE(CG,Gradient);

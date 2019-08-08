@@ -1,0 +1,500 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		65A0710322759D570094051D /* OpenDLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A0710222759D570094051D /* OpenDLTests.m */; };
+		65A0710522759D570094051D /* OpenDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65F33BEB226EB64800F21025 /* OpenDL.framework */; };
+		65F33BFD226EB68600F21025 /* dlcf.h in Headers */ = {isa = PBXBuildFile; fileRef = 65F33BFA226EB68600F21025 /* dlcf.h */; };
+		65F33BFE226EB68600F21025 /* prologue.h in Headers */ = {isa = PBXBuildFile; fileRef = 65F33BFB226EB68600F21025 /* prologue.h */; };
+		65F33BFF226EB68600F21025 /* opendl.h in Headers */ = {isa = PBXBuildFile; fileRef = 65F33BFC226EB68600F21025 /* opendl.h */; };
+		65F33C02226EB68E00F21025 /* ExoClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65F33C00226EB68E00F21025 /* ExoClass.cpp */; };
+		65F33C03226EB68E00F21025 /* ExoClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 65F33C01226EB68E00F21025 /* ExoClass.h */; };
+		65F33C07226EB69900F21025 /* core_foundation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 65F33C04226EB69900F21025 /* core_foundation.mm */; };
+		65F33C08226EB69900F21025 /* util.h in Headers */ = {isa = PBXBuildFile; fileRef = 65F33C05226EB69900F21025 /* util.h */; };
+		65F33C09226EB69900F21025 /* opendl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 65F33C06226EB69900F21025 /* opendl.mm */; };
+		65F33C0C226EB6C500F21025 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65F33C0B226EB6C500F21025 /* CoreFoundation.framework */; };
+		65F33C0E226EB6CA00F21025 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65F33C0D226EB6CA00F21025 /* CoreGraphics.framework */; };
+		65F33C10226EB6CE00F21025 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65F33C0F226EB6CE00F21025 /* CoreText.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		65A0710622759D570094051D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 65F33BE2226EB64800F21025 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 65F33BEA226EB64800F21025;
+			remoteInfo = OpenDL;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		65A0710022759D570094051D /* OpenDLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenDLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		65A0710222759D570094051D /* OpenDLTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenDLTests.m; sourceTree = "<group>"; };
+		65A0710422759D570094051D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		65F33BEB226EB64800F21025 /* OpenDL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpenDL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		65F33BEF226EB64800F21025 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		65F33BFA226EB68600F21025 /* dlcf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dlcf.h; path = ../../../../source/dlcf.h; sourceTree = "<group>"; };
+		65F33BFB226EB68600F21025 /* prologue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prologue.h; path = ../../../../source/prologue.h; sourceTree = "<group>"; };
+		65F33BFC226EB68600F21025 /* opendl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = opendl.h; path = ../../../../source/opendl.h; sourceTree = "<group>"; };
+		65F33C00226EB68E00F21025 /* ExoClass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ExoClass.cpp; path = ../../../../source/common/ExoClass.cpp; sourceTree = "<group>"; };
+		65F33C01226EB68E00F21025 /* ExoClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExoClass.h; path = ../../../../source/common/ExoClass.h; sourceTree = "<group>"; };
+		65F33C04226EB69900F21025 /* core_foundation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = core_foundation.mm; path = "../../../../source/osx-quartz/core_foundation.mm"; sourceTree = "<group>"; };
+		65F33C05226EB69900F21025 /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = util.h; path = "../../../../source/osx-quartz/util.h"; sourceTree = "<group>"; };
+		65F33C06226EB69900F21025 /* opendl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = opendl.mm; path = "../../../../source/osx-quartz/opendl.mm"; sourceTree = "<group>"; };
+		65F33C0B226EB6C500F21025 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		65F33C0D226EB6CA00F21025 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		65F33C0F226EB6CE00F21025 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		65A070FD22759D570094051D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				65A0710522759D570094051D /* OpenDL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		65F33BE7226EB64800F21025 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				65F33C10226EB6CE00F21025 /* CoreText.framework in Frameworks */,
+				65F33C0E226EB6CA00F21025 /* CoreGraphics.framework in Frameworks */,
+				65F33C0C226EB6C500F21025 /* CoreFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		65A0710122759D570094051D /* OpenDLTests */ = {
+			isa = PBXGroup;
+			children = (
+				65A0710222759D570094051D /* OpenDLTests.m */,
+				65A0710422759D570094051D /* Info.plist */,
+			);
+			path = OpenDLTests;
+			sourceTree = "<group>";
+		};
+		65F33BE1226EB64800F21025 = {
+			isa = PBXGroup;
+			children = (
+				65F33BED226EB64800F21025 /* OpenDL */,
+				65A0710122759D570094051D /* OpenDLTests */,
+				65F33BEC226EB64800F21025 /* Products */,
+				65F33C0A226EB6C500F21025 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		65F33BEC226EB64800F21025 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				65F33BEB226EB64800F21025 /* OpenDL.framework */,
+				65A0710022759D570094051D /* OpenDLTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		65F33BED226EB64800F21025 /* OpenDL */ = {
+			isa = PBXGroup;
+			children = (
+				65F33BF7226EB66700F21025 /* API headers */,
+				65F33BF9226EB67700F21025 /* Common */,
+				65F33BF8226EB67000F21025 /* Source */,
+				65F33BEF226EB64800F21025 /* Info.plist */,
+			);
+			path = OpenDL;
+			sourceTree = "<group>";
+		};
+		65F33BF7226EB66700F21025 /* API headers */ = {
+			isa = PBXGroup;
+			children = (
+				65F33BFA226EB68600F21025 /* dlcf.h */,
+				65F33BFC226EB68600F21025 /* opendl.h */,
+				65F33BFB226EB68600F21025 /* prologue.h */,
+			);
+			name = "API headers";
+			sourceTree = "<group>";
+		};
+		65F33BF8226EB67000F21025 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				65F33C04226EB69900F21025 /* core_foundation.mm */,
+				65F33C06226EB69900F21025 /* opendl.mm */,
+				65F33C05226EB69900F21025 /* util.h */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		65F33BF9226EB67700F21025 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				65F33C00226EB68E00F21025 /* ExoClass.cpp */,
+				65F33C01226EB68E00F21025 /* ExoClass.h */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		65F33C0A226EB6C500F21025 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				65F33C0F226EB6CE00F21025 /* CoreText.framework */,
+				65F33C0D226EB6CA00F21025 /* CoreGraphics.framework */,
+				65F33C0B226EB6C500F21025 /* CoreFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		65F33BE8226EB64800F21025 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				65F33C08226EB69900F21025 /* util.h in Headers */,
+				65F33BFD226EB68600F21025 /* dlcf.h in Headers */,
+				65F33BFF226EB68600F21025 /* opendl.h in Headers */,
+				65F33C03226EB68E00F21025 /* ExoClass.h in Headers */,
+				65F33BFE226EB68600F21025 /* prologue.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		65A070FF22759D570094051D /* OpenDLTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 65A0710A22759D570094051D /* Build configuration list for PBXNativeTarget "OpenDLTests" */;
+			buildPhases = (
+				65A070FC22759D570094051D /* Sources */,
+				65A070FD22759D570094051D /* Frameworks */,
+				65A070FE22759D570094051D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				65A0710722759D570094051D /* PBXTargetDependency */,
+			);
+			name = OpenDLTests;
+			productName = OpenDLTests;
+			productReference = 65A0710022759D570094051D /* OpenDLTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		65F33BEA226EB64800F21025 /* OpenDL */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 65F33BF3226EB64800F21025 /* Build configuration list for PBXNativeTarget "OpenDL" */;
+			buildPhases = (
+				65F33BE6226EB64800F21025 /* Sources */,
+				65F33BE7226EB64800F21025 /* Frameworks */,
+				65F33BE8226EB64800F21025 /* Headers */,
+				65F33BE9226EB64800F21025 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OpenDL;
+			productName = OpenDL;
+			productReference = 65F33BEB226EB64800F21025 /* OpenDL.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		65F33BE2226EB64800F21025 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = "Daniel G";
+				TargetAttributes = {
+					65A070FF22759D570094051D = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					65F33BEA226EB64800F21025 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 65F33BE5226EB64800F21025 /* Build configuration list for PBXProject "OpenDL" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 65F33BE1226EB64800F21025;
+			productRefGroup = 65F33BEC226EB64800F21025 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				65F33BEA226EB64800F21025 /* OpenDL */,
+				65A070FF22759D570094051D /* OpenDLTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		65A070FE22759D570094051D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		65F33BE9226EB64800F21025 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		65A070FC22759D570094051D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				65A0710322759D570094051D /* OpenDLTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		65F33BE6226EB64800F21025 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				65F33C02226EB68E00F21025 /* ExoClass.cpp in Sources */,
+				65F33C09226EB69900F21025 /* opendl.mm in Sources */,
+				65F33C07226EB69900F21025 /* core_foundation.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		65A0710722759D570094051D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 65F33BEA226EB64800F21025 /* OpenDL */;
+			targetProxy = 65A0710622759D570094051D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		65A0710822759D570094051D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = OpenDLTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.whatever.OpenDLTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		65A0710922759D570094051D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = OpenDLTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.whatever.OpenDLTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		65F33BF1226EB64800F21025 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		65F33BF2226EB64800F21025 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		65F33BF4226EB64800F21025 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = OpenDL/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "-fvisibility=hidden";
+				PRODUCT_BUNDLE_IDENTIFIER = org.whatever.OpenDL;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		65F33BF5226EB64800F21025 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = OpenDL/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "-fvisibility=hidden";
+				PRODUCT_BUNDLE_IDENTIFIER = org.whatever.OpenDL;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		65A0710A22759D570094051D /* Build configuration list for PBXNativeTarget "OpenDLTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				65A0710822759D570094051D /* Debug */,
+				65A0710922759D570094051D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		65F33BE5226EB64800F21025 /* Build configuration list for PBXProject "OpenDL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				65F33BF1226EB64800F21025 /* Debug */,
+				65F33BF2226EB64800F21025 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		65F33BF3226EB64800F21025 /* Build configuration list for PBXNativeTarget "OpenDL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				65F33BF4226EB64800F21025 /* Debug */,
+				65F33BF5226EB64800F21025 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 65F33BE2226EB64800F21025 /* Project object */;
+}

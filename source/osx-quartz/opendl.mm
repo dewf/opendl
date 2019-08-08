@@ -594,6 +594,11 @@ OPENDL_API void * CDECL dl_CGBitmapContextGetData(dl_CGContextRef bitmap)
     return CGBitmapContextGetData((CGContextRef)bitmap);
 }
 
+OPENDL_API void CDECL dl_CGBitmapContextReleaseData(dl_CGContextRef bitmap)
+{
+    // no-op on Mac (see note in opendl.h)
+}
+
 OPENDL_API dl_CGImageRef CDECL dl_CGBitmapContextCreateImage(dl_CGContextRef context)
 {
     return (dl_CGImageRef)CGBitmapContextCreateImage(CC(context));

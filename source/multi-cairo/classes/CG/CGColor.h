@@ -6,10 +6,8 @@
 
 class CGColor; typedef CGColor* CGColorRef;
 class CGColor : public cf::Object {
-    dl_CGFloat red = 0;
-    dl_CGFloat green = 0;
-    dl_CGFloat blue = 0;
-    dl_CGFloat alpha = 0;
+    dl_CGFloat red, green, blue, alpha;
+    dl_CGFloat components[4]; // for returning as a dl_CGFloat*, otherwise not used
 
 public:
     static CGColorRef White;
@@ -37,14 +35,16 @@ public:
 
     inline dl_CGFloat getAlpha() { return alpha; }
 
-    void apply(cairo_t *cr) {
-        cairo_set_source_rgba(cr, red, green, blue, alpha);
-    }
+    void apply(cairo_t *cr);
 
     CGColorRef copy() override {
         // immutable so just retain
         return (CGColorRef)retain();
     }
+
+    size_t getNumberOfComponents();
+
+    const dl_CGFloat *getComponents();
 };
 
 #endif

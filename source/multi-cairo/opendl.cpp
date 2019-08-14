@@ -264,6 +264,17 @@ OPENDL_API dl_CGColorRef CDECL dl_CGColorGetConstantColor(dl_CFStringRef colorNa
     }
 }
 
+OPENDL_API size_t CDECL dl_CGColorGetNumberOfComponents(dl_CGColorRef color)
+{
+    return ((CGColorRef)color)->getNumberOfComponents();
+}
+
+OPENDL_API const dl_CGFloat* CDECL dl_CGColorGetComponents(dl_CGColorRef color)
+{
+    return ((CGColorRef)color)->getComponents();
+}
+
+// gradients =======
 
 OPENDL_API dl_CGGradientRef CDECL
 dl_CGGradientCreateWithColorComponents(dl_CGColorSpaceRef space, const dl_CGFloat components[], const dl_CGFloat locations[],

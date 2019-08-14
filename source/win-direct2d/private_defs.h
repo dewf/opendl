@@ -32,6 +32,8 @@ enum PathElementType {
     PathElement_LineToPoint,
     PathElement_Rect,
     PathElement_Arc,
+	PathElement_Ellipse,
+	PathElement_RoundedRect,
     PathElement_Closure
 };
 
@@ -46,6 +48,9 @@ struct PathElement {
             dl_CGFloat x, y, radius, startAngle, endAngle;
             int clockwise;
         } arc;
+		// TODO: should probably replace the above point/rect/arc with D2D structs ...
+		D2D1_ELLIPSE ellipse;
+		D2D1_ROUNDED_RECT roundedRect;
     };
 };
 

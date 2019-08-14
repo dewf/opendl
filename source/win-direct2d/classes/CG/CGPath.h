@@ -4,25 +4,80 @@
 #include "../../../opendl.h"
 #include <vector>
 
+struct PathItem {
+	enum {
+		Rect,
+		Ellipse,
+		RoundedRect
+	} tag;
+	union {
+		struct {
+			dl_CGRect value;
+		} rect;
+		struct {
+			dl_CGRect inRect;
+		} ellipse;
+		struct {
+			dl_CGRect rect;
+			dl_CGFloat cornerWidth, cornerHeight;
+		} rounded;
+	};
+};
+
 class CGPath; typedef CGPath* CGPathRef;
 class CGPath : public cf::Object {
 protected:
-	std::vector<dl_CGRect> rects;
+	std::vector<PathItem> items;
 public:
 	const char *getTypeName() const override { return "CGPath"; }
 
 	CGPath() {}
-	CGPath(dl_CGRect rect, const dl_CGAffineTransform *transform) {
+	CGPath(const CGPath &other) {
+		items = other.items;
+	}
+	~CGPath() {}
+
+	static CGPathRef createWithRect(dl_CGRect rect, const dl_CGAffineTransform *transform) {
 		if (transform) {
 			throw cf::Exception("transforms not currently supported in CGPath constructor");
 		}
 		// otherwise we'd transform the points before adding them
-		rects.push_back(rect);
+		auto ret = new CGPath();
+		PathItem item;
+		item.tag = PathItem::Rect;
+		item.rect.value = rect;
+		ret->items.push_back(item);
+		return ret;
 	}
-	CGPath(const CGPath &other) {
-		rects = other.rects;
+
+	static CGPathRef createWithEllipseInRect(dl_CGRect rect, const dl_CGAffineTransform *transform) {
+		if (transform) {
+			throw cf::Exception("transforms not currently supported in CGPath constructor (createWithEllipseInRect)");
+		}
+		// otherwise transform ...
+		auto ret = new CGPath();
+		PathItem item;
+		item.tag = PathItem::Ellipse;
+		item.ellipse.inRect = rect;
+		ret->items.push_back(item);
+		return ret;
 	}
-	~CGPath() {}
+
+	static CGPathRef createWithRoundedRect(dl_CGRect rect, dl_CGFloat cornerWidth, dl_CGFloat cornerHeight, const dl_CGAffineTransform *transform)
+	{
+		if (transform) {
+			throw cf::Exception("transforms not currently supported in CGPath constructor (createWithEllipseInRect)");
+		}
+		// otherwise transform
+		auto ret = new CGPath();
+		PathItem item;
+		item.tag = PathItem::RoundedRect;
+		item.rounded.rect = rect;
+		item.rounded.cornerWidth = cornerWidth;
+		item.rounded.cornerHeight = cornerHeight;
+		ret->items.push_back(item);
+		return ret;
+	}
 
 	//std::unique_ptr<CGPath, ObjReleaser> autoRelease() {
 	//	// automatically calls ->release() when it goes out of scope :)
@@ -31,18 +86,15 @@ public:
 
 	// this is inverted, eventually it's the context that will have a method to add paths
 	// (we'll append to an existing sub/path)
-	void addToContext(dl_CGContextRef c) {
-		for (auto i = rects.begin(); i != rects.end(); i++) {
-			dl_CGContextAddRect(c, *i);
-		}
-	}
+	void addToContext(dl_CGContextRef c);
 
 	bool isRect() {
-		return (rects.size() == 1);
+		return (items.size() == 1 && items[0].tag == PathItem::Rect);
 	}
+
 	dl_CGRect getRect() {
 		if (isRect()) {
-			return rects[0];
+			return items[0].rect.value;
 		}
 		else {
 			throw cf::Exception("CGPath was not a rect");
@@ -67,7 +119,11 @@ public:
 		if (m) {
 			throw cf::Exception("transforms not currently supported in CGMutablePath constructor");
 		}
-		rects.push_back(rect);
+		PathItem item;
+		item.tag = PathItem::Rect;
+		item.rect.value = rect;
+
+		items.push_back(item);
 	}
 
 	virtual bool operator <(const Object &b) const {

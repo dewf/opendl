@@ -287,12 +287,17 @@ public:
 
 		dl_CGContextRotateCTM(context, animAngle);
 
+		auto rounded = dl_CGPathCreateWithRoundedRect(r6, 10, 10, nullptr);
 		for (int i = 0; i < numRects; i++) {
 			dl_CGContextSetRGBFillColor(context, tint, tint / 2, 0, tint);
-			dl_CGContextFillRect(context, r6);
+			dl_CGContextAddPath(context, rounded);
+			dl_CGContextFillPath(context);
+			//dl_CGContextFillRect(context, r6);
 
 			dl_CGContextSetRGBStrokeColor(context, 0, 0, 0, 1.0);
-			dl_CGContextStrokeRectWithWidth(context, r6, 2.0);
+			//dl_CGContextStrokeRectWithWidth(context, r6, 2.0);
+			dl_CGContextAddPath(context, rounded);
+			dl_CGContextStrokePath(context);
 
 			dl_CGContextSetRGBFillColor(context, 1, 1, 0, 1);
 			dl_CGContextFillRect(context, r7);
@@ -300,6 +305,7 @@ public:
 			dl_CGContextRotateCTM(context, rotAngle);
 			tint -= tintAdjust;
 		}
+		dl_CGPathRelease(rounded);
 
 		dl_CGContextRestoreGState(context);
 

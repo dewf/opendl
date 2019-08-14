@@ -250,6 +250,28 @@ public:
 		pathElements.push_back(e);
 	}
 
+	inline void addEllipseInRect(dl_CGRect rect) {
+		PathElement e;
+		e.elementType = PathElement_Ellipse;
+		auto halfWidth = rect.size.width / 2;
+		auto halfHeight = rect.size.height / 2;
+		e.ellipse.point.x = (FLOAT)(rect.origin.x + halfWidth);
+		e.ellipse.point.y = (FLOAT)(rect.origin.y + halfHeight);
+		e.ellipse.radiusX = (FLOAT)halfWidth;
+		e.ellipse.radiusY = (FLOAT)halfHeight;
+		pathElements.push_back(e);
+	}
+
+	inline void addRoundedRect(dl_CGRect rect, dl_CGFloat cornerWidth, dl_CGFloat cornerHeight)
+	{
+		PathElement e;
+		e.elementType = PathElement_RoundedRect;
+		e.roundedRect.rect = d2dRectFromDlRect(rect);
+		e.roundedRect.radiusX = (FLOAT)cornerWidth;
+		e.roundedRect.radiusY = (FLOAT)cornerHeight;
+		pathElements.push_back(e);
+	}
+
 	inline void addArc(dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat endAngle, int clockwise)
 	{
 		PathElement e;
@@ -262,6 +284,8 @@ public:
 		e.arc.clockwise = clockwise;
 		pathElements.push_back(e);
 	}
+
+	void addArcToPoint(dl_CGFloat x1, dl_CGFloat y1, dl_CGFloat x2, dl_CGFloat y2, dl_CGFloat radius);
 
 	inline void setLineWidth(dl_CGFloat width)
 	{
@@ -333,6 +357,14 @@ public:
 		// really just the same as dl_CGContextDrawPath(c, dl_kCGPathStroke)
 		auto currentPath = pathFromElements(D2D1_FIGURE_BEGIN_HOLLOW);
 		target->DrawGeometry(currentPath, drawState()->strokeBrush, (FLOAT)drawState()->lineWidth, drawState()->strokeStyle);
+		SafeRelease(&currentPath);
+		pathElements.clear();
+	}
+
+	inline void fillPath() {
+		// really just the same as dl_CGContextDrawPath(c, dl_kCGPathFill)
+		auto currentPath = pathFromElements(D2D1_FIGURE_BEGIN_FILLED);
+		target->FillGeometry(currentPath, drawState()->fillBrush);
 		SafeRelease(&currentPath);
 		pathElements.clear();
 	}

@@ -60,6 +60,36 @@ inline void geomSinkAddArc(ID2D1GeometrySink *geomSink, PathElement &e, D2D1_FIG
 	}
 }
 
+inline void geomSinkAddEllipse(ID2D1GeometrySink *geomSink, PathElement &e, D2D1_FIGURE_BEGIN fillType, bool *figureOpen)
+{
+	ID2D1EllipseGeometry *geom;
+	HR(d2dFactory->CreateEllipseGeometry(&e.ellipse, &geom));
+
+	// begin figure? fill type? etc?
+	HR(geom->Outline(NULL, geomSink));
+
+	//// really not sure ...
+	//geomSink->EndFigure(D2D1_FIGURE_END_CLOSED);
+	//*figureOpen = false;
+
+	SafeRelease(&geom);
+}
+
+inline void geomSinkAddRoundedRect(ID2D1GeometrySink *geomSink, PathElement &e, D2D1_FIGURE_BEGIN fillType, bool *figureOpen)
+{
+	ID2D1RoundedRectangleGeometry *geom;
+	HR(d2dFactory->CreateRoundedRectangleGeometry(&e.roundedRect, &geom));
+
+	// begin figure? fill type? etc?
+	HR(geom->Outline(NULL, geomSink));
+
+	// not sure
+	// geomSink->EndFigure...
+	// *figureOpen = false
+
+	SafeRelease(&geom);
+}
+
 ID2D1PathGeometry *CGContext::pathFromElements(D2D1_FIGURE_BEGIN fillType)
 {
 	ID2D1PathGeometry *currentPath = nullptr;
@@ -80,14 +110,22 @@ ID2D1PathGeometry *CGContext::pathFromElements(D2D1_FIGURE_BEGIN fillType)
 			geomSink->AddLine(D2D1::Point2F((FLOAT)item->point.x, (FLOAT)item->point.y));
 			break;
 		case PathElement_Rect:
+			// TODO: look at this and arc and see if they can be simplified, a la ellipse and rounded rect (using D2D geometries directly writing to sink)
 			geomSinkAddRect(geomSink, *item, fillType, &figureOpen);
 			break;
 		case PathElement_Arc:
+			// TODO: see todo above
 			geomSinkAddArc(geomSink, *item, fillType, &figureOpen); // might be a full circle, so pass didClose to be modified in there
 			break;
 		case PathElement_Closure:
 			geomSink->EndFigure(D2D1_FIGURE_END_CLOSED);
 			figureOpen = false;
+			break;
+		case PathElement_Ellipse:
+			geomSinkAddEllipse(geomSink, *item, fillType, &figureOpen);
+			break;
+		case PathElement_RoundedRect:
+			geomSinkAddRoundedRect(geomSink, *item, fillType, &figureOpen);
 			break;
 		}
 	}
@@ -168,6 +206,17 @@ void CGContext::fillStrokeClip(
 	}
 
 	SafeRelease(&pTransformedGeometry);
+}
+
+void CGContext::addArcToPoint(dl_CGFloat x1, dl_CGFloat y1, dl_CGFloat x2, dl_CGFloat y2, dl_CGFloat radius)
+{
+	// we need a way of getting the current point to even do this
+	// going to need some inspection + work
+
+	// but roughly: find angle between the two lines (current point to x1/y1, then to x2/y2)
+	// use that to calculate length of line/leg to trim (to arc tangent)
+	// etc
+	throw std::exception("CGContext::addArcToPoint not yet implemented");
 }
 
 void CGContext::commonTextDraw(

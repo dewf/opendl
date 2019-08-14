@@ -202,6 +202,11 @@ OPENDL_API void CDECL dl_CGContextAddArc(dl_CGContextRef c, dl_CGFloat x, dl_CGF
 	((CGContextRef)c)->addArc(x, y, radius, startAngle, endAngle, clockwise);
 }
 
+OPENDL_API void CDECL dl_CGContextAddArcToPoint(dl_CGContextRef c, dl_CGFloat x1, dl_CGFloat y1, dl_CGFloat x2, dl_CGFloat y2, dl_CGFloat radius)
+{
+	((CGContextRef)c)->addArcToPoint(x1, y1, x2, y2, radius);
+}
+
 OPENDL_API void CDECL dl_CGContextSetLineWidth(dl_CGContextRef c, dl_CGFloat width)
 {
 	((CGContextRef)c)->setLineWidth(width);
@@ -220,6 +225,11 @@ OPENDL_API void CDECL dl_CGContextDrawPath(dl_CGContextRef c, dl_CGPathDrawingMo
 OPENDL_API void CDECL dl_CGContextStrokePath(dl_CGContextRef c)
 {
 	((CGContextRef)c)->strokePath();
+}
+
+OPENDL_API void CDECL dl_CGContextFillPath(dl_CGContextRef c)
+{
+	((CGContextRef)c)->fillPath();
 }
 
 OPENDL_API void CDECL dl_CGContextTranslateCTM(dl_CGContextRef c, dl_CGFloat tx, dl_CGFloat ty)
@@ -276,7 +286,17 @@ OPENDL_API void CDECL dl_CGPathAddRect(dl_CGMutablePathRef path, const dl_CGAffi
 
 OPENDL_API dl_CGPathRef CDECL dl_CGPathCreateWithRect(dl_CGRect rect, const dl_CGAffineTransform *transform)
 {
-	return (dl_CGPathRef) new CGPath(rect, transform);
+	return (dl_CGPathRef)CGPath::createWithRect(rect, transform);
+}
+
+OPENDL_API dl_CGPathRef CDECL dl_CGPathCreateWithEllipseInRect(dl_CGRect rect, const dl_CGAffineTransform *transform)
+{
+	return (dl_CGPathRef)CGPath::createWithEllipseInRect(rect, transform);
+}
+
+OPENDL_API dl_CGPathRef CDECL dl_CGPathCreateWithRoundedRect(dl_CGRect rect, dl_CGFloat cornerWidth, dl_CGFloat cornerHeight, const dl_CGAffineTransform *transform)
+{
+	return (dl_CGPathRef)CGPath::createWithRoundedRect(rect, cornerWidth, cornerHeight, transform);
 }
 
 OPENDL_API void CDECL dl_CGPathRelease(dl_CGPathRef path)

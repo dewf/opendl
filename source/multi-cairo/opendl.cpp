@@ -114,12 +114,21 @@ dl_CGContextAddArc(dl_CGContextRef c, dl_CGFloat x, dl_CGFloat y, dl_CGFloat rad
     ((CGContextRef)c)->addArc(x, y, radius, startAngle, endAngle, clockwise);
 }
 
+OPENDL_API void CDECL dl_CGContextAddArcToPoint(dl_CGContextRef c, dl_CGFloat x1, dl_CGFloat y1, dl_CGFloat x2, dl_CGFloat y2, dl_CGFloat radius)
+{
+    ((CGContextRef)c)->addArcToPoint(x1, y1, x2, y2, radius);
+}
+
 OPENDL_API void CDECL dl_CGContextDrawPath(dl_CGContextRef c, dl_CGPathDrawingMode mode) {
     ((CGContextRef)c)->drawPath(mode);
 }
 
 OPENDL_API void CDECL dl_CGContextStrokePath(dl_CGContextRef c) {
     ((CGContextRef)c)->strokePath();
+}
+
+OPENDL_API void CDECL dl_CGContextFillPath(dl_CGContextRef c) {
+    ((CGContextRef)c)->fillPath();
 }
 
 OPENDL_API void CDECL dl_CGContextSetLineWidth(dl_CGContextRef c, dl_CGFloat width) {
@@ -165,11 +174,17 @@ OPENDL_API void dl_CGContextRestoreGState(dl_CGContextRef c) {
 // path stuff ===========================================
 OPENDL_API dl_CGPathRef CDECL dl_CGPathCreateWithRect(dl_CGRect rect, const dl_CGAffineTransform *transform)
 {
-    if (transform != nullptr) {
-        printf("dl_CGPathCreateWithRect: transform parameter not yet supported on linux");
-        return nullptr;
-    }
-    return (dl_CGPathRef) new CGPath(rect);
+    return (dl_CGPathRef)CGPath::createWithRect(rect, transform);
+}
+
+OPENDL_API dl_CGPathRef CDECL dl_CGPathCreateWithEllipseInRect(dl_CGRect rect, const dl_CGAffineTransform *transform)
+{
+    return (dl_CGPathRef)CGPath::createWithEllipseInRect(rect, transform);
+}
+
+OPENDL_API dl_CGPathRef CDECL dl_CGPathCreateWithRoundedRect(dl_CGRect rect, dl_CGFloat cornerWidth, dl_CGFloat cornerHeight, const dl_CGAffineTransform *transform)
+{
+    return (dl_CGPathRef)CGPath::createWithRoundedRect(rect, cornerWidth, cornerHeight, transform);
 }
 
 OPENDL_API void CDECL dl_CGPathRelease(dl_CGPathRef path)

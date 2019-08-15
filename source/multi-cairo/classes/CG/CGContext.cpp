@@ -9,6 +9,7 @@
 #include "CGGradient.h"
 
 #include <algorithm>
+#include <math.h>
 
 void CGContext::clipTargetByHalfPlane(dl_CGPoint hp_point, dl_CGPoint hp_vec) {
     dl_CGRect rect = {{0,               0},
@@ -232,6 +233,75 @@ void CGContext::addArc(dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat
     }
 }
 
+inline double vectorLength(double dx, double dy) {
+    return sqrt(dx * dx + dy * dy);
+}
+
+void normalizeVector(double &dx, double &dy) {
+    auto length = vectorLength(dx, dy);
+    dx /= length;
+    dy /= length;
+}
+
+double angleFromPointOnCircle(double cx, double cy, double x, double y) {
+    auto angle = atan2(y - cy, x - cx);
+    if (angle < 0) {
+        return angle + (2.0 * M_PI);
+    } else {
+        return angle;
+    }
+}
+
+void CGContext::addArcToPoint(dl_CGFloat x1, dl_CGFloat y1, dl_CGFloat x2, dl_CGFloat y2, dl_CGFloat radius)
+{
+    // draw from current point to (almost) x1,y1 - create arc of specified radius there, tangent to line from x1,y1 to x2,y2
+    // find angle between two lines:
+    double x0, y0; // current point
+    cairo_get_current_point(cr, &x0, &y0);
+
+    // line a: from corner to origin point
+    double ax = x0 - x1;
+    double ay = y0 - y1;
+    normalizeVector(ax, ay);
+
+    // line b: from corner to end point
+    double bx = x2 - x1;
+    double by = y2 - y1;
+    normalizeVector(bx, by);
+
+    // cos(angle) = dot product of vectors divided by product of magnitudes
+    double dot = (ax * bx) + (ay * by);
+    double lengthProduct = vectorLength(ax, ay) * vectorLength(bx, by);
+    double halfAngle = acos(dot / lengthProduct) / 2.0;
+
+    // vector to center point, from corner
+    double cLength = radius / sin(halfAngle);
+    // find bisecting vector
+    // a and b are already unit length so we don't need to normalize them first here
+    double cx = ax + bx;
+    double cy = ay + by;
+    normalizeVector(cx, cy);
+    double arcCenterX = x1 + cx * cLength;
+    double arcCenterY = y1 + cy * cLength;
+
+    // calc trim length (amount to remove from each leg of corner)
+    double trimLen = radius / tan(halfAngle);
+    // calculate arc begin/end points
+    double arc0x = x1 + ax * trimLen;
+    double arc0y = y1 + ay * trimLen;
+    double arc1x = x1 + bx * trimLen;
+    double arc1y = y1 + by * trimLen;
+
+    // convert start/end points from x/y to angles
+    double angle0 = angleFromPointOnCircle(arcCenterX, arcCenterY, arc0x, arc0y);
+    double angle1 = angleFromPointOnCircle(arcCenterX, arcCenterY, arc1x, arc1y);
+
+    // draw the damn thing
+    cairo_line_to(cr, arc0x, arc0y);
+    cairo_arc(cr, arcCenterX, arcCenterY, radius, angle0, angle1);
+    cairo_line_to(cr, x2, y2);
+}
+
 void CGContext::drawImage(dl_CGRect rect, CGImageRef image)
 {
     int surfaceWidth, surfaceHeight;
@@ -242,9 +312,5 @@ void CGContext::drawImage(dl_CGRect rect, CGImageRef image)
     cairo_rectangle(cr, rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
     cairo_fill(cr);
 }
-
-
-
-
 
 

@@ -253,6 +253,8 @@ public:
 
     void addArc(dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat endAngle, int clockwise);
 
+    void addArcToPoint(dl_CGFloat x1, dl_CGFloat y1, dl_CGFloat x2, dl_CGFloat y2, dl_CGFloat radius);
+
     void drawPath(dl_CGPathDrawingMode mode) {
         if (mode == dl_kCGPathFill || mode == dl_kCGPathFillStroke) {
             currentState()->fillColor->apply(cr);
@@ -272,6 +274,11 @@ public:
     {
         currentState()->strokeColor->apply(cr);
         cairo_stroke(cr);
+    }
+
+    void fillPath() {
+        currentState()->fillColor->apply(cr);
+        cairo_fill(cr);
     }
 
     void setLineWidth(dl_CGFloat width) {
@@ -386,6 +393,7 @@ public:
     // image
     void clipToMask(dl_CGRect rect, CGImageRef mask);
     void drawImage(dl_CGRect rect, CGImageRef image);
+
 };
 
 #endif //__CG_CONTEXT_H__

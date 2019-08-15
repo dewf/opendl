@@ -75,3 +75,60 @@ void cairo_roundedRect(cairo_t *cr, dl_CGRect &rect, double cornerWidth, double 
 
     cairo_close_path(cr);
 }
+
+CGPathRef CGPath::createWithRect(dl_CGRect rect, const dl_CGAffineTransform *transform) {
+    if (transform) throw cf::Exception("CGPathRef::createWithRect - transform param not yet handled");
+    PathItem item{};
+    item.tag = PathItem::Rect;
+    item.rect.value = rect;
+    return new CGPath(item);
+}
+
+CGPathRef CGPath::createWithEllipseInRect(dl_CGRect rect, const dl_CGAffineTransform *transform) {
+    if (transform) throw cf::Exception("CGPathRef::createWithEllipseInRect - transform param not yet handled");
+    PathItem item{};
+    item.tag = PathItem::Ellipse;
+    item.ellipse.inRect = rect;
+    return new CGPath(item);
+}
+
+CGPathRef CGPath::createWithRoundedRect(dl_CGRect rect, dl_CGFloat cornerWidth, dl_CGFloat cornerHeight,
+                                        const dl_CGAffineTransform *transform) {
+    if (transform) throw cf::Exception("CGPathRef::createWithRoundedRect - transform param not yet handled");
+    PathItem item{};
+    item.tag = PathItem::RoundedRect;
+    item.roundedRect.rect = rect;
+    item.roundedRect.cornerWidth = cornerWidth;
+    item.roundedRect.cornerHeight = cornerHeight;
+    return new CGPath(item);
+}
+
+dl_CGRect CGPath::getRect() {
+    if (items.size() == 1 && items[0].tag == PathItem::Rect) {
+        return items[0].rect.value;
+    } else {
+        throw cf::Exception("CGPath is not a rect");
+    }
+}
+
+void CGPath::apply(cairo_t *cr) {
+    for (auto &item : items) {
+        switch (item.tag) {
+            case PathItem::Rect: {
+                dl_CGRect rect = item.rect.value;
+                cairo_rectangle(cr, rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+                break;
+            }
+            case PathItem::Ellipse: {
+                cairo_ellipse(cr, item.ellipse.inRect);
+                break;
+            }
+            case PathItem::RoundedRect: {
+                cairo_roundedRect(cr, item.roundedRect.rect, item.roundedRect.cornerWidth, item.roundedRect.cornerHeight);
+                break;
+            }
+            default:
+                throw cf::Exception("CGPath::apply() - unhandled path type");
+        }
+    }
+}

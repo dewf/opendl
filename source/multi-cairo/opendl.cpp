@@ -172,6 +172,16 @@ OPENDL_API void dl_CGContextRestoreGState(dl_CGContextRef c) {
 }
 
 // path stuff ===========================================
+OPENDL_API dl_CGMutablePathRef CDECL dl_CGPathCreateMutable(void)
+{
+    return (dl_CGMutablePathRef)CGMutablePath::create();
+}
+
+OPENDL_API void CDECL dl_CGPathAddRect(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGRect rect)
+{
+    ((CGMutablePathRef)path)->addRect(m, rect);
+}
+
 OPENDL_API dl_CGPathRef CDECL dl_CGPathCreateWithRect(dl_CGRect rect, const dl_CGAffineTransform *transform)
 {
     return (dl_CGPathRef)CGPath::createWithRect(rect, transform);

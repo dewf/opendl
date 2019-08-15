@@ -36,6 +36,7 @@ void cairo_roundedRect(cairo_t *cr, dl_CGRect &rect, double cornerWidth, double 
 
 class CGPath; typedef CGPath *CGPathRef;
 class CGPath : public cf::Object {
+protected:
     std::vector<PathItem> items;
 public:
     const char *getTypeName() const override {
@@ -47,69 +48,57 @@ public:
         return (CGPathRef) retain();
     }
 
+    CGPath() {}
     explicit CGPath(PathItem &item) {
         items.push_back(item);
     }
-    static CGPathRef createWithRect(dl_CGRect rect, const dl_CGAffineTransform *transform) {
-        if (transform) throw cf::Exception("CGPathRef::createWithRect - transform param not yet handled");
-        PathItem item{};
-        item.tag = PathItem::Rect;
-        item.rect.value = rect;
-        return new CGPath(item);
+    CGPath(const CGPath &other) {
+        items = other.items;
     }
-    static CGPathRef createWithEllipseInRect(dl_CGRect rect, const dl_CGAffineTransform *transform) {
-        if (transform) throw cf::Exception("CGPathRef::createWithEllipseInRect - transform param not yet handled");
-        PathItem item{};
-        item.tag = PathItem::Ellipse;
-        item.ellipse.inRect = rect;
-        return new CGPath(item);
-    }
-    static CGPathRef createWithRoundedRect(dl_CGRect rect, dl_CGFloat cornerWidth, dl_CGFloat cornerHeight, const dl_CGAffineTransform *transform) {
-        if (transform) throw cf::Exception("CGPathRef::createWithRoundedRect - transform param not yet handled");
-        PathItem item{};
-        item.tag = PathItem::RoundedRect;
-        item.roundedRect.rect = rect;
-        item.roundedRect.cornerWidth = cornerWidth;
-        item.roundedRect.cornerHeight = cornerHeight;
-        return new CGPath(item);
-    }
+    ~CGPath() override {}
 
-    ~CGPath() override {
-        // nothing yet
-    }
+    static CGPathRef createWithRect(dl_CGRect rect, const dl_CGAffineTransform *transform);
+    static CGPathRef createWithEllipseInRect(dl_CGRect rect, const dl_CGAffineTransform *transform);
+    static CGPathRef createWithRoundedRect(dl_CGRect rect, dl_CGFloat cornerWidth, dl_CGFloat cornerHeight, const dl_CGAffineTransform *transform);
 
-    dl_CGRect getRect() {
-        if (items.size() == 1 && items[0].tag == PathItem::Rect) {
-            return items[0].rect.value;
-        } else {
-            throw cf::Exception("CGPath is not a rect");
-        }
-    }
+    dl_CGRect getRect();
 
-    void apply(cairo_t *cr) {
-        for (auto &item : items) {
-            switch (item.tag) {
-                case PathItem::Rect: {
-                    dl_CGRect rect = item.rect.value;
-                    cairo_rectangle(cr, rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
-                    break;
-                }
-                case PathItem::Ellipse: {
-                    cairo_ellipse(cr, item.ellipse.inRect);
-                    break;
-                }
-                case PathItem::RoundedRect: {
-                    cairo_roundedRect(cr, item.roundedRect.rect, item.roundedRect.cornerWidth, item.roundedRect.cornerHeight);
-                    break;
-                }
-                default:
-                    throw cf::Exception("CGPath::apply() - unhandled path type");
-            }
-        }
-    }
+    void apply(cairo_t *cr);
 
     RETAIN_AND_AUTORELEASE(CGPath);
     WEAKREF_MAKE(CGPath);
+};
+
+
+class CGMutablePath; typedef CGMutablePath* CGMutablePathRef;
+class CGMutablePath : public CGPath {
+public:
+    CGMutablePath() : CGPath() {}
+    static CGMutablePathRef create() {
+        return new CGMutablePath();
+    }
+
+    ~CGMutablePath() override {}
+
+    void addRect(const dl_CGAffineTransform *m, dl_CGRect rect) {
+        if (m) {
+            throw cf::Exception("transforms not currently supported in CGMutablePath constructor");
+        }
+        PathItem item{};
+        item.tag = PathItem::Rect;
+        item.rect.value = rect;
+        items.push_back(item);
+    }
+
+    bool operator <(const Object &b) const override {
+        throw cf::Exception("operator < not defined for CGMutablePath");
+    }
+    CGPathRef copy() override {
+        // make an immutable copy
+        return new CGPath(*this);
+    }
+
+    RETAIN_AND_AUTORELEASE(CGMutablePath)
 };
 
 #endif //__CG_PATH_H__

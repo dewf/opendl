@@ -32,6 +32,9 @@ public:
 	const char *getTypeName() const override { return "CGPath"; }
 
 	CGPath() {}
+	CGPath(PathItem &item) {
+		items.push_back(item);
+	}
 	CGPath(const CGPath &other) {
 		items = other.items;
 	}
@@ -42,12 +45,10 @@ public:
 			throw cf::Exception("transforms not currently supported in CGPath constructor");
 		}
 		// otherwise we'd transform the points before adding them
-		auto ret = new CGPath();
 		PathItem item;
 		item.tag = PathItem::Rect;
 		item.rect.value = rect;
-		ret->items.push_back(item);
-		return ret;
+		return new CGPath(item);
 	}
 
 	static CGPathRef createWithEllipseInRect(dl_CGRect rect, const dl_CGAffineTransform *transform) {
@@ -55,12 +56,10 @@ public:
 			throw cf::Exception("transforms not currently supported in CGPath constructor (createWithEllipseInRect)");
 		}
 		// otherwise transform ...
-		auto ret = new CGPath();
 		PathItem item;
 		item.tag = PathItem::Ellipse;
 		item.ellipse.inRect = rect;
-		ret->items.push_back(item);
-		return ret;
+		return new CGPath(item);
 	}
 
 	static CGPathRef createWithRoundedRect(dl_CGRect rect, dl_CGFloat cornerWidth, dl_CGFloat cornerHeight, const dl_CGAffineTransform *transform)
@@ -69,14 +68,12 @@ public:
 			throw cf::Exception("transforms not currently supported in CGPath constructor (createWithEllipseInRect)");
 		}
 		// otherwise transform
-		auto ret = new CGPath();
 		PathItem item;
 		item.tag = PathItem::RoundedRect;
 		item.rounded.rect = rect;
 		item.rounded.cornerWidth = cornerWidth;
 		item.rounded.cornerHeight = cornerHeight;
-		ret->items.push_back(item);
-		return ret;
+		return new CGPath(item);
 	}
 
 	//std::unique_ptr<CGPath, ObjReleaser> autoRelease() {

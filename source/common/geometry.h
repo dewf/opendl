@@ -28,6 +28,14 @@ extern "C" {
 	IntersectResult segmentIntersectLine(dl_CGPoint p1, dl_CGPoint p2, dl_CGPoint line_point, dl_CGPoint line_vec);
 	void clipRectByHalfPlane(dl_CGRect rect, dl_CGPoint hp_point, dl_CGPoint hp_vec, dl_CGPoint *outPoints, int *outCount);
 
+	inline double vectorLength(double dx, double dy);
+	inline void normalizeVector(double &dx, double &dy);
+	double angleFromPointOnCircle(double cx, double cy, double x, double y);
+	void calcArcToPoint(double x0, double y0, double x1, double y1, double x2, double y2, double radius,
+		double *outCenterX, double *outCenterY,
+		double *outStartX, double *outStartY,
+		double *outAngle0, double *outAngle1);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif 

@@ -285,7 +285,17 @@ public:
 		pathElements.push_back(e);
 	}
 
-	void addArcToPoint(dl_CGFloat x1, dl_CGFloat y1, dl_CGFloat x2, dl_CGFloat y2, dl_CGFloat radius);
+	void addArcToPoint(dl_CGFloat x1, dl_CGFloat y1, dl_CGFloat x2, dl_CGFloat y2, dl_CGFloat radius)
+	{
+		PathElement e;
+		e.elementType = PathElement_ArcToPoint;
+		e.arcToPoint.x1 = x1;
+		e.arcToPoint.y1 = y1;
+		e.arcToPoint.x2 = x2;
+		e.arcToPoint.y2 = y2;
+		e.arcToPoint.radius = radius;
+		pathElements.push_back(e);
+	}
 
 	inline void setLineWidth(dl_CGFloat width)
 	{

@@ -1,10 +1,10 @@
 #include "geometry.h"
 
 #include <assert.h>
-#include <math.h>
+#define _USE_MATH_DEFINES
+#include <cmath>
 
 #define GHETTO_EPSILON 0.0001  // from what I understand a LOT more thought has to go into this, and it should be relative to the magnitude of the numbers being used, etc etc
-
 
 dl_CGPoint normalizeVec2F(dl_CGPoint vec2f)
 {
@@ -128,4 +128,79 @@ void clipRectByHalfPlane(dl_CGRect rect, dl_CGPoint hp_point, dl_CGPoint hp_vec,
 			// add neither
 		}
 	}
+}
+
+inline double vectorLength(double dx, double dy) {
+	return sqrt(dx * dx + dy * dy);
+}
+
+inline void normalizeVector(double &dx, double &dy) {
+	auto length = vectorLength(dx, dy);
+	if (length > GHETTO_EPSILON) {
+		dx /= length;
+		dy /= length;
+	}
+}
+
+double angleFromPointOnCircle(double cx, double cy, double x, double y) {
+	auto angle = atan2(y - cy, x - cx);
+	if (angle < 0) {
+		return angle + (2.0 * M_PI);
+	}
+	else {
+		return angle;
+	}
+}
+
+void calcArcToPoint(double x0, double y0, double x1, double y1, double x2, double y2, double radius,
+	double *outCenterX, double *outCenterY,
+	double *outStartX, double *outStartY,
+	double *outAngle0, double *outAngle1)
+{
+	// draw from x0,y0 to (almost) x1,y1 - create arc of specified radius there, tangent to line from x1,y1 to x2,y2
+
+	// line a: from corner to origin point
+	double ax = x0 - x1;
+	double ay = y0 - y1;
+	normalizeVector(ax, ay);
+
+	// line b: from corner to end point
+	double bx = x2 - x1;
+	double by = y2 - y1;
+	normalizeVector(bx, by);
+
+	// cos(angle) = dot product of vectors divided by product of magnitudes
+	double dot = (ax * bx) + (ay * by);
+	double lengthProduct = vectorLength(ax, ay) * vectorLength(bx, by);
+	double halfAngle = acos(dot / lengthProduct) / 2.0;
+
+	// vector to center point, from corner
+	double cLength = radius / sin(halfAngle);
+	// find bisecting vector
+	// a and b are already unit length so we don't need to normalize them first here
+	double cx = ax + bx;
+	double cy = ay + by;
+	normalizeVector(cx, cy);
+	double arcCenterX = x1 + cx * cLength;
+	double arcCenterY = y1 + cy * cLength;
+
+	// calc trim length (amount to remove from each leg of corner)
+	double trimLen = radius / tan(halfAngle);
+	// calculate arc begin/end points
+	double arc0x = x1 + ax * trimLen;
+	double arc0y = y1 + ay * trimLen;
+	double arc1x = x1 + bx * trimLen;
+	double arc1y = y1 + by * trimLen;
+
+	// convert start/end points from x/y to angles
+	double angle0 = angleFromPointOnCircle(arcCenterX, arcCenterY, arc0x, arc0y);
+	double angle1 = angleFromPointOnCircle(arcCenterX, arcCenterY, arc1x, arc1y);
+
+	// output
+	*outCenterX = arcCenterX;
+	*outCenterY = arcCenterY;
+	*outStartX = arc0x;
+	*outStartY = arc0y;
+	*outAngle0 = angle0;
+	*outAngle1 = angle1;
 }

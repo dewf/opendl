@@ -90,6 +90,33 @@ inline void geomSinkAddRoundedRect(ID2D1GeometrySink *geomSink, PathElement &e, 
 	SafeRelease(&geom);
 }
 
+inline void geomSinkAddArcToPoint(ID2D1GeometrySink *geomSink, PathElement &e, D2D1_POINT_2F *lastPoint)
+{
+	double centerX, centerY, startX, startY, angle0, angle1;
+
+	calcArcToPoint(
+		lastPoint->x, lastPoint->y,
+		e.arcToPoint.x1, e.arcToPoint.y1,
+		e.arcToPoint.x2, e.arcToPoint.y2,
+		e.arcToPoint.radius,
+		&centerX, &centerY, &startX, &startY, &angle0, &angle1);
+
+	// draw the damn thing
+	geomSink->AddLine(D2D1::Point2F((FLOAT)startX, (FLOAT)startY));
+	auto endX = centerX + cos(angle1) * e.arcToPoint.radius;
+	auto endY = centerY + sin(angle1) * e.arcToPoint.radius;
+	auto endPoint = D2D1::Point2F((FLOAT)endX, (FLOAT)endY);
+	auto arc = D2D1::ArcSegment(
+		endPoint,
+		D2D1::SizeF((FLOAT)e.arcToPoint.radius, (FLOAT)e.arcToPoint.radius),
+		0,
+		D2D1_SWEEP_DIRECTION_CLOCKWISE,
+		(angle1 - angle0) > M_PI ? D2D1_ARC_SIZE_LARGE : D2D1_ARC_SIZE_SMALL);
+	geomSink->AddArc(arc);
+	// we end at the end of that arc, resume drawing from there
+	*lastPoint = endPoint;
+}
+
 ID2D1PathGeometry *CGContext::pathFromElements(D2D1_FIGURE_BEGIN fillType)
 {
 	ID2D1PathGeometry *currentPath = nullptr;
@@ -99,33 +126,51 @@ ID2D1PathGeometry *CGContext::pathFromElements(D2D1_FIGURE_BEGIN fillType)
 	geomSink->SetFillMode(D2D1_FILL_MODE_WINDING);
 
 	bool figureOpen = false;
+	D2D1_POINT_2F figureBeginPoint, lastPoint;
 
 	for (auto item = pathElements.begin(); item < pathElements.end(); item++) {
 		switch (item->elementType) {
 		case PathElement_StartPoint:
 			geomSink->BeginFigure(D2D1::Point2F((FLOAT)item->point.x, (FLOAT)item->point.y), fillType);
 			figureOpen = true;
+			figureBeginPoint = D2D1::Point2F((FLOAT)item->point.x, (FLOAT)item->point.y);
+			lastPoint = figureBeginPoint;
 			break;
 		case PathElement_LineToPoint:
 			geomSink->AddLine(D2D1::Point2F((FLOAT)item->point.x, (FLOAT)item->point.y));
+			lastPoint = D2D1::Point2F((FLOAT)item->point.x, (FLOAT)item->point.y);
 			break;
 		case PathElement_Rect:
 			// TODO: look at this and arc and see if they can be simplified, a la ellipse and rounded rect (using D2D geometries directly writing to sink)
 			geomSinkAddRect(geomSink, *item, fillType, &figureOpen);
+			lastPoint = D2D1::Point2F((FLOAT)item->rect.origin.x, (FLOAT)item->rect.origin.y);
 			break;
-		case PathElement_Arc:
+		case PathElement_Arc: {
 			// TODO: see todo above
 			geomSinkAddArc(geomSink, *item, fillType, &figureOpen); // might be a full circle, so pass didClose to be modified in there
+			auto endX = item->arc.x + cos(item->arc.endAngle) * item->arc.radius;
+			auto endY = item->arc.y + sin(item->arc.endAngle) * item->arc.radius;
+			lastPoint = D2D1::Point2F((FLOAT)endX, (FLOAT)endY);
+			break;
+		}
+		case PathElement_ArcToPoint:
+			geomSinkAddArcToPoint(geomSink, *item, &lastPoint); // updates lastPoint
+			break;
+		case PathElement_Ellipse: {
+			geomSinkAddEllipse(geomSink, *item, fillType, &figureOpen);
+			auto endX = item->ellipse.point.x + item->ellipse.radiusX;
+			auto endY = item->ellipse.point.y;
+			lastPoint = D2D1::Point2F((FLOAT)endX, (FLOAT)endY);
+			break;
+		}
+		case PathElement_RoundedRect:
+			geomSinkAddRoundedRect(geomSink, *item, fillType, &figureOpen);
+			// TODO: not sure what lastPoint should be here ...
 			break;
 		case PathElement_Closure:
 			geomSink->EndFigure(D2D1_FIGURE_END_CLOSED);
 			figureOpen = false;
-			break;
-		case PathElement_Ellipse:
-			geomSinkAddEllipse(geomSink, *item, fillType, &figureOpen);
-			break;
-		case PathElement_RoundedRect:
-			geomSinkAddRoundedRect(geomSink, *item, fillType, &figureOpen);
+			lastPoint = figureBeginPoint;
 			break;
 		}
 	}
@@ -206,17 +251,6 @@ void CGContext::fillStrokeClip(
 	}
 
 	SafeRelease(&pTransformedGeometry);
-}
-
-void CGContext::addArcToPoint(dl_CGFloat x1, dl_CGFloat y1, dl_CGFloat x2, dl_CGFloat y2, dl_CGFloat radius)
-{
-	// we need a way of getting the current point to even do this
-	// going to need some inspection + work
-
-	// but roughly: find angle between the two lines (current point to x1/y1, then to x2/y2)
-	// use that to calculate length of line/leg to trim (to arc tangent)
-	// etc
-	throw std::exception("CGContext::addArcToPoint not yet implemented");
 }
 
 void CGContext::commonTextDraw(

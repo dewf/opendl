@@ -299,7 +299,7 @@ void CGContext::addArcToPoint(dl_CGFloat x1, dl_CGFloat y1, dl_CGFloat x2, dl_CG
     // draw the damn thing
     cairo_line_to(cr, arc0x, arc0y);
     cairo_arc(cr, arcCenterX, arcCenterY, radius, angle0, angle1);
-    cairo_line_to(cr, x2, y2);
+    // we end at the end of that arc, resume drawing from there
 }
 
 void CGContext::drawImage(dl_CGRect rect, CGImageRef image)

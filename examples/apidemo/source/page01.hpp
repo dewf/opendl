@@ -60,6 +60,12 @@ void doClippedCircle(dl_CGContextRef context) {
 	dl_CGContextDrawPath(context, dl_kCGPathFillStroke);
 }
 
+dl_CGPoint betweenPoints(dl_CGPoint a, dl_CGPoint b) {
+    auto x = (a.x + b.x) / 2.0;
+    auto y = (a.y + b.y) / 2.0;
+    return dl_CGPointMake(x, y);
+}
+
 class CPage01 : public PageCommon {
 	int minWidth, minHeight;
 	int maxWidth, maxHeight;
@@ -273,7 +279,7 @@ public:
 
 		dl_CGContextRestoreGState(context);
 
-		// alpha rects
+		// alpha rects ==========================================
 		dl_CGContextSaveGState(context);
 
 		dl_CGRect r6 = { 0, 0, 130, 100 };
@@ -288,29 +294,32 @@ public:
 		dl_CGContextRotateCTM(context, animAngle);
 
 		auto rounded = dl_CGPathCreateWithRoundedRect(r6, 10, 10, nullptr);
+        auto cornerCircle = dl_CGPathCreateWithEllipseInRect(r7, nullptr);
 		for (int i = 0; i < numRects; i++) {
 			dl_CGContextSetRGBFillColor(context, tint, tint / 2, 0, tint);
 			dl_CGContextAddPath(context, rounded);
 			dl_CGContextFillPath(context);
-			//dl_CGContextFillRect(context, r6);
 
 			dl_CGContextSetRGBStrokeColor(context, 0, 0, 0, 1.0);
-			//dl_CGContextStrokeRectWithWidth(context, r6, 2.0);
 			dl_CGContextAddPath(context, rounded);
+            dl_CGContextSetLineWidth(context, 1.5);
 			dl_CGContextStrokePath(context);
-
+            
+            // yellow corner thing
 			dl_CGContextSetRGBFillColor(context, 1, 1, 0, 1);
-			dl_CGContextFillRect(context, r7);
+            dl_CGContextAddPath(context, cornerCircle);
+            dl_CGContextFillPath(context);
 
 			dl_CGContextRotateCTM(context, rotAngle);
 			tint -= tintAdjust;
 		}
+        dl_CGPathRelease(cornerCircle);
 		dl_CGPathRelease(rounded);
 
 		dl_CGContextRestoreGState(context);
 
 
-		// clipping example
+		// clipping example =====================================
 		dl_CGContextSaveGState(context);
 
 		dl_CGContextScaleCTM(context, 0.75, 0.75);
@@ -319,6 +328,35 @@ public:
 		doClippedCircle(context);
 
 		dl_CGContextRestoreGState(context);
+        
+        // curved corner triangle thing =========================
+        dl_CGContextSaveGState(context);
+        
+        dl_CGPoint points[] = { {150, 150}, {540, 340}, {130, 540}};
+        
+        // line version
+        dl_CGContextMoveToPoint(context, points[0].x, points[0].y);
+        dl_CGContextAddLineToPoint(context, points[1].x, points[1].y);
+        dl_CGContextAddLineToPoint(context, points[2].x, points[2].y);
+        dl_CGContextClosePath(context);
+        //
+        dl_CGContextSetRGBStrokeColor(context, 1, 1, 1, 0.5);
+        dl_CGContextSetLineWidth(context, 1.0);
+        dl_CGContextStrokePath(context);
+        
+        // curved version
+        dl_CGPoint startEnd = betweenPoints(points[2], points[0]);
+        dl_CGContextMoveToPoint(context, startEnd.x, startEnd.y);
+        dl_CGContextAddArcToPoint(context, points[0].x, points[0].y, points[1].x, points[1].y, 20.0);
+        dl_CGContextAddArcToPoint(context, points[1].x, points[1].y, points[2].x, points[2].y, 20.0);
+        dl_CGContextAddArcToPoint(context, points[2].x, points[2].y, points[0].x, points[0].y, 20.0);
+        dl_CGContextClosePath(context);
+        //
+        dl_CGContextSetRGBStrokeColor(context, 1, 1, 0, 1);
+        dl_CGContextSetLineWidth(context, 2.0);
+        dl_CGContextStrokePath(context);
+        
+        dl_CGContextRestoreGState(context);
 	}
 };
 

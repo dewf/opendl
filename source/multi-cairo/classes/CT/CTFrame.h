@@ -17,6 +17,7 @@ class CTFrame; typedef CTFrame *CTFrameRef;
 class CTFrame : public cf::Object {
     MyPangoLayoutRef pangoLayout = nullptr;
     std::vector<CTLineRef> lines;
+    cf::ArrayRef publicLines = nullptr; // CFArray around the lines, for public reading
     CGPathRef path = nullptr;
     dl_CGRect rect = dl_CGRectZero;
 public:
@@ -32,9 +33,11 @@ public:
         for (auto &ls: lineStructs) {
             lines.push_back(new CTLine(ls, pangoLayout, false)); // false = not owned / weak ref to layout
         }
+        publicLines = cf::Array::create((cf::ObjectRef *)lines.data(), lines.size());
     }
 
     ~CTFrame() override {
+        publicLines->release();
         for (auto line: lines) {
             line->release();
         }
@@ -63,8 +66,10 @@ public:
         context->restoreGState();
     }
 
-    cf::ArrayRef getLines(); // in cpp due to mutual dependence on CTLine
-    void getLineOrigins(dl_CFRange range, dl_CGPoint origins[]); // same
+    cf::ArrayRef getLines() {
+        return publicLines;
+    };
+    void getLineOrigins(dl_CFRange range, dl_CGPoint origins[]);
 
     RETAIN_AND_AUTORELEASE(CTFrame);
     WEAKREF_MAKE(CTFrame);

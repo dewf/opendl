@@ -138,7 +138,7 @@ dl_CGFloat CTLine::getOffsetForStringIndex(dl_CFIndex charIndex, dl_CGFloat *sec
 	auto idwtl = layout->getRawLayout();
 	FLOAT pointX, pointY;
 	DWRITE_HIT_TEST_METRICS metrics;
-	HR(idwtl->HitTestTextPosition(charIndex, FALSE, &pointX, &pointY, &metrics));
+	HR(idwtl->HitTestTextPosition((UINT32)charIndex, FALSE, &pointX, &pointY, &metrics));
 	// must be relative to origin
 	auto origin = getOrigin();
 	pointX -= (FLOAT)origin.x;

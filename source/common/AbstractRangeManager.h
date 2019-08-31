@@ -77,7 +77,7 @@ public:
 		// this defines the endpoints of segments with 0+ StartEndItems being active during the segment
 		std::map<unsigned int, std::vector<StartEndItem>> grouped;
 		for (auto iloc = locations.begin(); iloc != locations.end(); iloc++) {
-			grouped[iloc->loc].push_back(*iloc);
+			grouped[(unsigned int)iloc->loc].push_back(*iloc);
 		}
 		// step through each time, emit a segment with all open/active effects
 		std::set<size_t> active; // active indices

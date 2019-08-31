@@ -96,7 +96,7 @@ namespace cf {
 		void dump() {
 			printf("AttrString: [%s]\n", str->toString().c_str());
 			for (auto &range : ranges) {
-				printf(" - range [%ld,%ld)\n", range.range.location, dl_CFRangeEnd(range.range));
+				printf(" - range [%td,%td)\n", range.range.location, dl_CFRangeEnd(range.range));
 				auto count = range.attrs->getCount();
 				auto keys = new ObjectRef[count];
 				auto values = new ObjectRef[count];

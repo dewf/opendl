@@ -208,8 +208,8 @@ inline float pointsToDIP(float pointSize) {
 
 inline DWRITE_TEXT_RANGE dwTextRangeFromDLRange(dl_CFRange r) {
 	DWRITE_TEXT_RANGE ret;
-	ret.startPosition = r.location;
-	ret.length = r.length;
+	ret.startPosition = (UINT32)r.location;
+	ret.length = (UINT32)r.length;
 	return ret;
 }
 

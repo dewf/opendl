@@ -199,7 +199,7 @@ OPENDL_API dl_CGPathRef CDECL dl_CGPathCreateWithRoundedRect(dl_CGRect rect, dl_
 
 OPENDL_API void CDECL dl_CGPathRelease(dl_CGPathRef path)
 {
-    delete (CGPathRef)path;
+    ((CGPathRef)path)->release();
 }
 
 OPENDL_API void CDECL dl_CGContextAddPath(dl_CGContextRef context, dl_CGPathRef path)

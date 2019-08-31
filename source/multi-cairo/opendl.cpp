@@ -330,9 +330,8 @@ OPENDL_API void dl_CGContextSetTextMatrix(dl_CGContextRef c, dl_CGAffineTransfor
     ((CGContextRef)c)->setTextMatrix(t);
 }
 
-OPENDL_API dl_CTFramesetterRef CDECL dl_CTFramesetterCreateWithAttributedString(dl_CFAttributedStringRef attrString, int viewHeight)
+OPENDL_API dl_CTFramesetterRef CDECL dl_CTFramesetterCreateWithAttributedString(dl_CFAttributedStringRef attrString)
 {
-    // viewHeight param only used on OSX platform to flip text
     return (dl_CTFramesetterRef) new CTFrameSetter((cf::AttributedStringRef)attrString);
 }
 

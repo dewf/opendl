@@ -233,8 +233,7 @@ extern "C" {
 	OPENDL_API dl_CGFloat CDECL dl_CTFontGetUnderlineThickness(dl_CTFontRef font);
 	OPENDL_API dl_CGFloat CDECL dl_CTFontGetUnderlinePosition(dl_CTFontRef font);
 
-    // API here differs from Quartz: we add a viewHeight argument when creating a framesetter, which helps with flipping text rendering vertically
-    OPENDL_API dl_CTFramesetterRef CDECL dl_CTFramesetterCreateWithAttributedString(dl_CFAttributedStringRef attrString, int viewHeight);
+    OPENDL_API dl_CTFramesetterRef CDECL dl_CTFramesetterCreateWithAttributedString(dl_CFAttributedStringRef attrString);
     
     OPENDL_API dl_CTFrameRef CDECL dl_CTFramesetterCreateFrame(dl_CTFramesetterRef framesetter,
                                                    dl_CFRange stringRange, dl_CGPathRef path, dl_CFDictionaryRef frameAttributes);

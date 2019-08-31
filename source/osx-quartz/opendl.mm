@@ -70,6 +70,7 @@ struct ExoContext : ExoClass {
     dl_CGContextRef context;
     int height;
     CGAffineTransform flipMatrix, inverseMatrix;
+    dl_CGFloat lastYTranslation = 0;
     ExoContext(dl_CGContextRef c, int height)
         :ExoClass(c),
          context(c),
@@ -83,12 +84,19 @@ struct ExoContext : ExoClass {
         // nothing yet
         // de-association taken care of by dlExoClass
     }
-    void beginFlip() {
+    void beginFlip(dl_CGFloat yTranslation = 0) {
         CGContextConcatCTM(CC(context), flipMatrix);
+        if (yTranslation != 0) {
+            CGContextTranslateCTM(CC(context), 0, yTranslation);
+        }
+        lastYTranslation = yTranslation;
     }
     void endFlip() {
         // FYI, we can't do a Save/RestoreGState because doing a Restore pops the clipping mask! and sometimes we definitely don't want that!!! (sigh)
         // this isn't more difficult, but it was less obvious that the other way had unwanted side effects :)
+        if (lastYTranslation != 0) {
+            CGContextTranslateCTM(CC(context), 0, -lastYTranslation);
+        }
         CGContextConcatCTM(CC(context), inverseMatrix);
     }
     CGPoint transformPoint(const CGPoint &p) {
@@ -393,11 +401,10 @@ OPENDL_API dl_CTFontRef CDECL dl_CTFontCreateCopyWithSymbolicTraits(dl_CTFontRef
 struct ExoFramesetter : ExoClass {
     dl_CTFramesetterRef fs;
     CGAffineTransform flipMatrix;
-    ExoFramesetter(dl_CTFramesetterRef fs, int viewHeight)
+    ExoFramesetter(dl_CTFramesetterRef fs)
         :ExoClass(fs), fs(fs)
     {
-        auto m1 = CGAffineTransformTranslate(CGAffineTransformIdentity, 0, viewHeight);
-        flipMatrix = CGAffineTransformScale(m1, 1.0, -1.0);
+        flipMatrix = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, -1.0);
     }
     ~ExoFramesetter() override {
         // nothing yet
@@ -410,10 +417,10 @@ struct ExoFramesetter : ExoClass {
     }
 };
 
-OPENDL_API dl_CTFramesetterRef dl_CTFramesetterCreateWithAttributedString(dl_CFAttributedStringRef string, int viewHeight)
+OPENDL_API dl_CTFramesetterRef dl_CTFramesetterCreateWithAttributedString(dl_CFAttributedStringRef string)
 {
     auto fs = (dl_CTFramesetterRef)CTFramesetterCreateWithAttributedString((CFAttributedStringRef)string);
-    new ExoFramesetter(fs, viewHeight); // create + associate exoclass data
+    new ExoFramesetter(fs); // create + associate exoclass data
     return fs;
 }
 
@@ -555,7 +562,7 @@ OPENDL_API dl_CGFloat CDECL dl_CTFontGetUnderlinePosition(dl_CTFontRef font)
 OPENDL_API void CDECL dl_CTFrameDraw(dl_CTFrameRef frame, dl_CGContextRef context)
 {
     auto exoContext = ExoContext::getFor(context);
-    exoContext->beginFlip();
+    exoContext->beginFlip(exoContext->height); // notice extra y translation param! needed for frame drawing
     CTFrameDraw((CTFrameRef)frame, CC(context));
     exoContext->endFlip();
 }

@@ -23,7 +23,7 @@ void drawTextInShape(dl_CGContextRef context, int viewHeight, dl_CGPathRef path,
 	}
 
 	// framesetter
-	auto framesetter = dl_CTFramesetterCreateWithAttributedString(attrString, viewHeight);
+	auto framesetter = dl_CTFramesetterCreateWithAttributedString(attrString);
 	auto frame = dl_CTFramesetterCreateFrame(framesetter, dl_CFRangeMake(0, 0), path, NULL);
 
 	// draw

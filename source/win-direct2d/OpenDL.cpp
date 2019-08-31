@@ -450,9 +450,8 @@ OPENDL_API dl_CGFloat CDECL dl_CTFontGetUnderlinePosition(dl_CTFontRef font)
 	return ulPos;
 }
 
-OPENDL_API dl_CTFramesetterRef CDECL dl_CTFramesetterCreateWithAttributedString(dl_CFAttributedStringRef attrString, int viewHeight)
+OPENDL_API dl_CTFramesetterRef CDECL dl_CTFramesetterCreateWithAttributedString(dl_CFAttributedStringRef attrString)
 {
-	// we don't currently use the viewHeight argument - was placed there (breaking the Quartz API a bit) to allow for flipped text rendering on OSX
 	return (dl_CTFramesetterRef)CTFrameSetter::createWithAttributedString((cf::AttributedStringRef)attrString);
 }
 

@@ -342,7 +342,7 @@ public:
 		dl_CFAttributedStringEndEditing(attrString);
 
 		// framesetter
-		auto framesetter = dl_CTFramesetterCreateWithAttributedString(attrString, height);
+		auto framesetter = dl_CTFramesetterCreateWithAttributedString(attrString);
 		auto frame = dl_CTFramesetterCreateFrame(framesetter, dl_CFRangeMake(0, 0), rectPath, NULL);
 
 		// draw background color, underlines

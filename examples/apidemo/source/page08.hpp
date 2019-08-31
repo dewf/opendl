@@ -82,7 +82,7 @@ public:
 	}
     
     void doLayout(int height) {
-        auto fs = dl_CTFramesetterCreateWithAttributedString(currentAttrString, height);
+        auto fs = dl_CTFramesetterCreateWithAttributedString(currentAttrString);
         auto path = dl_CGPathCreateWithRect(textRect, nullptr);
         auto frameAttrs = dl_CFDictionaryCreate(nullptr, nullptr, 0);
         

@@ -21,6 +21,9 @@
     <ClCompile Include="..\..\..\source\common.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\page09.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\page01.hpp">
@@ -49,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\source\page08.hpp">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\page09.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

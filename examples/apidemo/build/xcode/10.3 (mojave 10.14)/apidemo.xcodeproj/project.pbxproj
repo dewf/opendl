@@ -10,6 +10,7 @@
 		6579BC332206CD990048136C /* common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6579BC322206CD990048136C /* common.cpp */; };
 		65A7409E2303A14D00798F2C /* OpenDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65B15E1123039EE800694235 /* OpenDL.framework */; };
 		65A7409F2303A14D00798F2C /* OpenWL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A7409B2303A14500798F2C /* OpenWL.framework */; };
+		65AC040B235B83A600502DD4 /* page09.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65AC0405235B83A600502DD4 /* page09.cpp */; };
 		65B5663C219D8E5300BCA920 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B5663B219D8E5300BCA920 /* AppDelegate.m */; };
 		65B56640219D8E5300BCA920 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65B5663F219D8E5300BCA920 /* Images.xcassets */; };
 		65B56643219D8E5300BCA920 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65B56641219D8E5300BCA920 /* MainMenu.xib */; };
@@ -66,6 +67,8 @@
 		6579BC392206CDA30048136C /* page03.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = page03.hpp; sourceTree = "<group>"; };
 		6579BC3A2206CDA30048136C /* page05.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = page05.hpp; sourceTree = "<group>"; };
 		65A740932303A14500798F2C /* OpenWL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenWL.xcodeproj; path = "../../../deps/openwl/build/xcode/10.3 (mojave 10.14)/OpenWL.xcodeproj"; sourceTree = "<group>"; };
+		65AC0405235B83A600502DD4 /* page09.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = page09.cpp; sourceTree = "<group>"; };
+		65AC040A235B83A600502DD4 /* page09.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = page09.h; sourceTree = "<group>"; };
 		65B15E0B23039EE800694235 /* OpenDL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenDL.xcodeproj; path = "../../../../../build/xcode/10.3 (mojave 10.14)/OpenDL.xcodeproj"; sourceTree = "<group>"; };
 		65B56635219D8E5300BCA920 /* apidemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = apidemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65B56639219D8E5300BCA920 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -195,6 +198,8 @@
 				6579BC372206CDA30048136C /* page06.hpp */,
 				6579BC362206CDA30048136C /* page07.hpp */,
 				65F629122220F899000E853E /* page08.hpp */,
+				65AC0405235B83A600502DD4 /* page09.cpp */,
+				65AC040A235B83A600502DD4 /* page09.h */,
 				6579BC322206CD990048136C /* common.cpp */,
 				6579BC312206CD990048136C /* common.h */,
 				65ED5062219D8EC000B02528 /* main.cpp */,
@@ -345,6 +350,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				65ED5064219D8EC000B02528 /* main.cpp in Sources */,
+				65AC040B235B83A600502DD4 /* page09.cpp in Sources */,
 				6579BC332206CD990048136C /* common.cpp in Sources */,
 				65B5663C219D8E5300BCA920 /* AppDelegate.m in Sources */,
 			);

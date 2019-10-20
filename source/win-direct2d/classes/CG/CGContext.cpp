@@ -187,13 +187,32 @@ void CGContext::clipTargetByHalfPlane(dl_CGPoint hp_point, dl_CGPoint hp_vec) {
 	auto size = target->GetSize();
 	dl_CGRect rect = { {0, 0}, {size.width, size.height} };
 
-	if (pointIsCorner(rect, hp_point)) {
-		// skip this point, it would clip nothing
-	}
-	else {
+	// inverse transform viewport rect, into current transform space
+	D2D1::Matrix3x2F m;
+	target->GetTransform(&m);
+	m.Invert();
+	D2D1_POINT_2F rawCorners[4] = {
+		m.TransformPoint(D2D1::Point2F(0, 0)),
+		m.TransformPoint(D2D1::Point2F(size.width, 0)),
+		m.TransformPoint(D2D1::Point2F(size.width, size.height)),
+		m.TransformPoint(D2D1::Point2F(0, size.height))
+	};
+	dl_CGPoint viewCorners[4] = {
+		dl_CGPointMake(rawCorners[0].x, rawCorners[0].y),
+		dl_CGPointMake(rawCorners[1].x, rawCorners[1].y),
+		dl_CGPointMake(rawCorners[2].x, rawCorners[2].y),
+		dl_CGPointMake(rawCorners[3].x, rawCorners[3].y),
+	};
+	//if (pointIsCoincident(hp_point, viewCorners, 4)) {
+	//	// skip this point, it would clip nothing
+	//	// EDIT: wait, what? makes no sense ...
+	//	printf("### CGContext::clipTargetByHalfPlane - pointIsCoincident() was true - pretty sure this shouldn't even be here ...\n");
+	//}
+	//else {
 		dl_CGPoint clipPoints[10]; // pretty sure the mathematical max is 5, but just in case ...
 		int clipPointCount = 0;
-		clipRectByHalfPlane(rect, hp_point, hp_vec, clipPoints, &clipPointCount);
+		//clipRectByHalfPlane(rect, hp_point, hp_vec, clipPoints, &clipPointCount);
+		clipPolyByHalfPlane(viewCorners, 4, hp_point, hp_vec, clipPoints, &clipPointCount);
 
 		//dl_CGContextBeginPath(c);
 		beginPath();
@@ -207,7 +226,7 @@ void CGContext::clipTargetByHalfPlane(dl_CGPoint hp_point, dl_CGPoint hp_vec) {
 		//dl_CGContextClip(c);
 		closePath();
 		clipCurrentPath();
-	}
+	//}
 }
 
 void CGContext::fillStrokeClip(

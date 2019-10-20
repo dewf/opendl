@@ -63,6 +63,18 @@ void cornersFromRect(dl_CGRect rect, dl_CGPoint corners[4]) {
 	corners[3] = dl_CGPointMake(rect.origin.x, rect.origin.y + rect.size.height);
 }
 
+bool pointIsCoincident(dl_CGPoint p, dl_CGPoint *compare, int compareCount)
+{
+	for (int i = 0; i < compareCount; i++) {
+		if (fabs(p.x - compare[i].x) <= GHETTO_EPSILON &&
+			fabs(p.y - compare[i].y) <= GHETTO_EPSILON)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 bool pointIsCorner(dl_CGRect rect, dl_CGPoint p)
 {
 	dl_CGPoint corners[4];
@@ -77,13 +89,14 @@ bool pointIsCorner(dl_CGRect rect, dl_CGPoint p)
 	return false;
 }
 
-void clipRectByHalfPlane(dl_CGRect rect, dl_CGPoint hp_point, dl_CGPoint hp_vec, dl_CGPoint *outPoints, int *outCount)
+//void clipRectByHalfPlane(dl_CGRect rect, dl_CGPoint hp_point, dl_CGPoint hp_vec, dl_CGPoint *outPoints, int *outCount)
+void clipPolyByHalfPlane(dl_CGPoint *points, int numPoints, dl_CGPoint hp_point, dl_CGPoint hp_vec, dl_CGPoint *outPoints, int *outCount)
 {
 	// get line perpendicular to vec2f through point (rotating left)
 	dl_CGPoint perp_vec = normalizeVec2F(dl_CGPointMake(hp_vec.y, -hp_vec.x));
 
-	dl_CGPoint corners[4];
-	cornersFromRect(rect, corners);
+	//dl_CGPoint corners[4];
+	//cornersFromRect(rect, corners);
 	//dl_CGPoint corners[] = {
 	//	{ rect.origin.x, rect.origin.y },
 	//	{ rect.origin.x + rect.size.width, rect.origin.y },
@@ -91,10 +104,10 @@ void clipRectByHalfPlane(dl_CGRect rect, dl_CGPoint hp_point, dl_CGPoint hp_vec,
 	//	{ rect.origin.x, rect.origin.y + rect.size.height }
 	//};
 
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < numPoints; i++) {
 		// segment to intersect
-		dl_CGPoint p1 = corners[i];
-		dl_CGPoint p2 = corners[(i + 1) % 4];
+		dl_CGPoint p1 = points[i];
+		dl_CGPoint p2 = points[(i + 1) % numPoints];
 
 		// check points of segment
 		// technically we're checking all points twice, wasteful but no need to optimize that away right now

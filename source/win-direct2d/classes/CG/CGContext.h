@@ -388,12 +388,11 @@ public:
 
 	inline void rotateCTM(dl_CGFloat angle)
 	{
-		D2D1_MATRIX_3X2_F m;
+		D2D1::Matrix3x2F m;
 		target->GetTransform(&m);
-		// rotate around current translation point
-		auto center = D2D1::Point2F(m.dx, m.dy);
+		auto center = D2D1::Point2F(0, 0);
 		auto rotation = D2D1::Matrix3x2F::Rotation((FLOAT)((angle * 360.0) / (M_PI * 2)), center);
-		target->SetTransform(m * rotation);
+		target->SetTransform(rotation * m);
 	}
 
 	inline void scaleCTM(dl_CGFloat scaleX, dl_CGFloat scaleY)
@@ -442,14 +441,24 @@ public:
 
 	inline void clipToRect(dl_CGRect rect)
 	{
-		//auto d2dRect = D2D1::RectF((FLOAT)rect.origin.x, (FLOAT)rect.origin.y, (FLOAT)rect.origin.x + (FLOAT)rect.size.width, (FLOAT)rect.origin.y + (FLOAT)rect.size.height);
-		target->PushAxisAlignedClip(
-			d2dRectFromDlRect(rect),
-			D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+		D2D1::Matrix3x2F m;
+		target->GetTransform(&m);
+		if (m.IsIdentity()) {
+			// can only use axis-aligned clip if there is no transform active,
+			// otherwise it's ... not going to work (well, technically if it was only transformed / scaled but not rotated, then it might be OK)
+			target->PushAxisAlignedClip(
+				d2dRectFromDlRect(rect),
+				D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 
-		ClipStackItem item;
-		item.itemType = ClipStackItemType_AxisAligned;
-		drawState()->clipStack.push_back(item);
+			ClipStackItem item;
+			item.itemType = ClipStackItemType_AxisAligned;
+			drawState()->clipStack.push_back(item);
+		}
+		else {
+			// do it the hard way ...
+			addRect(rect);
+			clipCurrentPath();
+		}
 	}
 
 	inline void saveGState()
@@ -470,6 +479,31 @@ public:
 	inline void setStrokeColorWithColor(dl_CGColorRef color)
 	{
 		drawState()->strokeBrush = ((CGColorRef)color)->getCachedBrush(target);
+	}
+
+	void fillViewportWithBrush(ID2D1LinearGradientBrush * gradBrush)
+	{
+		// must take into account that we might have a current transform, in which case Rect2F(0, 0, width, height) will no longer work properly
+		// create inverse transform and acquire viewport corners that way, sigh
+		D2D1::Matrix3x2F xform;
+		target->GetTransform(&xform);
+		xform.Invert();
+		auto size = target->GetSize();
+		auto p0 = xform.TransformPoint(D2D1::Point2F(0, 0));
+		auto p1 = xform.TransformPoint(D2D1::Point2F(size.width, 0));
+		auto p2 = xform.TransformPoint(D2D1::Point2F(size.width, size.height));
+		auto p3 = xform.TransformPoint(D2D1::Point2F(0, size.height));
+		beginPath();
+		moveToPoint(p0.x, p0.y);
+		addLineToPoint(p1.x, p1.y);
+		addLineToPoint(p2.x, p2.y);
+		addLineToPoint(p3.x, p3.y);
+		closePath();
+
+		auto currentPath = pathFromElements(D2D1_FIGURE_BEGIN_FILLED);
+		target->FillGeometry(currentPath, gradBrush);
+		SafeRelease(&currentPath);
+		pathElements.clear();
 	}
 
 	inline void drawLinearGradient(dl_CGGradientRef gradient, dl_CGPoint startPoint, dl_CGPoint endPoint, dl_CGGradientDrawingOptions options)
@@ -501,8 +535,12 @@ public:
 			dl_CGPoint vec2 = { -vec.x, -vec.y };
 			clipTargetByHalfPlane({ endPoint.x, endPoint.y }, vec2);
 		}
-		auto size = target->GetSize();
-		target->FillRectangle(D2D1::RectF(0, 0, size.width, size.height), gradBrush);
+
+		// fill the entire viewport, because the gradient might extend beyond the start/end points
+		// (will be clipped by half planes above if not)
+		fillViewportWithBrush(gradBrush);
+
+		//target->FillRectangle(r2, gradBrush);
 
 		// end clip mask
 		restoreGState();

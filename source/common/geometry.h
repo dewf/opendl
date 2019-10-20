@@ -11,6 +11,7 @@ extern "C" {
 
 	bool pointInHalfPlane(dl_CGPoint point, dl_CGPoint hp_point, dl_CGPoint hp_vec);
 
+	bool pointIsCoincident(dl_CGPoint p, dl_CGPoint *compare, int compareCount);
 	bool pointIsCorner(dl_CGRect rect, dl_CGPoint p);
 
 	typedef enum {
@@ -26,7 +27,8 @@ extern "C" {
 	} IntersectResult;
 
 	IntersectResult segmentIntersectLine(dl_CGPoint p1, dl_CGPoint p2, dl_CGPoint line_point, dl_CGPoint line_vec);
-	void clipRectByHalfPlane(dl_CGRect rect, dl_CGPoint hp_point, dl_CGPoint hp_vec, dl_CGPoint *outPoints, int *outCount);
+	void clipPolyByHalfPlane(dl_CGPoint *points, int numPoints, dl_CGPoint hp_point, dl_CGPoint hp_vec, dl_CGPoint *outPoints, int *outCount);
+	//void clipRectByHalfPlane(dl_CGRect rect, dl_CGPoint hp_point, dl_CGPoint hp_vec, dl_CGPoint *outPoints, int *outCount);
 
 	inline double vectorLength(double dx, double dy);
 	inline void normalizeVector(double &dx, double &dy);

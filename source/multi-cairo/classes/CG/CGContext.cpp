@@ -15,9 +15,25 @@ void CGContext::clipTargetByHalfPlane(dl_CGPoint hp_point, dl_CGPoint hp_vec) {
     dl_CGRect rect = {{0,               0},
                    {(dl_CGFloat) width, (dl_CGFloat) height}};
 
+    // inverse transform, get viewport corners in current transform space
+    // this is the basic polygon we're going to trim
+    cairo_matrix_t m;
+    cairo_get_matrix(cr, &m);
+    cairo_matrix_invert(&m);
+    dl_CGPoint viewCorners[4] = {
+            {0, 0},
+            { (dl_CGFloat)width, 0},
+            { (dl_CGFloat)width, (dl_CGFloat)height},
+            { 0, (dl_CGFloat)height}
+    };
+    for (auto &vc : viewCorners) {
+        cairo_matrix_transform_point(&m, &vc.x, &vc.y);
+    }
+
+    // perform the actual poly clip
     dl_CGPoint clipPoints[10]; // pretty sure the mathematical max is 5, but just in case ...
     int clipPointCount = 0;
-    clipRectByHalfPlane(rect, hp_point, hp_vec, clipPoints, &clipPointCount);
+    clipPolyByHalfPlane(viewCorners, 4, hp_point, hp_vec, clipPoints, &clipPointCount);
 
     beginPath();
     moveToPoint(clipPoints[0].x, clipPoints[0].y);
@@ -50,15 +66,46 @@ void CGContext::drawLinearGradient(dl_CGGradientRef gradient, dl_CGPoint startPo
         dl_CGPoint vec2 = {-vec.x, -vec.y};
         clipTargetByHalfPlane({endPoint.x, endPoint.y}, vec2);
     }
-    cairo_rectangle(cr, 0, 0, width, height);
-    cairo_set_source(cr, pattern);
-    cairo_fill(cr);
+
+    fillViewportWithPattern(pattern);
 
     restoreGState();
     // end clip mask
 
     // free
     cairo_pattern_destroy(pattern);
+}
+
+void CGContext::fillViewportWithPattern(cairo_pattern_t *pattern) const {
+    // fill entire view
+    // requires knowing the points that will eventually map to the corners, post transform
+    cairo_matrix_t m;
+    cairo_get_matrix(cr, &m);
+    cairo_matrix_invert(&m);
+
+    dl_CGPoint corners[4] = {
+            dl_CGPointMake(0, 0),
+            dl_CGPointMake(width, 0),
+            dl_CGPointMake(width, height),
+            dl_CGPointMake(0, height)
+    };
+    for (auto &corner : corners) {
+        cairo_matrix_transform_point(&m, &corner.x, &corner.y);
+    }
+
+    // fill the polygon with the pattern
+//    cairo_new_path(cr);
+    cairo_move_to(cr, corners[0].x, corners[0].y);
+    cairo_line_to(cr, corners[1].x, corners[1].y);
+    cairo_line_to(cr, corners[2].x, corners[2].y);
+    cairo_line_to(cr, corners[3].x, corners[3].y);
+    cairo_close_path(cr);
+
+    cairo_set_source(cr, pattern);
+    cairo_fill(cr);
+//    cairo_rectangle(cr, 0, 0, width, height);
+//    cairo_set_source(cr, pattern);
+//    cairo_fill(cr);
 }
 
 static void luminance_to_alpha(cairo_surface_t *surface, int width, int height) {

@@ -13,7 +13,9 @@ set(SOURCE_FILES
         "../../source/page05.hpp"
         "../../source/page06.hpp"
         "../../source/page07.hpp"
-        "../../source/page08.hpp")
+        "../../source/page08.hpp"
+        "../../source/page09.cpp"
+        )
 add_executable(apidemo ${SOURCE_FILES})
 
 add_subdirectory("../../../../build/clion" "${CMAKE_CURRENT_BINARY_DIR}/opendl") # 2nd arg is binary build dir

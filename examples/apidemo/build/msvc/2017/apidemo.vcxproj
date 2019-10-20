@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\source\common.cpp" />
     <ClCompile Include="..\..\..\source\main.cpp" />
+    <ClCompile Include="..\..\..\source\page09.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\common.h" />
@@ -32,6 +33,7 @@
     <ClInclude Include="..\..\..\source\page06.hpp" />
     <ClInclude Include="..\..\..\source\page07.hpp" />
     <ClInclude Include="..\..\..\source\page08.hpp" />
+    <ClInclude Include="..\..\..\source\page09.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\build\msvc\2017\opendl.vcxproj">

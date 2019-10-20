@@ -16,6 +16,7 @@
 #include "page06.hpp"
 #include "page07.hpp"
 #include "page08.hpp"
+#include "page09.h"
 
 enum actions {
     QUIT_ACTION
@@ -59,7 +60,8 @@ PageCommon *pages[] = {
 	new CPage05(&woot),
 	new CPage06(&woot),
 	new CPage07(&woot),
-	new CPage08(&woot)
+	new CPage08(&woot),
+	new CPage09(&woot)
 };
 const int NUMPAGES = sizeof(pages) / sizeof(PageCommon*);
 PageCommon *currentPage = pages[0];
@@ -141,6 +143,7 @@ int CDECL wlCallback(wl_WindowRef window, struct wl_Event *event, void *userData
 			case wl_kKey6:
 			case wl_kKey7:
 			case wl_kKey8:
+			case wl_kKey9:
 				if (event->keyEvent.eventType == wl_kKeyEventTypeDown) {
 					setPageIndex(event->keyEvent.key - wl_kKey1);
 				}

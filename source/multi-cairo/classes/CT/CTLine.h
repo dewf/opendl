@@ -121,6 +121,12 @@ public:
             context->drawGlyphRun(run, x, y);
         }
 
+        if (layoutOwned) {
+            // standalone line needs to advance text position
+            // (maybe other lines too? not sure yet)
+            context->advanceTextPosition(lineStruct.logicalRect.size.width);
+        }
+
         context->setMatrix(savedMatrix); // see note at beginning of method re: gstate
     }
 

@@ -306,4 +306,9 @@ void CGContext::drawImage(dl_CGRect rect, CGImageRef image)
     cairo_fill(cr);
 }
 
+void CGContext::advanceTextPosition(dl_CGFloat amount)
+{
+    textPosition.x += amount;
+}
+
 

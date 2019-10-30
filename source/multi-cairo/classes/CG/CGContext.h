@@ -395,6 +395,8 @@ public:
     void drawImage(dl_CGRect rect, CGImageRef image);
 
     void fillViewportWithPattern(cairo_pattern_t *pattern) const;
+
+    void advanceTextPosition(dl_CGFloat amount);
 };
 
 #endif //__CG_CONTEXT_H__

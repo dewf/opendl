@@ -128,6 +128,8 @@ void CTLine::draw(CGContextRef context)
 	auto pos = dl_CGPointMake(textPos.x, textPos.y - lineMetrics.baseline);
 	// "delegate" to our layout, which actually knows how to draw
 	layout->drawAtPosition(context, pos);
+	// must advance the text xpos to match Core Text behavior
+	context->advanceTextPosition(lineWidth);
 }
 
 cf::ArrayRef CTLine::getGlyphRuns() {

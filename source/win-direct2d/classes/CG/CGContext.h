@@ -83,6 +83,11 @@ public:
 		return textPosition;
 	}
 
+	void advanceTextPosition(dl_CGFloat amount) {
+		// rendering text causes the text position to move - matching OSX behavior
+		textPosition.x += (FLOAT)amount;
+	}
+
 	// TODO: would like to get rid of this, but it may be more trouble than it's worth for now
 	inline ID2D1RenderTarget *__getTarget() {
 		return target;

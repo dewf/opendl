@@ -43,7 +43,7 @@ void createFontMap() {
 		HR(family->GetFamilyNames(&familyNameStrings));
 
 		auto familyName = getLocaleSpecificName(familyNameStrings);
-		auto family_utf8 = wstring_to_utf8(familyName);
+		//auto family_utf8 = wstring_to_utf8(familyName);
 
 		// get all fonts in family + postscript names
 		UINT32 fontCount = family->GetFontCount();
@@ -62,7 +62,7 @@ void createFontMap() {
 			auto postscriptName = postscriptNameStringsExist ? getLocaleSpecificName(postscriptNameStrings) : std::wstring(L"(unknown)");
 
 			if (postscriptNameStringsExist) {
-				auto ps_utf8 = wstring_to_utf8(postscriptName);
+				//auto ps_utf8 = wstring_to_utf8(postscriptName);
 				//printf("%s -> %LS [%d]\n", ps_utf8.c_str(), fullName.c_str(), font->GetStretch());
 				// map ps name to family name | weight | style | stretch
 			}

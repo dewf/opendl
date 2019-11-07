@@ -15,10 +15,10 @@ DWriteLayout::DWriteLayout(cf::AttributedStringRef attrString)
 	// the real font(s) should be in the attributed string somewhere ...
 	static auto defaultFont = CTFont::getDefaultFont();
 
-	auto utf8 = attrString->getString()->getStdString();
+	auto cfString = attrString->getString();
 
 	// create default formatter
-	auto attrWideString = utf8_to_wstring(utf8);
+	auto attrWideString = utf16_to_wstring(cfString->getUtf16String());
 	HR(writeFactory->CreateTextLayout(
 		attrWideString.c_str(),
 		(UINT32)attrWideString.length(),
@@ -28,7 +28,7 @@ DWriteLayout::DWriteLayout(cf::AttributedStringRef attrString)
 		&layout));
 
 	// set RTL direction if necessary
-	auto text = icu::UnicodeString::fromUTF8(utf8.c_str());
+	auto text = icu::UnicodeString::fromUTF8(cfString->getUtf8String().c_str());
 	auto dir = ubidi_getBaseDirection(text.getBuffer(), text.length());
 	if (dir == UBIDI_RTL) {
 		layout->SetReadingDirection(DWRITE_READING_DIRECTION_RIGHT_TO_LEFT);

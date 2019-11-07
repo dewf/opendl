@@ -95,7 +95,8 @@ public:
 
 	static CTFontRef createWithName(cf::StringRef name, dl_CGFloat size, const dl_CGAffineTransform *matrix)
 	{
-		auto wideName = utf8_to_wstring(((cf::StringRef)name)->getStdString().c_str());
+		auto utf16 = ((cf::StringRef)name)->getUtf16String();
+		auto wideName = utf16_to_wstring(utf16);
 
 		IDWriteTextFormat *format;
 		HR(writeFactory->CreateTextFormat(

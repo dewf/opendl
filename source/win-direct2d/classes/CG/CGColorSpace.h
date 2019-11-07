@@ -31,7 +31,7 @@ public:
 	}
 
 	virtual std::string toString() const {
-		return sprintfToStdString("CGColorSpace@%p: {%s} [%s]", this, colorSpaceName->getStdString().c_str(), Object::toString().c_str());
+		return sprintfToStdString("CGColorSpace@%p: {%s} [%s]", this, colorSpaceName->getUtf8String().c_str(), Object::toString().c_str());
 	}
 
 	RETAIN_AND_AUTORELEASE(CGColorSpace)

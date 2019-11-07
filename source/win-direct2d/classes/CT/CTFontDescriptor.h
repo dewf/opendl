@@ -59,13 +59,13 @@ public:
 
 	static cf::ArrayRef createDescriptorsFromURL(cf::URLRef url) {
 		auto path = url->copyFileSystemPath(kCFURLWindowsPathStyle);
-		auto str = path->getStdString();
-		auto wideStr = utf8_to_wstring(str);
+		//auto str = path->getUtf8String();
+		auto wideStr = utf16_to_wstring(path->getUtf16String());
 
 		IDWriteFontFile *ff;
 		auto hr = writeFactory->CreateFontFileReference(wideStr.c_str(), NULL, &ff);
 		if (FAILED(hr)) {
-			printf("failed to load font file: %s\n", str.c_str());
+			printf("failed to load font file: %s\n", path->getUtf8String().c_str());
 			return nullptr;
 		}
 
@@ -83,7 +83,7 @@ public:
 			for (UINT32 i = 0; i < numFaces; i++) {
 				auto fd = new CTFontDescriptor(ff, fileType, faceType, i);
 				items.push_back(fd);
-				printf(" - created descriptor for font [%s] #%d\n", str.c_str(), i);
+				printf(" - created descriptor for font [%s] #%d\n", path->getUtf8String().c_str(), i);
 			}
 			ret = cf::Array::create((cf::ObjectRef *)items.data(), numFaces);
 		}

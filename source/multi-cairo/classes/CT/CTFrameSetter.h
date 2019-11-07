@@ -5,7 +5,7 @@
 #ifndef __CT_FRAMESETTER_H__
 #define __CT_FRAMESETTER_H__
 
-#include "../../../common/classes/CF/CFTypes.h"
+#include "../../../../deps/CFMinimal/source/CF/CFTypes.h"
 #include "../../../opendl.h"
 
 #include "../CG/CGPath.h"
@@ -35,7 +35,7 @@ public:
         attrString->release();
     }
 
-    CTFrameRef createFrame(dl_CFRange stringRange, CGPathRef path, cf::DictionaryRef frameAttrs) {
+    CTFrameRef createFrame(CFRange stringRange, CGPathRef path, cf::DictionaryRef frameAttrs) {
         cf::AttributedStringRef sub;
         if (stringRange.length == 0) {
             sub = attrString; // full string

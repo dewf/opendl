@@ -18,7 +18,7 @@
 
 #include "../common/geometry.h"
 
-#include "../common/classes/CF/CFTypes.h"
+#include "../../deps/CFMinimal/source/CF/CFTypes.h"
 
 #include "classes/CG/CGContext.h"
 #include "classes/CG/CGBitmapContext.h"
@@ -34,8 +34,8 @@
 #include "classes/CT/CTParagraphStyle.h"
 
 #include "util.h"
+#include "../common/util.h"
 
-const dl_CFIndex dl_kCFNotFound = -1;
 const dl_CGPoint dl_CGPointZero = dl_CGPointMake(0, 0);
 const dl_CGRect dl_CGRectZero = dl_CGRectMake(0, 0, 0, 0);
 const dl_CGAffineTransform dl_CGAffineTransformIdentity = { 1, 0, 0, 1, 0, 0 }; // a = 1, b = 0, c = 0, d = 1, tx = 0, ty = 0
@@ -338,7 +338,7 @@ OPENDL_API dl_CTFramesetterRef CDECL dl_CTFramesetterCreateWithAttributedString(
 OPENDL_API dl_CTFrameRef CDECL
 dl_CTFramesetterCreateFrame(dl_CTFramesetterRef framesetter, dl_CFRange stringRange, dl_CGPathRef path, dl_CFDictionaryRef frameAttributes)
 {
-    return (dl_CTFrameRef)((CTFrameSetterRef)framesetter)->createFrame(stringRange, (CGPathRef)path, (cf::DictionaryRef)frameAttributes);
+    return (dl_CTFrameRef)((CTFrameSetterRef)framesetter)->createFrame(STRUCT_CAST(stringRange, CFRange), (CGPathRef)path, (cf::DictionaryRef)frameAttributes);
 }
 
 OPENDL_API dl_CFArrayRef CDECL dl_CTFrameGetLines(dl_CTFrameRef frame)

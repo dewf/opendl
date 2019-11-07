@@ -1,7 +1,7 @@
 #ifndef __CG_COLOR_H__
 #define __CG_COLOR_H__
 
-#include "../../../common/classes/CF/CFTypes.h"
+#include "../../../../deps/CFMinimal/source/CF/CFTypes.h"
 #include "../../../opendl.h"
 
 class CGColor; typedef CGColor* CGColorRef;

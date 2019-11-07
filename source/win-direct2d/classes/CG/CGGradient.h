@@ -4,7 +4,7 @@
 //#include <d2d1helper.h>
 
 #include "../../../opendl.h"
-#include "../../../common/classes/CF/CFTypes.h"
+#include "../../../../deps/CFMinimal/source/CF/CFTypes.h"
 #include "CGColorSpace.h"
 
 class CGGradient; typedef CGGradient* CGGradientRef;

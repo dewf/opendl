@@ -32,15 +32,15 @@ inline void luminanceToAlpha(uint32_t &pixel) {
 //*p32 &= 0x00FFFFFF;
 //*p32 |= (lum << 24);
 
-#define SPRINTF_BUFFER_SIZE 4096
-std::string sprintfToStdString(const char *fmt, ...)
-{
-	char bigBuffer[SPRINTF_BUFFER_SIZE]; // let's keep it reentrant
-
-	va_list args;
-	va_start(args, fmt);
-	vsnprintf(bigBuffer, SPRINTF_BUFFER_SIZE, fmt, args);
-	va_end(args);
-
-	return std::string(bigBuffer);
-}
+//#define SPRINTF_BUFFER_SIZE 4096
+//std::string sprintfToStdString(const char *fmt, ...)
+//{
+//	char bigBuffer[SPRINTF_BUFFER_SIZE]; // let's keep it reentrant
+//
+//	va_list args;
+//	va_start(args, fmt);
+//	vsnprintf(bigBuffer, SPRINTF_BUFFER_SIZE, fmt, args);
+//	va_end(args);
+//
+//	return std::string(bigBuffer);
+//}

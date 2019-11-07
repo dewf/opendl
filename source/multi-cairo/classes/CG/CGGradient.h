@@ -5,7 +5,7 @@
 #ifndef __CG_GRADIENT_H__
 #define __CG_GRADIENT_H__
 
-#include "../../../common/classes/CF/CFTypes.h"
+#include "../../../../deps/CFMinimal/source/CF/CFTypes.h"
 #include "../../../opendl.h"
 
 #include "CGColorSpace.h"

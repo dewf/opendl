@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../common/classes/CF/CFTypes.h"
+#include "../../../../deps/CFMinimal/source/CF/CFTypes.h"
 #include "../../../opendl.h"
 #include "../../private_defs.h"
 

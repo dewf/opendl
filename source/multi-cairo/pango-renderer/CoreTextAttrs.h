@@ -7,7 +7,7 @@
 
 #include <cairo.h>
 #include <pango/pango.h>
-#include "../../common/classes/CF/CFTypes.h"
+#include "../../../deps/CFMinimal/source/CF/CFTypes.h"
 #include "../classes/CG/CGColor.h"
 #include "../classes/CT/CTFont.h"
 
@@ -66,7 +66,7 @@ public:
 
     bool getStrokeWidth(float *out) {
         auto valueRef = (cf::NumberRef) getValueFor((cf::StringRef) dl_kCTStrokeWidthAttributeName);
-        return valueRef && valueRef->getValue(dl_kCFNumberFloatType, out); // numberref was valid and successfully yielded the requested type
+        return valueRef && valueRef->getValue(kCFNumberFloatType, out); // numberref was valid and successfully yielded the requested type
     }
 
     CGColorRef getStrokeColor() {

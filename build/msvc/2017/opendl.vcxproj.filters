@@ -31,12 +31,6 @@
     <Filter Include="Source Files\common">
       <UniqueIdentifier>{de891ae7-3f1a-49a3-b4eb-82eb73eaa762}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\common\classes">
-      <UniqueIdentifier>{a1b5b952-84c7-4e3f-a9e6-b7d4a1b1f362}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\common\classes\CF">
-      <UniqueIdentifier>{0840f208-c7a9-426a-940b-6a34c7115ea2}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\win-direct2d\classes\CG\CGBitmapContext.h">
@@ -111,9 +105,6 @@
     <ClInclude Include="..\..\..\source\win-direct2d\unicodestuff.h">
       <Filter>Source Files\win-direct2d</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\source\common\AbstractRangeManager.h">
-      <Filter>Source Files\common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\source\common\ExoClass.h">
       <Filter>Source Files\common</Filter>
     </ClInclude>
@@ -122,48 +113,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\source\common\util.h">
       <Filter>Source Files\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\common\classes\CF\CFArray.h">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\common\classes\CF\CFAttributedString.h">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\common\classes\CF\CFBoolean.h">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\common\classes\CF\CFDictionary.h">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\common\classes\CF\CFMisc.h">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\common\classes\CF\CFMutableArray.h">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\common\classes\CF\CFMutableAttributedString.h">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\common\classes\CF\CFMutableDictionary.h">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\common\classes\CF\CFMutableString.h">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\common\classes\CF\CFNumber.h">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\common\classes\CF\CFObject.h">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\common\classes\CF\CFString.h">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\common\classes\CF\CFTypes.h">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\common\classes\CF\CFURL.h">
-      <Filter>Source Files\common\classes\CF</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\source\dlcf.h">
       <Filter>Source Files</Filter>
@@ -248,53 +197,11 @@
     <ClCompile Include="..\..\..\source\win-direct2d\unicodestuff.cpp">
       <Filter>Source Files\win-direct2d</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\common\AbstractRangeManager.cpp">
-      <Filter>Source Files\common</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\common\ExoClass.cpp">
       <Filter>Source Files\common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\common\util.cpp">
       <Filter>Source Files\common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\common\classes\CF\CFArray.cpp">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\common\classes\CF\CFAttributedString.cpp">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\common\classes\CF\CFBoolean.cpp">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\common\classes\CF\CFDictionary.cpp">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\common\classes\CF\CFMisc.cpp">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\common\classes\CF\CFMutableArray.cpp">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\common\classes\CF\CFMutableAttributedString.cpp">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\common\classes\CF\CFMutableDictionary.cpp">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\common\classes\CF\CFMutableString.cpp">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\common\classes\CF\CFNumber.cpp">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\common\classes\CF\CFObject.cpp">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\common\classes\CF\CFString.cpp">
-      <Filter>Source Files\common\classes\CF</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\common\classes\CF\CFURL.cpp">
-      <Filter>Source Files\common\classes\CF</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\win-direct2d\classes\CT\CTFontDescriptor.cpp">
       <Filter>Source Files\win-direct2d\classes\CT</Filter>
@@ -303,6 +210,9 @@
       <Filter>Source Files\win-direct2d\directwrite</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\common\geometry.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\common\dlcf.cpp">
       <Filter>Source Files\common</Filter>
     </ClCompile>
   </ItemGroup>

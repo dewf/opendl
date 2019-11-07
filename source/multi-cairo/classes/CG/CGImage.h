@@ -5,7 +5,7 @@
 #ifndef APIDEMO_CGIMAGE_H
 #define APIDEMO_CGIMAGE_H
 
-#include "../../../common/classes/CF/CFTypes.h"
+#include "../../../../deps/CFMinimal/source/CF/CFObject.h"
 #include "../../../opendl.h"
 
 #include <cairo/cairo.h>

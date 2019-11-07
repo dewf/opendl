@@ -7,7 +7,7 @@
 
 #include "caching.h"
 
-#include "../common/classes/CF/CFTypes.h"
+#include "../../deps/CFMinimal/source/CF/CFTypes.h"
 
 #include <objbase.h>
 #include <d2d1.h>
@@ -206,7 +206,7 @@ inline float pointsToDIP(float pointSize) {
 	return pointSize;
 }
 
-inline DWRITE_TEXT_RANGE dwTextRangeFromDLRange(dl_CFRange r) {
+inline DWRITE_TEXT_RANGE dwTextRangeFromDLRange(CFRange r) {
 	DWRITE_TEXT_RANGE ret;
 	ret.startPosition = (UINT32)r.location;
 	ret.length = (UINT32)r.length;

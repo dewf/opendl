@@ -4,7 +4,7 @@
 #define __CT_LINE_H__
 
 #include <pango/pangocairo.h>
-#include "../../../common/classes/CF/CFTypes.h"
+#include "../../../../deps/CFMinimal/source/CF/CFTypes.h"
 #include "../../../opendl.h"
 
 #include "../CG/CGContext.h"

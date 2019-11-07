@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../../opendl.h"
-#include "../../../common/classes/CF/CFTypes.h"
+#include "../../../../deps/CFMinimal/source/CF/CFTypes.h"
 #include "../../COMStuff.h"
 
 #include <wincodec.h>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../common/classes/CF/CFTypes.h"
+#include "../../../../deps/CFMinimal/source/CF/CFTypes.h"
 #include "../../../opendl.h"
 #include <objbase.h>
 #include <d2d1.h>

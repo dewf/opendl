@@ -48,6 +48,7 @@ cache:
   # - C:\tools\vcpkg\installed\
 
 install:
+  - git submodule update --init --recursive
   - choco install 7zip
   - if not exist C:\Downloads ( mkdir C:\Downloads )
   - cd C:\Downloads

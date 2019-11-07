@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../common/classes/CF/CFTypes.h"
+#include "../../../../deps/CFMinimal/source/CF/CFTypes.h"
 
 class CGColorSpace; typedef CGColorSpace* CGColorSpaceRef;
 class CGColorSpace : public cf::Object {

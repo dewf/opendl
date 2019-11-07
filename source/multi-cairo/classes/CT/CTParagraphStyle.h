@@ -1,7 +1,7 @@
 #ifndef APIDEMO_CTPARAGRAPHSTYLE_H
 #define APIDEMO_CTPARAGRAPHSTYLE_H
 
-#include "../../../common/classes/CF/CFTypes.h"
+#include "../../../../deps/CFMinimal/source/CF/CFTypes.h"
 #include "../../../opendl.h"
 
 #include <vector>

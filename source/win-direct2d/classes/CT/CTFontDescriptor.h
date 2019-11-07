@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../common/classes/CF/CFTypes.h"
+#include "../../../../deps/CFMinimal/source/CF/CFTypes.h"
 #include "../../../opendl.h"
 #include "../../private_defs.h"
 #include "../../unicodestuff.h"
@@ -58,7 +58,7 @@ public:
 	}
 
 	static cf::ArrayRef createDescriptorsFromURL(cf::URLRef url) {
-		auto path = url->copyFileSystemPath(dl_kCFURLWindowsPathStyle);
+		auto path = url->copyFileSystemPath(kCFURLWindowsPathStyle);
 		auto str = path->getStdString();
 		auto wideStr = utf8_to_wstring(str);
 

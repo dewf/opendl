@@ -18,7 +18,7 @@
 
 #include "../dlcf.h"
 
-#include "../common/classes/CF/CFTypes.h"
+#include "../../deps/CFMinimal/source/CF/CFTypes.h"
 
 #include "classes/CG/CGContext.h"
 #include "classes/CG/CGBitmapContext.h"
@@ -39,6 +39,9 @@
 #include <wincodec.h> // for IWICBitmap stuff
 
 #include "directwrite/DWriteFontUtils.h" // createFontMap
+
+
+#define STRUCT_CAST(x, y) (*((y*)(&x)))
 
 // GLOBALS ===================================================================
 ID2D1Factory *d2dFactory = nullptr;
@@ -78,8 +81,9 @@ OPENDL_API void CDECL dl_Shutdown()
 
 // POINT / RECT STUFF ========================================================
 
-OPENDL_API const dl_CFIndex dl_kCFNotFound = -1;
-OPENDL_API const dl_CFRange dl_CFRangeZero = dl_CFRangeMake(0, 0);
+// these two already defined in the common (win32/linux) stuff, because they derive from CFMinimal
+//OPENDL_API const dl_CFIndex dl_kCFNotFound = -1;
+//OPENDL_API const dl_CFRange dl_CFRangeZero = dl_CFRangeMake(0, 0);
 OPENDL_API const dl_CGPoint dl_CGPointZero = dl_CGPointMake(0, 0);
 OPENDL_API const dl_CGRect dl_CGRectZero = dl_CGRectMake(0, 0, 0, 0);
 
@@ -457,7 +461,7 @@ OPENDL_API dl_CTFramesetterRef CDECL dl_CTFramesetterCreateWithAttributedString(
 
 OPENDL_API dl_CTFrameRef CDECL dl_CTFramesetterCreateFrame(dl_CTFramesetterRef framesetter, dl_CFRange stringRange, dl_CGPathRef path, dl_CFDictionaryRef frameAttributes)
 {
-	return (dl_CTFrameRef)((CTFrameSetterRef)framesetter)->createFrame(stringRange, (CGPathRef)path, (cf::DictionaryRef)frameAttributes);
+	return (dl_CTFrameRef)((CTFrameSetterRef)framesetter)->createFrame(STRUCT_CAST(stringRange, CFRange), (CGPathRef)path, (cf::DictionaryRef)frameAttributes);
 }
 
 OPENDL_API dl_CFArrayRef CDECL dl_CTFrameGetLines(dl_CTFrameRef frame)

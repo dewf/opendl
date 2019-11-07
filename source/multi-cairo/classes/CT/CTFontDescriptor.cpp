@@ -32,7 +32,7 @@ cf::ArrayRef CTFontDescriptor::createFontDescriptorsFromURL(cf::URLRef fileURL)
             return nullptr;
         }
     }
-    auto path = fileURL->copyFileSystemPath(dl_kCFURLPOSIXPathStyle)->autoRelease();
+    auto path = fileURL->copyFileSystemPath(kCFURLPOSIXPathStyle)->autoRelease();
     auto strPath = path->getStdString();
 
     FT_Face face;

@@ -1,3 +1,6 @@
 [submodule "examples/apidemo/deps/openwl"]
 	path = examples/apidemo/deps/openwl
 	url = https://github.com/dewf/openwl.git
+[submodule "deps/CFMinimal"]
+	path = deps/CFMinimal
+	url = https://github.com/dewf/CFMinimal.git

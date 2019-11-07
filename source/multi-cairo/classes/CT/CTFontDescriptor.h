@@ -1,8 +1,8 @@
 #ifndef APIDEMO_CTFONTDESCRIPTOR_H
 #define APIDEMO_CTFONTDESCRIPTOR_H
 
-#include "../../../common/classes/CF/CFTypes.h"
 #include "../../../opendl.h"
+#include "../../../../deps/CFMinimal/source/CF/CFTypes.h"
 
 class CTFont;
 

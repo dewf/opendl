@@ -7,7 +7,7 @@
 
 #include <cstring>
 #include <cmath>
-#include "../../../common/classes/CF/CFTypes.h"
+#include "../../../../deps/CFMinimal/source/CF/CFTypes.h"
 #include "../../../opendl.h"
 
 #include "CGColor.h"

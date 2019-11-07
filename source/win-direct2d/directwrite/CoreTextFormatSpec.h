@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../opendl.h"
-#include "../../common/classes/CF/CFTypes.h"
+#include "../../../deps/CFMinimal/source/CF/CFTypes.h"
 
 #include "../private_defs.h"
 
@@ -97,7 +97,7 @@ public:
 	bool getStrokeWidth(float *strokeWidth) {
 		cf::NumberRef number;
 		if (attrs->getValueIfPresent((cf::ObjectRef)dl_kCTStrokeWidthAttributeName, (cf::ObjectRef*)&number)) {
-			return number->getValue(dl_kCFNumberFloatType, strokeWidth);
+			return number->getValue(kCFNumberFloatType, strokeWidth);
 		}
 		else {
 			return false;

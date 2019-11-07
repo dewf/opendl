@@ -5,7 +5,7 @@
 #ifndef __CT_FONT_H__
 #define __CT_FONT_H__
 
-#include "../../../common/classes/CF/CFTypes.h"
+#include "../../../../deps/CFMinimal/source/CF/CFObject.h"
 #include "../../../opendl.h"
 #include "../../util.h"
 #include <string>

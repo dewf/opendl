@@ -368,7 +368,7 @@ OPENDL_API dl_CFRange CDECL dl_CTRunGetStringRange(dl_CTRunRef run)
 
 OPENDL_API dl_CTFontRef CDECL dl_CTFontCreateWithName(dl_CFStringRef name, dl_CGFloat size, const dl_CGAffineTransform *matrix)
 {
-    auto nameStr = ((cf::StringRef)name)->getStdString();
+    auto nameStr = ((cf::StringRef)name)->getUtf8String();
     return (dl_CTFontRef) new CTFont(nameStr, size, matrix);
 }
 

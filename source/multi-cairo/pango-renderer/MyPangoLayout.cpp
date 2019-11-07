@@ -20,7 +20,7 @@ MyPangoLayout::MyPangoLayout(cf::AttributedStringRef attrString)
 {
     layout = pango_layout_new(CTFont::defaultPangoContext);
 
-    auto str = attrString->getString()->getStdString();
+    auto str = attrString->getString()->getUtf8String();
     pango_layout_set_text(layout, str.c_str(), -1);
     pango_layout_set_wrap(layout, PANGO_WRAP_WORD);
 
@@ -250,7 +250,7 @@ dl_CGFloat MyPangoLayout::getSpacing() {
 }
 
 bool MyPangoLayout::isNewlineAtIndex(int index) {
-    auto str = attrString->getString()->getStdString();
+    auto str = attrString->getString()->getUtf8String();
     if (index < str.length()) {
         return str.c_str()[index] == '\n';
     } else {

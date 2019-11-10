@@ -6,6 +6,11 @@
 
 using namespace cf;
 
+OPENDL_API void CDECL dl_CFRetain(dl_CFTypeRef ref)
+{
+	((ObjectRef)ref)->retain();
+}
+
 OPENDL_API void CDECL dl_CFRelease(dl_CFTypeRef ref)
 {
 	((ObjectRef)ref)->release();

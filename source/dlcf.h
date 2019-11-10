@@ -9,6 +9,7 @@ extern "C" {
     
     // Minimal Core Foundation stuff ======
     typedef const void *dl_CFTypeRef;
+	OPENDL_API void CDECL dl_CFRetain(dl_CFTypeRef ref);
     OPENDL_API void CDECL dl_CFRelease(dl_CFTypeRef ref);
 
     OPENDL_API void CDECL dl_CFDump(dl_CFTypeRef ref);

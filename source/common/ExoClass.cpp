@@ -9,6 +9,7 @@
 #include "ExoClass.h"
 
 #include <map>
+#include <assert.h>
 
 // associated data dict ==========
 // (this exists since it's easier than creating a real CF type, as documented here: https://opensource.apple.com/source/CF/CF-635/CFRuntime.h )
@@ -48,4 +49,15 @@ ExoClass::~ExoClass()
 ExoClass *ExoClass::getFor(const void *key)
 {
     return (ExoClass *)getAssociatedData(key);
+}
+
+void ExoClass::retain() {
+    refCount++;
+}
+void ExoClass::release() {
+    refCount--;
+    assert(refCount >= 0);
+    if (refCount == 0) {
+        delete this;
+    }
 }

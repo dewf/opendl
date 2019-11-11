@@ -44,12 +44,21 @@ OPENDL_API dl_CFStringRef CDECL dl_CFStringCreateWithCString(const char *cStr)
 
 // =================================================
 
+OPENDL_API void CDECL dl_CFRetain(dl_CFTypeRef ref)
+{
+    auto exo = ExoClass::getFor(ref);
+    if (exo) {
+        exo->retain();
+    }
+    CFRetain((CFTypeRef)ref);
+}
+
 OPENDL_API void CDECL dl_CFRelease(dl_CFTypeRef ref)
 {
     // see if there's any ExoClass associated with this CF object ...
     auto exo = ExoClass::getFor(ref);
     if (exo) {
-        delete exo;
+        exo->release();
     }
     CFRelease((CFTypeRef)ref);
 }

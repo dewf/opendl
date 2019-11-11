@@ -12,10 +12,14 @@
 // an "ExoClass" to piggyback data on native CF/CG types (because making new CF classes is both difficult and frowned upon by Apple)
 struct ExoClass {
     void *assocKey = nullptr;
+    int refCount = 1;
     // ===========
     ExoClass(void *key);
     virtual ~ExoClass();
     static ExoClass *getFor(const void *key);
+    
+    void retain();
+    void release();
 };
 
 #endif /* defined(__opendl__dlExoClass__) */

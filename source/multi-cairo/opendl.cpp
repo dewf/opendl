@@ -387,6 +387,16 @@ OPENDL_API dl_CTFontRef CDECL dl_CTFontCreateCopyWithSymbolicTraits(dl_CTFontRef
     return (dl_CTFontRef)CTFont::createCopyWithSymbolicTraits((CTFontRef)font, size, matrix, symTraitValue, symTraitMask);
 }
 
+OPENDL_API dl_CGFloat CDECL dl_CTFontGetAscent(dl_CTFontRef font)
+{
+    return ((CTFontRef)font)->getAscent();
+}
+
+OPENDL_API dl_CGFloat CDECL dl_CTFontGetDescent(dl_CTFontRef font)
+{
+    return ((CTFontRef)font)->getDescent();
+}
+
 OPENDL_API dl_CGFloat CDECL dl_CTFontGetUnderlineThickness(dl_CTFontRef font)
 {
     return ((CTFontRef)font)->getUnderlineThickness();

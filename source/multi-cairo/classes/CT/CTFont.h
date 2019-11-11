@@ -127,6 +127,14 @@ public:
 
     static CTFontRef createWithFontDescriptor(CTFontDescriptorRef descriptor, dl_CGFloat size, const dl_CGAffineTransform *matrix);
 
+    dl_CGFloat getAscent() {
+        return pango_units_to_double(pango_font_metrics_get_ascent(metrics));
+    }
+
+    dl_CGFloat getDescent() {
+        return pango_units_to_double(pango_font_metrics_get_descent(metrics));
+    }
+
     dl_CGFloat getUnderlineThickness() {
         return pango_units_to_double(pango_font_metrics_get_underline_thickness(metrics));
     }

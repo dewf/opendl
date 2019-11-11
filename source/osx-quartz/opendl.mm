@@ -549,6 +549,16 @@ OPENDL_API dl_CFRange CDECL dl_CTLineGetStringRange(dl_CTLineRef line)
     return UGLYCAST(dl_CFRange, ret);
 }
 
+OPENDL_API dl_CGFloat CDECL dl_CTFontGetAscent(dl_CTFontRef font)
+{
+    return CTFontGetAscent((CTFontRef)font);
+}
+
+OPENDL_API dl_CGFloat CDECL dl_CTFontGetDescent(dl_CTFontRef font)
+{
+    return CTFontGetDescent((CTFontRef)font);
+}
+
 OPENDL_API dl_CGFloat CDECL dl_CTFontGetUnderlineThickness(dl_CTFontRef font)
 {
     return CTFontGetUnderlineThickness((CTFontRef)font);

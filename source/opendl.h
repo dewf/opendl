@@ -230,6 +230,8 @@ extern "C" {
     
     OPENDL_API dl_CTFontRef CDECL dl_CTFontCreateCopyWithSymbolicTraits(dl_CTFontRef font, dl_CGFloat size, const dl_CGAffineTransform *matrix, dl_CTFontSymbolicTraits symTraitValue, dl_CTFontSymbolicTraits symTraitMask);
 
+	OPENDL_API dl_CGFloat CDECL dl_CTFontGetAscent(dl_CTFontRef font);
+	OPENDL_API dl_CGFloat CDECL dl_CTFontGetDescent(dl_CTFontRef font);
 	OPENDL_API dl_CGFloat CDECL dl_CTFontGetUnderlineThickness(dl_CTFontRef font);
 	OPENDL_API dl_CGFloat CDECL dl_CTFontGetUnderlinePosition(dl_CTFontRef font);
 

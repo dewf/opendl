@@ -217,6 +217,14 @@ public:
 	IDWriteTextFormat *getTextFormat() const { return format; }
 	//
 
+	dl_CGFloat getAscent() {
+		return (metrics.ascent / (dl_CGFloat)metrics.designUnitsPerEm) * pointsToDIP(format->GetFontSize());
+	}
+
+	dl_CGFloat getDescent() {
+		return (metrics.descent / (dl_CGFloat)metrics.designUnitsPerEm) * pointsToDIP(format->GetFontSize());
+	}
+
 	dl_CGFloat getUnderlineThickness() {
 		return (metrics.underlineThickness / (dl_CGFloat)metrics.designUnitsPerEm) * pointsToDIP(format->GetFontSize());
 	}

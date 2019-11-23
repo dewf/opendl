@@ -24,6 +24,13 @@ class CGContext : public cf::Object {
 	D2D1_POINT_2F textPosition = D2D1::Point2F(0, 0); // is this part of the draw state? probably not?
 	dl_CGTextDrawingMode textDrawingMode = dl_kCGTextFill;
 
+	// some mutable brushes to re-use so we're not caching thousands of brushes for ad-hoc CGContext color settings
+	//  (ie CGContext::setFillColor, as opposed to setFillColorWithColor)
+	// TODO: entirely get rid of the current "cached brush" concept -
+	//  CGColors should maintain ID2D1SolidColorBrush instances per target internally
+	ID2D1SolidColorBrush *solidFillBrush;
+	ID2D1SolidColorBrush *solidStrokeBrush;
+
 	ID2D1PathGeometry *pathFromElements(D2D1_FIGURE_BEGIN fillType);
 	void clipTargetByHalfPlane(dl_CGPoint hp_point, dl_CGPoint hp_vec);
 protected:
@@ -38,6 +45,11 @@ public:
 		// need to addref??
 		// push initial drawstate: must have a current draw state at all times
 		drawStateStack.push_back(new DLDrawState(target, nullptr)); // previous = nullptr, initial item (will populate default values for things)
+
+		// solid color brushes, which will be reused as we go along
+		// see declaration note for more details
+		HR(target->CreateSolidColorBrush(D2D1::ColorF(1, 1, 1), &solidFillBrush));
+		HR(target->CreateSolidColorBrush(D2D1::ColorF(0, 0, 0), &solidStrokeBrush));
 	}
 	virtual ~CGContext() override {
 		// clean up / apply any remaining drawstate
@@ -46,6 +58,9 @@ public:
 			delete drawStateStack.back();
 			drawStateStack.pop_back();
 		}
+
+		SafeRelease(&solidFillBrush);
+		SafeRelease(&solidStrokeBrush);
 	}
 
 	virtual CGContextRef copy() override {
@@ -195,7 +210,9 @@ public:
 	// public OpenDL API methods ================================
 	inline void setRGBFillColor(dl_CGFloat red, dl_CGFloat green, dl_CGFloat blue, dl_CGFloat alpha)
 	{
-		drawState()->fillBrush = ::getCachedColorBrush(target, red, green, blue, alpha);
+		solidFillBrush->SetColor(D2D1::ColorF((FLOAT)red, (FLOAT)green, (FLOAT)blue, (FLOAT)alpha));
+		drawState()->fillBrush = solidFillBrush;
+			//::getCachedColorBrush(target, red, green, blue, alpha);
 	}
 
 	inline void fillRect(dl_CGRect rect) {
@@ -204,7 +221,9 @@ public:
 
 	inline void setRGBStrokeColor(dl_CGFloat red, dl_CGFloat green, dl_CGFloat blue, dl_CGFloat alpha)
 	{
-		drawState()->strokeBrush = ::getCachedColorBrush(target, red, green, blue, alpha);
+		solidStrokeBrush->SetColor(D2D1::ColorF((FLOAT)red, (FLOAT)green, (FLOAT)blue, (FLOAT)alpha));
+		drawState()->strokeBrush = solidStrokeBrush;
+			//::getCachedColorBrush(target, red, green, blue, alpha);
 	}
 
 	inline void strokeRectWithWidth(dl_CGRect rect, dl_CGFloat width)

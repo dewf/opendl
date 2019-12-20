@@ -43,6 +43,9 @@
       <Project>{52532b4b-2f4b-4e59-a589-f10c4060cd73}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="..\..\..\source\win32\app.manifest" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{6451F280-5E2D-4C68-A743-B4EC753865CD}</ProjectGuid>

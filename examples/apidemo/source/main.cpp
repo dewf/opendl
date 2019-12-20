@@ -229,7 +229,7 @@ int main()
     wl_MenuAddAction(appMenu, quitAction);
 #endif
 
-    animTimer = wl_TimerCreate(mainWin, ANIM_TIMER, 1000 / 60);
+	animTimer = wl_TimerCreate(1000 / 60, nullptr);
     
     wl_WindowShow(mainWin);
     

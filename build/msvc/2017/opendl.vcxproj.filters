@@ -129,6 +129,9 @@
     <ClInclude Include="..\..\..\source\win-direct2d\directwrite\DWriteLayout.h">
       <Filter>Source Files\win-direct2d\directwrite</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\directwrite\MyTextAnalyzer.h">
+      <Filter>Source Files\win-direct2d\directwrite</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\win-direct2d\classes\CG\CGBitmapContext.cpp">
@@ -214,6 +217,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\common\dlcf.cpp">
       <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\directwrite\MyTextAnalyzer.cpp">
+      <Filter>Source Files\win-direct2d\directwrite</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

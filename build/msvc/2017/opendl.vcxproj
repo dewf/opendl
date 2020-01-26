@@ -45,6 +45,7 @@
     <ClInclude Include="..\..\..\source\win-direct2d\directwrite\CoreTextRenderer.h" />
     <ClInclude Include="..\..\..\source\win-direct2d\directwrite\DWriteFontUtils.h" />
     <ClInclude Include="..\..\..\source\win-direct2d\directwrite\DWriteLayout.h" />
+    <ClInclude Include="..\..\..\source\win-direct2d\directwrite\MyTextAnalyzer.h" />
     <ClInclude Include="..\..\..\source\win-direct2d\directwrite\MyTextRenderer.h" />
     <ClInclude Include="..\..\..\source\win-direct2d\directwrite\MyUnknown.h" />
     <ClInclude Include="..\..\..\source\win-direct2d\header.h" />
@@ -76,6 +77,7 @@
     <ClCompile Include="..\..\..\source\win-direct2d\directwrite\CoreTextRenderer.cpp" />
     <ClCompile Include="..\..\..\source\win-direct2d\directwrite\DWriteFontUtils.cpp" />
     <ClCompile Include="..\..\..\source\win-direct2d\directwrite\DWriteLayout.cpp" />
+    <ClCompile Include="..\..\..\source\win-direct2d\directwrite\MyTextAnalyzer.cpp" />
     <ClCompile Include="..\..\..\source\win-direct2d\directwrite\MyTextRenderer.cpp" />
     <ClCompile Include="..\..\..\source\win-direct2d\directwrite\MyUnknown.cpp" />
     <ClCompile Include="..\..\..\source\win-direct2d\dllmain.cpp" />

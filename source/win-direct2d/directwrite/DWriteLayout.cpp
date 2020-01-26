@@ -6,8 +6,20 @@
 #include "CoreTextFormatSpec.h"
 #include "../COMStuff.h"
 
-#include <unicode/unistr.h>
-#include <unicode/ubidi.h>
+#include "MyTextAnalyzer.h"
+
+static DWRITE_READING_DIRECTION getBaseDirection(const wchar_t *text)
+{
+	IDWriteTextAnalyzer *analyzer;
+	HR(writeFactory->CreateTextAnalyzer(&analyzer));
+
+	MyTextAnalyzer sourceSink(text);
+	HR(analyzer->AnalyzeBidi(&sourceSink, 0, (UINT32)wcslen(text), &sourceSink));
+
+	SafeRelease(&analyzer);
+
+	return sourceSink.getBaseDirection();
+}
 
 DWriteLayout::DWriteLayout(cf::AttributedStringRef attrString)
 	:attrString(attrString->copy())
@@ -28,12 +40,13 @@ DWriteLayout::DWriteLayout(cf::AttributedStringRef attrString)
 		&layout));
 
 	// set RTL direction if necessary
-	auto text = icu::UnicodeString::fromUTF8(cfString->getUtf8String().c_str());
-	auto dir = ubidi_getBaseDirection(text.getBuffer(), text.length());
-	if (dir == UBIDI_RTL) {
-		layout->SetReadingDirection(DWRITE_READING_DIRECTION_RIGHT_TO_LEFT);
-		rightToLeft = true;
-	}
+
+	// woot, no more ICU!
+	auto utf16 = cfString->getUtf16String();
+	auto wstr = utf16_to_wstring(utf16);
+	auto dir = getBaseDirection(wstr.c_str());
+	layout->SetReadingDirection(dir);
+	rightToLeft = (dir == DWRITE_READING_DIRECTION_RIGHT_TO_LEFT);
 
 	// apply the attributes to the layout so it's ready for accurate metrics
 	auto ranges = attrString->getRanges();
@@ -164,7 +177,7 @@ IFACEMETHODIMP DWriteLayout::DrawGlyphRun(
 	run->release();
 
 	// get actual line width, don't know where else to get this
-	for (auto i = 0; i < glyphRun->glyphCount; i++) {
+	for (UINT32 i = 0; i < glyphRun->glyphCount; i++) {
 		currentLineWidth += glyphRun->glyphAdvances[i];
 	}
 

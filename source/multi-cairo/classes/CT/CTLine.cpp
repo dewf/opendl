@@ -36,12 +36,17 @@ dl_CFIndex CTLine::getStringIndexForPosition(dl_CGPoint position) const
     auto x = pango_units_from_double(position.x);
     auto y = pango_units_from_double(position.y);
     int index, trailing;
-    if (pango_layout_xy_to_index(_layout, x, y, &index, &trailing)) {
-        return index + trailing;
-    } else {
-        printf("notfound\n");
-        return dl_kCFNotFound;
-    }
+
+    pango_layout_xy_to_index(_layout, x, y, &index, &trailing);
+    // ignore the return value, just tells use whether the point was outside the layout entirely
+    // apparently it gets clamped to a valid index regardless?
+    return index + trailing;
+//    if (pango_layout_xy_to_index(_layout, x, y, &index, &trailing)) {
+//        return index + trailing;
+//    } else {
+//        printf("notfound\n");
+//        return dl_kCFNotFound;
+//    }
 }
 
 dl_CFRange CTLine::getStringRange() const {

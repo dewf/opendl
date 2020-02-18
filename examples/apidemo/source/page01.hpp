@@ -60,12 +60,6 @@ void doClippedCircle(dl_CGContextRef context) {
 	dl_CGContextDrawPath(context, dl_kCGPathFillStroke);
 }
 
-dl_CGPoint betweenPoints(dl_CGPoint a, dl_CGPoint b) {
-    auto x = (a.x + b.x) / 2.0;
-    auto y = (a.y + b.y) / 2.0;
-    return dl_CGPointMake(x, y);
-}
-
 class CPage01 : public PageCommon {
 	int minWidth, minHeight;
 	int maxWidth, maxHeight;

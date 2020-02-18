@@ -164,8 +164,10 @@ extern "C" {
 	OPENDL_API void CDECL dl_CGPathAddEllipseInRect(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGRect rect);
     OPENDL_API void CDECL dl_CGPathCloseSubpath(dl_CGMutablePathRef path);
 
-    OPENDL_API dl_CGPathRef dl_CGPathRetain(dl_CGPathRef path);
+    OPENDL_API dl_CGPathRef CDECL dl_CGPathRetain(dl_CGPathRef path);
     OPENDL_API void CDECL dl_CGPathRelease(dl_CGPathRef path);
+
+    OPENDL_API dl_CGPoint CDECL dl_CGPathGetCurrentPoint(dl_CGPathRef path);
 
     OPENDL_API void CDECL dl_CGContextAddPath(dl_CGContextRef context, dl_CGPathRef path);
 

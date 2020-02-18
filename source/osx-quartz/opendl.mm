@@ -292,7 +292,7 @@ OPENDL_API void CDECL dl_CGPathMoveToPoint(dl_CGMutablePathRef path, const dl_CG
 
 OPENDL_API void CDECL dl_CGPathAddArc(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat endAngle, bool clockwise)
 {
-    CGPathAddArc((CGMutablePathRef)path, (const CGAffineTransform *)m, x, y, radius, startAngle, endAngle, clockwise);
+    CGPathAddArc((CGMutablePathRef)path, (const CGAffineTransform *)m, x, y, radius, startAngle, endAngle, !clockwise); // invert clockwise since we're operating in y-flipped
 }
 
 OPENDL_API void CDECL dl_CGPathAddRelativeArc(dl_CGMutablePathRef path, const dl_CGAffineTransform *matrix, dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat delta)
@@ -357,7 +357,7 @@ OPENDL_API void CDECL dl_CGPathCloseSubpath(dl_CGMutablePathRef path)
     CGPathCloseSubpath((CGMutablePathRef)path);
 }
 
-OPENDL_API dl_CGPathRef dl_CGPathRetain(dl_CGPathRef path)
+OPENDL_API dl_CGPathRef CDECL dl_CGPathRetain(dl_CGPathRef path)
 {
     return (dl_CGPathRef) CGPathRetain((CGPathRef)path);
 }
@@ -365,6 +365,12 @@ OPENDL_API dl_CGPathRef dl_CGPathRetain(dl_CGPathRef path)
 OPENDL_API void CDECL dl_CGPathRelease(dl_CGPathRef path)
 {
     CGPathRelease((CGPathRef)path);
+}
+
+OPENDL_API dl_CGPoint CDECL dl_CGPathGetCurrentPoint(dl_CGPathRef path)
+{
+    auto p = CGPathGetCurrentPoint((CGPathRef)path);
+    return UGLYCAST(dl_CGPoint, p);
 }
 
 OPENDL_API void CDECL dl_CGContextAddPath(dl_CGContextRef context, dl_CGPathRef path)

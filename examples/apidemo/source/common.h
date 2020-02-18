@@ -37,6 +37,8 @@ void drawRect(dl_CGContextRef c, dl_CGRect r, dl_CGColorRef color, dl_CGFloat wi
 void drawLine(dl_CGContextRef c, dl_CGPoint from, dl_CGPoint to, dl_CGColorRef color);
 void drawLineAt(dl_CGContextRef c, dl_CTLineRef line, dl_CGFloat x, dl_CGFloat y, dl_CGFloat *y_advance);
 
+dl_CGPoint betweenPoints(dl_CGPoint a, dl_CGPoint b);
+
 class WindowFuncs {
 public:
 	virtual void invalidate(int x, int y, int width, int height) = 0;

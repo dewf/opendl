@@ -214,16 +214,39 @@ void miscShapes(dl_CGContextRef context, dl_CGPoint center, dl_CGAffineTransform
     dl_CGPathRelease(ellipse);
     
     dl_CGPathRelease(mutable03);
+}
+
+void subPaths(dl_CGContextRef context, dl_CGPoint center, const dl_CGAffineTransform *m, dl_CGFloat baseOpacity) {
+    // final misc shapes
+    dl_CGRect rects[] = {
+        dl_CGRectMake(center.x + 20, center.y - 90, 40.0, 40.0),
+        dl_CGRectMake(center.x - 70, center.y, 60.0, 60.0)
+    };
+    auto mutable04 = dl_CGPathCreateMutable();
     
-//    OPENDL_API void CDECL dl_CGPathAddLines(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, const dl_CGPoint *points, size_t count);
-//    OPENDL_API void CDECL dl_CGPathAddLineToPoint(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y);
-//    OPENDL_API void CDECL dl_CGPathAddPath(dl_CGMutablePathRef path1, const dl_CGAffineTransform *m, dl_CGPathRef path2);
-//    OPENDL_API void CDECL dl_CGPathAddQuadCurveToPoint(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGFloat cpx, dl_CGFloat cpy, dl_CGFloat x, dl_CGFloat y);
-//    OPENDL_API void CDECL dl_CGPathAddRect(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGRect rect);
-//    OPENDL_API void CDECL dl_CGPathAddRects(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, const dl_CGRect *rects, size_t count);
-//    OPENDL_API void CDECL dl_CGPathAddRoundedRect(dl_CGMutablePathRef path, const dl_CGAffineTransform *transform, dl_CGRect rect, dl_CGFloat cornerWidth, dl_CGFloat cornerHeight);
-//    OPENDL_API void CDECL dl_CGPathAddEllipseInRect(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGRect rect);
-//    OPENDL_API void CDECL dl_CGPathCloseSubpath(dl_CGMutablePathRef path);
+    auto r1 = dl_CGRectMake(center.x - 80.0, center.y - 80.0, 40.0, 40.0);
+    dl_CGPathAddRect(mutable04, m, r1);
+    dl_CGPathAddRects(mutable04, m, rects, 2);
+    
+    auto r2 = dl_CGRectMake(center.x + 60, center.y + 20, 60.0, 60.0);
+    dl_CGPathAddRoundedRect(mutable04, m, r2, 10.0, 10.0);
+    
+    auto r3 = dl_CGRectMake(center.x - 40, center.y - 40, 80.0, 80.0);
+    dl_CGPathAddEllipseInRect(mutable04, m, r3);
+    
+    // black outer path
+    dl_CGContextAddPath(context, mutable04);
+    dl_CGContextSetRGBStrokeColor(context, 0, 0, 0, baseOpacity);
+    dl_CGContextSetLineWidth(context, 6.5);
+    dl_CGContextStrokePath(context);
+
+    // then cyan
+    dl_CGContextAddPath(context, mutable04);
+    dl_CGContextSetRGBStrokeColor(context, 0, 0.8, 1, baseOpacity);
+    dl_CGContextSetLineWidth(context, 2.5);
+    dl_CGContextStrokePath(context);
+    
+    dl_CGPathRelease(mutable04);
 }
 
 dl_CGAffineTransform makeTransform(dl_CGPoint p, dl_CGFloat angle, dl_CGFloat scale) {
@@ -269,6 +292,14 @@ void CPage09::mutablePathTest(dl_CGContextRef context)
     const int NUM_STEPS = 5;
 
     auto center = dl_CGPointMake(750, 350);
+    
+    // complete subpaths (rect, ellipse, etc)
+    auto subPathsCenter = center; //dl_CGPointMake(200, 600);
+    auto m3 = makeTransform(subPathsCenter, M_PI/10, 2.0);
+    subPaths(context, subPathsCenter, &m3, 0.5);
+    subPaths(context, subPathsCenter, nullptr, 1.0);
+
+    // keyhole
     for (int i=NUM_STEPS; i >= 0; i--) {
         auto scale = 1.0 + ((i * 1.0) / NUM_STEPS);
         auto rot = (i * (M_PI/6)) / NUM_STEPS;
@@ -290,6 +321,7 @@ void CPage09::mutablePathTest(dl_CGContextRef context)
     auto shapesCenter = dl_CGPointMake(600, 600);
     auto m2 = makeTransform(shapesCenter, M_PI/9.0, 0.5);
     miscShapes(context, shapesCenter, &m2, 1.0);
+    
     
     // restore
     dl_CGContextRestoreGState(context);

@@ -139,6 +139,93 @@ void triangleThing(dl_CGContextRef context, dl_CGPoint center, dl_CGAffineTransf
     dl_CGContextRestoreGState(context);
 }
 
+void miscShapes(dl_CGContextRef context, dl_CGPoint center, dl_CGAffineTransform *m, dl_CGFloat baseOpacity) {
+    
+    dl_CGContextSetLineWidth(context, 2.0f);
+    
+    const int POINTS_SIDE = 230.0;
+    dl_CGPoint points[] = {
+        { center.x - POINTS_SIDE/2, center.y - POINTS_SIDE/2 },
+        { center.x + POINTS_SIDE/2, center.y - POINTS_SIDE/2 },
+        { center.x + POINTS_SIDE/2, center.y + POINTS_SIDE/2 },
+        { center.x - POINTS_SIDE/2, center.y + POINTS_SIDE/2 },
+        
+        // extra control points for final segment
+        { center.x - POINTS_SIDE/2 - 100.0, center.y + POINTS_SIDE/2 - 20.0 },
+        { center.x - POINTS_SIDE/2, center.y - POINTS_SIDE/2 + 30.0 }
+    };
+
+    const int ELLIPSE_WIDTH = 200.0;
+    const int ELLIPSE_HEIGHT = 100.0;
+    auto r = dl_CGRectMake(center.x - ELLIPSE_WIDTH/2, center.y - ELLIPSE_HEIGHT/2, ELLIPSE_WIDTH, ELLIPSE_HEIGHT);
+    
+    // black background
+    const int EXTRA = 4.0;
+    auto r2 = dl_CGRectMake(center.x - 300.0 - EXTRA, center.y - POINTS_SIDE/2 - EXTRA, 600.0 + EXTRA*2, POINTS_SIDE + EXTRA*2);
+    auto bgRect = dl_CGPathCreateWithRect(r2, m);
+    dl_CGContextSetRGBFillColor(context, 0, 0, 0, baseOpacity);
+    dl_CGContextAddPath(context, bgRect);
+    dl_CGContextFillPath(context);
+
+    auto rounded = dl_CGPathCreateWithRoundedRect(r, 10.0, 10.0, m);
+    auto mutable01 = dl_CGPathCreateMutableCopy(rounded);
+
+    auto r_square = dl_CGRectMake(center.x - ELLIPSE_WIDTH / 8, center.y - ELLIPSE_WIDTH / 8, ELLIPSE_WIDTH / 4, ELLIPSE_WIDTH / 4);
+    auto square = dl_CGPathCreateWithRect(r_square, nullptr); // no transform on the square itself, being added to path with xform
+    dl_CGPathAddPath(mutable01, m, square);
+    
+    dl_CGContextSetRGBStrokeColor(context, 0.3, 0, 1, baseOpacity);
+    dl_CGContextAddPath(context, mutable01);
+    dl_CGContextStrokePath(context);
+
+    auto ellipse = dl_CGPathCreateWithEllipseInRect(r, m);
+    auto mutable02 = dl_CGPathCreateMutableCopy(ellipse);
+    
+    dl_CGPathAddLines(mutable02, m, points, 4); // already includes implicit moveToPoint(point[0])
+    dl_CGPathAddCurveToPoint(mutable02, m, points[4].x, points[4].y, points[5].x, points[5].y, points[0].x, points[0].y);
+    // closing the path looks a little nicer
+    dl_CGPathCloseSubpath(mutable02);
+    
+    dl_CGContextSetRGBStrokeColor(context, 1, 0, 0.3, baseOpacity);
+    dl_CGContextAddPath(context, mutable02);
+    dl_CGFloat dashes[] = { 3.0, 3.0 };
+    dl_CGContextSetLineDash(context, 0, dashes, 2);
+    dl_CGContextStrokePath(context);
+    
+    // clear dashes
+    dl_CGContextSetLineDash(context, 0, nullptr, 0);
+
+    // quad curves
+    auto mutable03 = dl_CGPathCreateMutable();
+    dl_CGPathMoveToPoint(mutable03, m, center.x - 300.0, center.y);
+    dl_CGPathAddQuadCurveToPoint(mutable03, m, center.x - 150, center.y - 150, center.x, center.y);
+    dl_CGPathAddQuadCurveToPoint(mutable03, m, center.x + 150, center.y + 150, center.x + 300, center.y);
+    
+    dl_CGContextAddPath(context, mutable03);
+    dl_CGContextSetRGBStrokeColor(context, 1, 1, 1, baseOpacity);
+    dl_CGContextStrokePath(context);
+    
+    // release
+    dl_CGPathRelease(mutable01);
+    dl_CGPathRelease(rounded);
+    dl_CGPathRelease(square);
+    
+    dl_CGPathRelease(mutable02);
+    dl_CGPathRelease(ellipse);
+    
+    dl_CGPathRelease(mutable03);
+    
+//    OPENDL_API void CDECL dl_CGPathAddLines(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, const dl_CGPoint *points, size_t count);
+//    OPENDL_API void CDECL dl_CGPathAddLineToPoint(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y);
+//    OPENDL_API void CDECL dl_CGPathAddPath(dl_CGMutablePathRef path1, const dl_CGAffineTransform *m, dl_CGPathRef path2);
+//    OPENDL_API void CDECL dl_CGPathAddQuadCurveToPoint(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGFloat cpx, dl_CGFloat cpy, dl_CGFloat x, dl_CGFloat y);
+//    OPENDL_API void CDECL dl_CGPathAddRect(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGRect rect);
+//    OPENDL_API void CDECL dl_CGPathAddRects(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, const dl_CGRect *rects, size_t count);
+//    OPENDL_API void CDECL dl_CGPathAddRoundedRect(dl_CGMutablePathRef path, const dl_CGAffineTransform *transform, dl_CGRect rect, dl_CGFloat cornerWidth, dl_CGFloat cornerHeight);
+//    OPENDL_API void CDECL dl_CGPathAddEllipseInRect(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGRect rect);
+//    OPENDL_API void CDECL dl_CGPathCloseSubpath(dl_CGMutablePathRef path);
+}
+
 dl_CGAffineTransform makeTransform(dl_CGPoint p, dl_CGFloat angle, dl_CGFloat scale) {
     auto m1 = dl_CGAffineTransformTranslate(dl_CGAffineTransformIdentity, p.x, p.y);
     auto m2 = dl_CGAffineTransformRotate(m1, angle);
@@ -153,7 +240,8 @@ void keyholeThing(dl_CGContextRef context, dl_CGPoint center, dl_CGAffineTransfo
     auto radius = 50.0;
     dl_CGPathMoveToPoint(path, m, center.x + radius, center.y);
     dl_CGPathAddArc(path, m, center.x, center.y, radius, 0, M_PI * 2.0 - (M_PI/4), true);
-    dl_CGPathAddArc(path, m, center.x, center.y, radius + 70.71067, -(M_PI/4), 0, true);
+//    dl_CGPathAddArc(path, m, center.x, center.y, radius + 70.71067, -(M_PI/4), 0, true);
+    dl_CGPathAddRelativeArc(path, m, center.x, center.y, radius + 70.71067, -(M_PI/4), M_PI/4);
     
     // just a dot to test GetCurrentPoint
     auto p1 = dl_CGPathGetCurrentPoint(path);
@@ -198,6 +286,10 @@ void CPage09::mutablePathTest(dl_CGContextRef context)
         auto m = makeTransform(rotCenter, angle, scale);
         triangleThing(context, rotCenter, &m, opacity);
     }
+    
+    auto shapesCenter = dl_CGPointMake(600, 600);
+    auto m2 = makeTransform(shapesCenter, M_PI/9.0, 0.5);
+    miscShapes(context, shapesCenter, &m2, 1.0);
     
     // restore
     dl_CGContextRestoreGState(context);

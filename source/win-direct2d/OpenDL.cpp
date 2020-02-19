@@ -305,8 +305,7 @@ OPENDL_API dl_CGPathRef CDECL dl_CGPathCreateCopy(dl_CGPathRef path)
 
 OPENDL_API dl_CGMutablePathRef CDECL dl_CGPathCreateMutableCopy(dl_CGPathRef path)
 {
-	// TODO
-	return nullptr;
+	return (dl_CGMutablePathRef) new CGMutablePath((CGPathRef)path);
 }
 
 OPENDL_API void CDECL dl_CGPathMoveToPoint(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y)
@@ -316,42 +315,42 @@ OPENDL_API void CDECL dl_CGPathMoveToPoint(dl_CGMutablePathRef path, const dl_CG
 
 OPENDL_API void CDECL dl_CGPathAddArc(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat endAngle, bool clockwise)
 {
-
+	((CGMutablePathRef)path)->addArc(m, x, y, radius, startAngle, endAngle, clockwise);
 }
 
 OPENDL_API void CDECL dl_CGPathAddRelativeArc(dl_CGMutablePathRef path, const dl_CGAffineTransform *matrix, dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat delta)
 {
-
+	((CGMutablePathRef)path)->addRelativeArc(matrix, x, y, radius, startAngle, delta);
 }
 
 OPENDL_API void CDECL dl_CGPathAddArcToPoint(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGFloat x1, dl_CGFloat y1, dl_CGFloat x2, dl_CGFloat y2, dl_CGFloat radius)
 {
-
+	((CGMutablePathRef)path)->addArcToPoint(m, x1, y1, x2, y2, radius);
 }
 
 OPENDL_API void CDECL dl_CGPathAddCurveToPoint(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGFloat cp1x, dl_CGFloat cp1y, dl_CGFloat cp2x, dl_CGFloat cp2y, dl_CGFloat x, dl_CGFloat y)
 {
-
+	((CGMutablePathRef)path)->addCurveToPoint(m, cp1x, cp1y, cp2x, cp2y, x, y);
 }
 
 OPENDL_API void CDECL dl_CGPathAddLines(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, const dl_CGPoint *points, size_t count)
 {
-
+	((CGMutablePathRef)path)->addLines(m, points, count);
 }
 
 OPENDL_API void CDECL dl_CGPathAddLineToPoint(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y)
 {
-
+	((CGMutablePathRef)path)->addLineToPoint(m, x, y);
 }
 
 OPENDL_API void CDECL dl_CGPathAddPath(dl_CGMutablePathRef path1, const dl_CGAffineTransform *m, dl_CGPathRef path2)
 {
-
+	((CGMutablePathRef)path1)->addPath(m, path2);
 }
 
 OPENDL_API void CDECL dl_CGPathAddQuadCurveToPoint(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGFloat cpx, dl_CGFloat cpy, dl_CGFloat x, dl_CGFloat y)
 {
-
+	((CGMutablePathRef)path)->addQuadCurveToPoint(m, cpx, cpy, x, y);
 }
 
 OPENDL_API void CDECL dl_CGPathAddRect(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGRect rect)
@@ -361,22 +360,22 @@ OPENDL_API void CDECL dl_CGPathAddRect(dl_CGMutablePathRef path, const dl_CGAffi
 
 OPENDL_API void CDECL dl_CGPathAddRects(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, const dl_CGRect *rects, size_t count)
 {
-
+	((CGMutablePathRef)path)->addRects(m, rects, count);
 }
 
 OPENDL_API void CDECL dl_CGPathAddRoundedRect(dl_CGMutablePathRef path, const dl_CGAffineTransform *transform, dl_CGRect rect, dl_CGFloat cornerWidth, dl_CGFloat cornerHeight)
 {
-
+	((CGMutablePathRef)path)->addRoundedRect(transform, rect, cornerWidth, cornerHeight);
 }
 
 OPENDL_API void CDECL dl_CGPathAddEllipseInRect(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGRect rect)
 {
-
+	((CGMutablePathRef)path)->addEllipseInRect(m, rect);
 }
 
 OPENDL_API void CDECL dl_CGPathCloseSubpath(dl_CGMutablePathRef path)
 {
-
+	((CGMutablePathRef)path)->closeSubpath();
 }
 
 OPENDL_API dl_CGPathRef CDECL dl_CGPathRetain(dl_CGPathRef path)

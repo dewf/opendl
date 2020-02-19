@@ -178,6 +178,26 @@ inline D2D1_RECT_F d2dRectFromDlRect(dl_CGRect r) {
 	return D2D1::RectF((FLOAT)r.origin.x, (FLOAT)r.origin.y, (FLOAT)(r.origin.x + r.size.width), (FLOAT)(r.origin.y + r.size.height));
 }
 
+inline D2D1_ELLIPSE d2dEllipseFromDlRect(dl_CGRect r) {
+	D2D1_ELLIPSE e;
+	auto xrad = r.size.width / 2.0;
+	auto yrad = r.size.height / 2.0;
+	auto cx = r.origin.x + xrad;
+	auto cy = r.origin.y + yrad;
+	e.point = D2D1::Point2F(cx, cy);
+	e.radiusX = xrad;
+	e.radiusY = yrad;
+	return e;
+}
+
+inline D2D1_ROUNDED_RECT d2dRoundedRectFromDlRect(dl_CGRect r, dl_CGFloat xrad, dl_CGFloat yrad) {
+	D2D1_ROUNDED_RECT rr;
+	rr.rect = d2dRectFromDlRect(r);
+	rr.radiusX = xrad;
+	rr.radiusY = yrad;
+	return rr;
+}
+
 inline dl_CGPoint dlPointFromD2DPoint(D2D1_POINT_2F p) {
 	return dl_CGPointMake(p.x, p.y);
 }
@@ -193,7 +213,7 @@ inline dl_CGAffineTransform dlAffineTransformFromD2DMatrix(D2D1::Matrix3x2F mat)
 	return ret;
 }
 
-inline D2D1::Matrix3x2F d2dMatrixFromDLAffineTransform(dl_CGAffineTransform t) {
+inline D2D1::Matrix3x2F d2dMatrixFromDLAffineTransform(const dl_CGAffineTransform &t) {
 	return D2D1::Matrix3x2F((FLOAT)t.a, (FLOAT)t.b, (FLOAT)t.c, (FLOAT)t.d, (FLOAT)t.tx, (FLOAT)t.ty);
 }
 

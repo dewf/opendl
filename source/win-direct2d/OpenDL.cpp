@@ -300,8 +300,7 @@ OPENDL_API dl_CGMutablePathRef CDECL dl_CGPathCreateMutable(void)
 
 OPENDL_API dl_CGPathRef CDECL dl_CGPathCreateCopy(dl_CGPathRef path)
 {
-	// TODO
-	return nullptr;
+	return (dl_CGPathRef) ((CGPathRef)path)->copy();
 }
 
 OPENDL_API dl_CGMutablePathRef CDECL dl_CGPathCreateMutableCopy(dl_CGPathRef path)
@@ -312,7 +311,7 @@ OPENDL_API dl_CGMutablePathRef CDECL dl_CGPathCreateMutableCopy(dl_CGPathRef pat
 
 OPENDL_API void CDECL dl_CGPathMoveToPoint(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y)
 {
-
+	((CGMutablePathRef)path)->moveToPoint(m, x, y);
 }
 
 OPENDL_API void CDECL dl_CGPathAddArc(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat endAngle, bool clockwise)
@@ -382,8 +381,7 @@ OPENDL_API void CDECL dl_CGPathCloseSubpath(dl_CGMutablePathRef path)
 
 OPENDL_API dl_CGPathRef CDECL dl_CGPathRetain(dl_CGPathRef path)
 {
-	// TODO
-	return nullptr;
+	return (dl_CGPathRef) ((CGPathRef)path)->retain();
 }
 
 OPENDL_API void CDECL dl_CGPathRelease(dl_CGPathRef path)

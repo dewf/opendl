@@ -396,7 +396,12 @@ OPENDL_API dl_CGPoint CDECL dl_CGPathGetCurrentPoint(dl_CGPathRef path)
 
 OPENDL_API void CDECL dl_CGContextAddPath(dl_CGContextRef context, dl_CGPathRef path)
 {
-	((CGPathRef)path)->addToContext(context);
+	// context->addPath
+	// "if the source is non-empty, the path elements are appended in order onto the current
+	//   path. the CTM is applied to the points before adding them to the path(!)
+	//   after the call completes, the start point and current point of the path are those of the
+	//   last subpath in 'path'
+	//((CGPathRef)path)->addToContext(context);
 }
 
 // color spaces =====================

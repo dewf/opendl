@@ -1,25 +1,12 @@
 #include "CGPath.h"
 
-// this is inverted, eventually it's the context that will have a method to add paths
-// (we'll append to an existing sub/path)
 
 #include "CGContext.h"
 
+// this is inverted, eventually it's the context that will have a method to add paths
+// (we'll append to an existing sub/path)
 void CGPath::addToContext(dl_CGContextRef c) {
-	printf("CGPath::addToContext() TODO!!\n");
-	//for (auto i = items.begin(); i != items.end(); i++) {
-	//	switch (i->tag) {
-	//	case PathItem::Rect:
-	//		((CGContextRef)c)->addRect(i->rect.value);
-	//		break;
-	//	case PathItem::Ellipse:
-	//		((CGContextRef)c)->addEllipseInRect(i->ellipse.inRect);
-	//		break;
-	//	case PathItem::RoundedRect:
-	//		((CGContextRef)c)->addRoundedRect(i->rounded.rect, i->rounded.cornerWidth, i->rounded.cornerHeight);
-	//		break;
-	//	}
-	//}
+
 }
 
 //void CGMutablePath::moveToPoint(const dl_CGAffineTransform * m, dl_CGFloat x, dl_CGFloat y)

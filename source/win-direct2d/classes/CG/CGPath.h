@@ -36,23 +36,37 @@ struct PathSegment {
 	PathSegment(TagEnum tag) {
 		this->tag = tag;
 	}
+	static PathSegment mkMoveToPoint(dl_CGFloat x, dl_CGFloat y) {
+		PathSegment seg(Tag_StartPoint);
+		seg.point.x = x;
+		seg.point.y = y;
+		return std::move(seg);
+	}
+	static PathSegment mkArc(dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat endAngle, dl_CGFloat clockwise) {
+		PathSegment seg(Tag_Arc);
+		seg.arc.x = x;
+		seg.arc.y = y;
+		seg.arc.radius = radius;
+		seg.arc.startAngle = startAngle;
+		seg.arc.endAngle = endAngle;
+		seg.arc.clockwise = clockwise;
+		return std::move(seg);
+	}
 };
 
 struct SubPath {
-	ID2D1Geometry *geom = nullptr;
-
 	enum SubPathTag {
 		Tag_Rect,
 		Tag_Ellipse,
 		Tag_RoundedRect,
-		Tag_PathSegments
+		Tag_Segmented
 	} tag;
 
 	bool hasTransform = false;
 	dl_CGAffineTransform transform;		// current limitation: all items of a given subpath must share same transform
-									    // (whereas the quartz methods allow each segment to have its own)
-	
-	std::vector<PathSegment> segments;  // pulled out of the union because I'm dumb/lazy
+										// (whereas the quartz methods allow each segment to have its own)
+
+	std::vector<PathSegment> segments;  // belongs in the path struct but that causes C++ issues so ... here instead
 
 	union {
 		struct {
@@ -66,9 +80,7 @@ struct SubPath {
 			dl_CGFloat cornerWidth, cornerHeight;
 		} rounded;
 		struct {
-			//std::vector<PathSegment> segments;
-			const dl_CGAffineTransform *check = nullptr;  // pointer where we got the transform from, used for quick checks while adding segments,
-														  // but not relied on after that, since the user may exit the scope it points to after building the path
+			const dl_CGAffineTransform *check;  // used to quickly check that all segments are using the same transform
 		} path;
 	};
 
@@ -78,6 +90,10 @@ struct SubPath {
 
 	bool isRect() {
 		return tag == Tag_Rect;
+	}
+
+	dl_CGRect getRect() {
+		return rect.value;
 	}
 
 	static SubPath createRect(dl_CGRect &r, const dl_CGAffineTransform *t) {
@@ -110,14 +126,10 @@ struct SubPath {
 		return sp;
 	}
 	static SubPath createEmptyPath() {
-		SubPath sp(Tag_PathSegments);
+		SubPath sp(Tag_Segmented);
 		sp.path.check = nullptr;
 		// no transform yet, that will be initialized/verified with each segment add
 		return sp;
-	}
-
-	void makeGeometry() {
-		// create ID2D1TransformedGeometry for this subpath
 	}
 
 	void validateTransform(const dl_CGAffineTransform *m) {
@@ -136,32 +148,23 @@ struct SubPath {
 	}
 
 	inline void moveToPoint(const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y) {
-		if (!tag == Tag_PathSegments) return;
+		if (!tag == Tag_Segmented) return;
 		validateTransform(m);
-		PathSegment seg(PathSegment::Tag_StartPoint);
-		seg.point.x = x;
-		seg.point.y = y;
-		segments.push_back(seg);
+		segments.push_back(std::move(PathSegment::mkMoveToPoint(x, y)));
 	}
 
 	inline void addArc(const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat endAngle, bool clockwise) {
-		if (!tag == Tag_PathSegments) return;
+		if (!tag == Tag_Segmented) return;
 		validateTransform(m);
-		PathSegment seg(PathSegment::Tag_Arc);
-		seg.arc.x = x;
-		seg.arc.y = y;
-		seg.arc.radius = radius;
-		seg.arc.startAngle = startAngle;
-		seg.arc.endAngle = endAngle;
-		seg.arc.clockwise = clockwise;
-		segments.push_back(seg);
+		segments.push_back(std::move(PathSegment::mkArc(x, y, radius, startAngle, endAngle, clockwise)));
 	}
 
 	inline void close() {
-		if (!tag == Tag_PathSegments) return;
+		if (!tag == Tag_Segmented) return;
 		PathSegment seg(PathSegment::Tag_Closure);
 		segments.push_back(seg);
 	}
+
 };
 
 class CGPath; typedef CGPath* CGPathRef;
@@ -176,8 +179,7 @@ protected:
 public:
 	const char *getTypeName() const override { return "CGPath"; }
 
-	CGPath(SubPath &&sub)
-	{
+	CGPath(SubPath sub) {
 		subPaths.push_back(sub);
 	}
 
@@ -197,27 +199,6 @@ public:
 		return new CGPath(SubPath::createRoundedRect(rect, cornerWidth, cornerHeight, transform));
 	}
 
-	//static SubPath maybeTransformedGeom(ID2D1Geometry *geom, const dl_CGAffineTransform *transform) {
-	//	SubPath subPath;
-	//	if (transform) {
-	//		ID2D1TransformedGeometry *xformed;
-
-	//		auto matrix = d2dMatrixFromDLAffineTransform(*transform);
-	//		HR(d2dFactory->CreateTransformedGeometry(geom, matrix, &xformed));
-	//		subPath = SubPath(xformed);
-	//		SafeRelease(&xformed);
-	//	}
-	//	else {
-	//		subPath = SubPath(geom);
-	//	}
-	//	return subPath;
-	//}
-
-	//std::unique_ptr<CGPath, ObjReleaser> autoRelease() {
-	//	// automatically calls ->release() when it goes out of scope :)
-	//	return std::unique_ptr<CGPath, ObjReleaser>(this);
-	//}
-
 	// this is inverted, eventually it's the context that will have a method to add paths
 	// (we'll append to an existing sub/path)
 	void addToContext(dl_CGContextRef c);
@@ -226,12 +207,12 @@ public:
 		// kind of hacky at the moment, no mechanism in place to prevent adding further subpaths
 		return
 			subPaths.size() == 1 &&
-			currentSub()->tag == SubPath::Tag_Rect;
+			currentSub()->isRect();
 	}
 
 	dl_CGRect getRect() {
 		if (isRect()) {
-			return currentSub()->rect.value;
+			return currentSub()->getRect();
 		}
 		else {
 			throw cf::Exception("CGPath was not a rect");
@@ -249,12 +230,16 @@ public:
 
 class CGMutablePath; typedef CGMutablePath* CGMutablePathRef;
 class CGMutablePath : public CGPath {
+private:
+	bool open = false; // is there a segmented path on the stack, ready to go?
 public:
 	CGMutablePath()
-		: CGPath(SubPath::createEmptyPath()) {}
+		: CGPath(SubPath::createEmptyPath()), open(true)
+	{}
 
 	CGMutablePath(const CGPath *other) // aka create mutable copy
-		: CGPath(*other) {}
+		: CGPath(*other) // copy all previous subpaths
+	{}
 
 	~CGMutablePath() {}
 
@@ -296,6 +281,7 @@ public:
 	}
 	void closeSubpath() {
 		currentSub()->close();
+		open = false; // will need to push a new segmented subpath to add further segments (getCurrentSegmented() takes care of it)
 	}
 
 	RETAIN_AND_AUTORELEASE(CGMutablePath)

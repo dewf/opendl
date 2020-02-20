@@ -14,6 +14,8 @@
 #include "../../COMStuff.h"
 #include "../../caching.h"
 
+class CGPath; // fwd decl / avoid a circular reference
+
 class CGContext; typedef CGContext* CGContextRef;
 class CGContext : public cf::Object {
 	std::vector<DLDrawState *> drawStateStack;

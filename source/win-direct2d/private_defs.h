@@ -27,36 +27,36 @@ extern IDWriteFactory *writeFactory;
 extern IWICImagingFactory *wicFactory;
 
 
-enum PathElementType {
-    PathElement_StartPoint,
-    PathElement_LineToPoint,
-    PathElement_Rect,
-    PathElement_Arc,
-	PathElement_ArcToPoint, // actually a line ending with an arc
-	PathElement_Ellipse,
-	PathElement_RoundedRect,
-    PathElement_Closure
-};
-
-struct PathElement {
-    PathElementType elementType;
-    union {
-        struct {
-            dl_CGFloat x, y;
-        } point; // StartPoint, LineToPoint
-        dl_CGRect rect;
-        struct {
-            dl_CGFloat x, y, radius, startAngle, endAngle;
-            int clockwise;
-        } arc;
-		// TODO: should probably replace the above point/rect/arc with D2D structs ...
-		D2D1_ELLIPSE ellipse;
-		D2D1_ROUNDED_RECT roundedRect;
-		struct {
-			dl_CGFloat x1, y1, x2, y2, radius;
-		} arcToPoint;
-    };
-};
+//enum PathElementType {
+//    PathElement_StartPoint,
+//    PathElement_LineToPoint,
+//    PathElement_Rect,
+//    PathElement_Arc,
+//	PathElement_ArcToPoint, // actually a line ending with an arc
+//	PathElement_Ellipse,
+//	PathElement_RoundedRect,
+//    PathElement_Closure
+//};
+//
+//struct PathElement {
+//    PathElementType elementType;
+//    union {
+//        struct {
+//            dl_CGFloat x, y;
+//        } point; // StartPoint, LineToPoint
+//        dl_CGRect rect;
+//        struct {
+//            dl_CGFloat x, y, radius, startAngle, endAngle;
+//            int clockwise;
+//        } arc;
+//		// TODO: should probably replace the above point/rect/arc with D2D structs ...
+//		D2D1_ELLIPSE ellipse;
+//		D2D1_ROUNDED_RECT roundedRect;
+//		struct {
+//			dl_CGFloat x1, y1, x2, y2, radius;
+//		} arcToPoint;
+//    };
+//};
 
 enum ClipStackItemType {
     ClipStackItemType_Layer,

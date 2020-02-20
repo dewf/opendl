@@ -345,7 +345,7 @@ OPENDL_API void CDECL dl_CGPathAddLineToPoint(dl_CGMutablePathRef path, const dl
 
 OPENDL_API void CDECL dl_CGPathAddPath(dl_CGMutablePathRef path1, const dl_CGAffineTransform *m, dl_CGPathRef path2)
 {
-	((CGMutablePathRef)path1)->addPath(m, path2);
+	((CGMutablePathRef)path1)->addPath(m, (CGPathRef)path2);
 }
 
 OPENDL_API void CDECL dl_CGPathAddQuadCurveToPoint(dl_CGMutablePathRef path, const dl_CGAffineTransform *m, dl_CGFloat cpx, dl_CGFloat cpy, dl_CGFloat x, dl_CGFloat y)
@@ -396,12 +396,11 @@ OPENDL_API dl_CGPoint CDECL dl_CGPathGetCurrentPoint(dl_CGPathRef path)
 
 OPENDL_API void CDECL dl_CGContextAddPath(dl_CGContextRef context, dl_CGPathRef path)
 {
-	// context->addPath
 	// "if the source is non-empty, the path elements are appended in order onto the current
 	//   path. the CTM is applied to the points before adding them to the path(!)
 	//   after the call completes, the start point and current point of the path are those of the
 	//   last subpath in 'path'
-	//((CGPathRef)path)->addToContext(context);
+	((CGContextRef)context)->addPath((CGPathRef)path);
 }
 
 // color spaces =====================

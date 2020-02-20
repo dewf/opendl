@@ -268,15 +268,14 @@ struct SubPath {
 		return rect.value;
 	}
 
-	void concatTransform(const dl_CGAffineTransform *t) {
-		if (!t) return;
+	void concatTransform(const dl_CGAffineTransform &t) {
 		if (hasTransform) {
-			transform = dl_CGAffineTransformConcat(transform, *t); // verify order etc
+			transform = dl_CGAffineTransformConcat(transform, t); // verify order etc
 			// do we need to set the 'check' pointer if this is a segmented path?
 		}
 		else {
 			hasTransform = true;
-			transform = *t;
+			transform = t;
 		}
 	}
 
@@ -436,6 +435,10 @@ struct SubPath {
 			i->writeToSink(geomSink, fillType, figureOpen, figureBeginPoint, lastPoint);
 		}
 
+		if (figureOpen) {
+			geomSink->EndFigure(D2D1_FIGURE_END_OPEN);
+		}
+
 		geomSink->Close();
 		geomSink->Release();
 		return maybeTransformedGeom(geom);
@@ -469,6 +472,8 @@ protected:
 public:
 	const char *getTypeName() const override { return "CGPath"; }
 
+	CGPath() {}
+
 	CGPath(SubPath sub) {
 		subPaths.push_back(sub);
 	}
@@ -489,9 +494,9 @@ public:
 		return new CGPath(SubPath::createRoundedRect(rect, cornerWidth, cornerHeight, transform));
 	}
 
-	// this is inverted, eventually it's the context that will have a method to add paths
-	// (we'll append to an existing sub/path)
-	void addToContext(dl_CGContextRef c);
+	//// this is inverted, eventually it's the context that will have a method to add paths
+	//// (we'll append to an existing sub/path)
+	//void addToContext(dl_CGContextRef c);
 
 	bool isRect() {
 		// kind of hacky at the moment, no mechanism in place to prevent adding further subpaths
@@ -544,9 +549,7 @@ private:
 		return currentSub();
 	}
 public:
-	CGMutablePath()
-		: CGPath(SubPath::createEmptyPath()), open(true)
-	{}
+	CGMutablePath() : CGPath() {}
 
 	CGMutablePath(const CGPath *other) // aka create mutable copy
 		: CGPath(*other) // copy all previous subpaths
@@ -604,18 +607,25 @@ public:
 		open = false;
 		subPaths.push_back(std::move(SubPath::createEllipse(rect, m)));
 	}
-	void addPath(const dl_CGAffineTransform *m, dl_CGPathRef path2) {
+	void addPath(const dl_CGAffineTransform *m, CGPathRef path2) {
 		open = false;
-		auto sourceSubs = ((CGPathRef)path2)->getSubPaths();
+		auto sourceSubs = path2->getSubPaths();
 		for (auto i = sourceSubs.begin(); i != sourceSubs.end(); i++) {
 			SubPath sp = (*i);
-			sp.concatTransform(m); // handles null transforms internally
+			if (m) {
+				sp.concatTransform(*m);
+			}
 			subPaths.push_back(std::move(sp));
 		}
 	}
 	void closeSubpath() {
 		mutableSub()->close();
 		open = false; // will need to push a new segmented subpath to add further segments (mutableSub() takes care of it)
+	}
+
+	void reset() {
+		subPaths.clear();
+		open = false;
 	}
 
 	RETAIN_AND_AUTORELEASE(CGMutablePath)

@@ -4,11 +4,16 @@
 #include "../../../opendl.h"
 #include <vector>
 
+#include <assert.h>
+
 #include <utility>
+
+#include "../../private_defs.h"
+#include "../../../common/geometry.h" // for calcArcToPoint
 
 struct PathSegment {
 	enum TagEnum {
-		Tag_StartPoint,
+		Tag_MoveToPoint,
 		Tag_LineToPoint,
 		Tag_Arc,
 		Tag_RelativeArc,
@@ -44,7 +49,7 @@ struct PathSegment {
 		this->tag = tag;
 	}
 	static PathSegment mkMoveToPoint(dl_CGFloat x, dl_CGFloat y) {
-		PathSegment seg(Tag_StartPoint);
+		PathSegment seg(Tag_MoveToPoint);
 		seg.point.x = x;
 		seg.point.y = y;
 		return std::move(seg);
@@ -104,6 +109,119 @@ struct PathSegment {
 	static PathSegment mkClosure() {
 		PathSegment seg(Tag_Closure);
 		return std::move(seg);
+	}
+
+	inline void geomSinkAddArc(ID2D1GeometrySink *geomSink, D2D1_FIGURE_BEGIN fillType, bool *figureOpen)
+	{
+		dl_CGFloat clockMul = arc.clockwise ? 1.0 : -1.0;
+		dl_CGFloat p1x = arc.x + (cos(clockMul * arc.startAngle) * arc.radius);
+		dl_CGFloat p1y = arc.y + (sin(clockMul * arc.startAngle) * arc.radius);
+		auto p1 = D2D1::Point2F((FLOAT)p1x, (FLOAT)p1y);
+		geomSink->BeginFigure(p1, fillType);
+		*figureOpen = true;
+
+		// this would probably be better to do with epsilon / c++ numeric limits stuff
+		// basically make sure they're not equal (after an fmod(M_PI*2)), otherwise windows puts 360-degree circles in the wrong place
+		auto diff = fmod(abs(arc.endAngle - arc.startAngle), M_PI * 2.0);
+		bool fullCircle = diff < 0.0001;
+		if (fullCircle) {
+			arc.endAngle *= 0.9999;
+			// and we'll have to manually EndFigure because otherwise there'd be a gap in the stroke
+		}
+
+		dl_CGFloat p2x = arc.x + (cos(clockMul * arc.endAngle) * arc.radius);
+		dl_CGFloat p2y = arc.y + (sin(clockMul * arc.endAngle) * arc.radius);
+		auto p2 = D2D1::Point2F((FLOAT)p2x, (FLOAT)p2y);
+
+		auto size = D2D1::SizeF((FLOAT)arc.radius, (FLOAT)arc.radius);
+		auto dir = arc.clockwise ? D2D1_SWEEP_DIRECTION_CLOCKWISE : D2D1_SWEEP_DIRECTION_COUNTER_CLOCKWISE;
+		auto angle = ((arc.endAngle - arc.startAngle) * 360.0) / (M_PI * 2.0);
+		auto big = (angle >= 180.0) ? D2D1_ARC_SIZE_LARGE : D2D1_ARC_SIZE_SMALL;
+		auto arc = D2D1::ArcSegment(p2, size, 0, dir, big);
+		geomSink->AddArc(arc);
+
+		if (fullCircle) {
+			geomSink->EndFigure(D2D1_FIGURE_END_CLOSED);
+			*figureOpen = false;
+		}
+	}
+
+	inline void geomSinkAddArcToPoint(ID2D1GeometrySink *geomSink, D2D1_POINT_2F *lastPoint)
+	{
+		double centerX, centerY, startX, startY, angle0, angle1;
+
+		calcArcToPoint(
+			lastPoint->x, lastPoint->y,
+			arcToPoint.x1, arcToPoint.y1,
+			arcToPoint.x2, arcToPoint.y2,
+			arcToPoint.radius,
+			&centerX, &centerY, &startX, &startY, &angle0, &angle1);
+
+		// draw the damn thing
+		geomSink->AddLine(D2D1::Point2F((FLOAT)startX, (FLOAT)startY));
+		auto endX = centerX + cos(angle1) * arcToPoint.radius;
+		auto endY = centerY + sin(angle1) * arcToPoint.radius;
+		auto endPoint = D2D1::Point2F((FLOAT)endX, (FLOAT)endY);
+		auto arc = D2D1::ArcSegment(
+			endPoint,
+			D2D1::SizeF((FLOAT)arcToPoint.radius, (FLOAT)arcToPoint.radius),
+			0,
+			D2D1_SWEEP_DIRECTION_CLOCKWISE,
+			(angle1 - angle0) > M_PI ? D2D1_ARC_SIZE_LARGE : D2D1_ARC_SIZE_SMALL);
+		geomSink->AddArc(arc);
+		// we end at the end of that arc, resume drawing from there
+		*lastPoint = endPoint;
+	}
+
+	void writeToSink(ID2D1GeometrySink *geomSink, D2D1_FIGURE_BEGIN fillType, bool &figureOpen, D2D1_POINT_2F &figureBeginPoint, D2D1_POINT_2F &lastPoint) {
+		switch (tag) {
+			case PathSegment::Tag_MoveToPoint: {
+				auto p = D2D1::Point2F((FLOAT)point.x, (FLOAT)point.y);
+				geomSink->BeginFigure(p, fillType);
+				figureOpen = true;
+				figureBeginPoint = p;
+				lastPoint = figureBeginPoint;
+				break;
+			}
+			case PathSegment::Tag_LineToPoint: {
+				auto p = D2D1::Point2F((FLOAT)point.x, (FLOAT)point.y);
+				geomSink->AddLine(p);
+				lastPoint = p;
+				break;
+			}
+			case PathSegment::Tag_Arc: {
+				geomSinkAddArc(geomSink, fillType, &figureOpen); // might be a full circle, so pass didClose to be modified in there
+				auto endX = arc.x + cos(arc.endAngle) * arc.radius;
+				auto endY = arc.y + sin(arc.endAngle) * arc.radius;
+				lastPoint = D2D1::Point2F((FLOAT)endX, (FLOAT)endY);
+				break;
+			}
+			case PathSegment::Tag_RelativeArc: {
+				// TODO
+				break;
+			}
+			case PathSegment::Tag_ArcToPoint: {
+				geomSinkAddArcToPoint(geomSink, &lastPoint); // updates lastPoint
+				break;
+			}
+			case PathSegment::Tag_CurveToPoint: {
+				// TODO
+				break;
+			}
+			case PathSegment::Tag_QuadCurveToPoint: {
+				// TODO
+				break;
+			}
+			case PathSegment::Tag_Closure: {
+				geomSink->EndFigure(D2D1_FIGURE_END_CLOSED);
+				figureOpen = false;
+				lastPoint = figureBeginPoint;
+				break;
+			}
+			default:
+				printf("mkSegmentedGeom: unhandled switch case\n");
+				assert(false);
+		} // end switch
 	}
 };
 
@@ -271,6 +389,72 @@ struct SubPath {
 		if (tag != Tag_Segmented) return;
 		segments.push_back(std::move(PathSegment::mkClosure()));
 	}
+
+	ID2D1Geometry *maybeTransformedGeom(ID2D1Geometry *input) {
+		if (hasTransform) {
+			ID2D1TransformedGeometry *xformed;
+			auto matrix = d2dMatrixFromDLAffineTransform(transform);
+			HR(d2dFactory->CreateTransformedGeometry(input, matrix, &xformed));
+			input->Release();
+			return xformed;
+		}
+		else {
+			return input;
+		}
+	}
+
+	ID2D1Geometry *mkRectGeom() {
+		ID2D1RectangleGeometry *geom;
+		auto d2dRect = d2dRectFromDlRect(rect.value);
+		HR(d2dFactory->CreateRectangleGeometry(d2dRect, &geom));
+		return maybeTransformedGeom(geom);
+	}
+	ID2D1Geometry *mkEllipseGeom() {
+		ID2D1EllipseGeometry *geom;
+		auto d2dEllipse = d2dEllipseFromDlRect(ellipse.inRect);
+		HR(d2dFactory->CreateEllipseGeometry(d2dEllipse, &geom));
+		return maybeTransformedGeom(geom);
+	}
+	ID2D1Geometry *mkRoundedRectGeom() {
+		ID2D1RoundedRectangleGeometry *geom;
+		auto d2dRounded = d2dRoundedRectFromDlRect(rounded.rect, rounded.cornerWidth, rounded.cornerWidth);
+		HR(d2dFactory->CreateRoundedRectangleGeometry(d2dRounded, &geom));
+		return maybeTransformedGeom(geom);
+	}
+	ID2D1Geometry *mkSegmentedGeom(D2D1_FIGURE_BEGIN fillType) {
+		ID2D1PathGeometry *geom;
+		ID2D1GeometrySink *geomSink;
+		HR(d2dFactory->CreatePathGeometry(&geom));
+		HR(geom->Open(&geomSink));
+		geomSink->SetFillMode(D2D1_FILL_MODE_WINDING);
+
+		bool figureOpen = false;
+		D2D1_POINT_2F figureBeginPoint, lastPoint;
+
+		// write out each element to the geom sink
+		for (auto i = segments.begin(); i != segments.end(); i++) {
+			i->writeToSink(geomSink, fillType, figureOpen, figureBeginPoint, lastPoint);
+		}
+
+		geomSink->Close();
+		geomSink->Release();
+		return maybeTransformedGeom(geom);
+	}
+
+	ID2D1Geometry *getGeometry(D2D1_FIGURE_BEGIN fillType) {
+		switch (tag) {
+		case Tag_Rect:
+			return mkRectGeom();
+		case Tag_Ellipse:
+			return mkEllipseGeom();
+		case Tag_RoundedRect:
+			return mkRoundedRectGeom();
+		case Tag_Segmented:
+			return mkSegmentedGeom(fillType);
+		}
+		// should never get here
+		return nullptr;
+	}
 };
 
 class CGPath; typedef CGPath* CGPathRef;
@@ -333,6 +517,14 @@ public:
 	// for CGMutablePaths accessing needing access to another CGPath's content
 	std::vector<SubPath>& getSubPaths() {
 		return subPaths;
+	}
+
+	std::vector<ID2D1Geometry*> getGeometry(D2D1_FIGURE_BEGIN fillType) {
+		std::vector<ID2D1Geometry*> ret;
+		for (auto i = subPaths.begin(); i != subPaths.end(); i++) {
+			ret.push_back(i->getGeometry(fillType));
+		}
+		return ret;
 	}
 
 	RETAIN_AND_AUTORELEASE(CGPath)

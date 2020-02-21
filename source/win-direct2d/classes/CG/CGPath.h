@@ -205,11 +205,20 @@ struct PathSegment {
 				break;
 			}
 			case PathSegment::Tag_CurveToPoint: {
-				// TODO
+				D2D1_BEZIER_SEGMENT bez;
+				bez.point1 = D2D1::Point2F((FLOAT)curveToPoint.cp1x, (FLOAT)curveToPoint.cp1y);
+				bez.point2 = D2D1::Point2F((FLOAT)curveToPoint.cp2x, (FLOAT)curveToPoint.cp2y);
+				lastPoint = D2D1::Point2F((FLOAT)curveToPoint.x, (FLOAT)curveToPoint.y);
+				bez.point3 = lastPoint;
+				geomSink->AddBezier(bez);
 				break;
 			}
 			case PathSegment::Tag_QuadCurveToPoint: {
-				// TODO
+				D2D1_QUADRATIC_BEZIER_SEGMENT quad;
+				quad.point1 = D2D1::Point2F((FLOAT)quadCurveToPoint.cpx, (FLOAT)quadCurveToPoint.cpy);
+				lastPoint = D2D1::Point2F((FLOAT)quadCurveToPoint.x, (FLOAT)quadCurveToPoint.y);
+				quad.point2 = lastPoint;
+				geomSink->AddQuadraticBezier(quad);
 				break;
 			}
 			case PathSegment::Tag_Closure: {

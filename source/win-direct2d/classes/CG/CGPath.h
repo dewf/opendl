@@ -53,13 +53,13 @@ struct PathSegment {
 		PathSegment seg(Tag_MoveToPoint);
 		seg.point.x = x;
 		seg.point.y = y;
-		return std::move(seg);
+		return seg;
 	}
 	static PathSegment mkLineToPoint(dl_CGFloat x, dl_CGFloat y) {
 		PathSegment seg(Tag_LineToPoint);
 		seg.point.x = x;
 		seg.point.y = y;
-		return std::move(seg);
+		return seg;
 	}
 	static PathSegment mkArc(dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat endAngle, bool clockwise) {
 		PathSegment seg(Tag_Arc);
@@ -69,7 +69,7 @@ struct PathSegment {
 		seg.arc.startAngle = startAngle;
 		seg.arc.endAngle = endAngle;
 		seg.arc.clockwise = clockwise;
-		return std::move(seg);
+		return seg;
 	}
 	static PathSegment mkRelativeArc(dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat delta) {
 		PathSegment seg(Tag_RelativeArc);
@@ -78,7 +78,7 @@ struct PathSegment {
 		seg.arc.radius = radius;
 		seg.arc.startAngle = startAngle;
 		seg.arc.delta = delta;
-		return std::move(seg);
+		return seg;
 	}
 	static PathSegment mkArcToPoint(dl_CGFloat x1, dl_CGFloat y1, dl_CGFloat x2, dl_CGFloat y2, dl_CGFloat radius) {
 		PathSegment seg(Tag_ArcToPoint);
@@ -87,7 +87,7 @@ struct PathSegment {
 		seg.arcToPoint.x2 = x2;
 		seg.arcToPoint.y2 = y2;
 		seg.arcToPoint.radius = radius;
-		return std::move(seg);
+		return seg;
 	}
 	static PathSegment mkCurveToPoint(dl_CGFloat cp1x, dl_CGFloat cp1y, dl_CGFloat cp2x, dl_CGFloat cp2y, dl_CGFloat x, dl_CGFloat y) {
 		PathSegment seg(Tag_CurveToPoint);
@@ -97,7 +97,7 @@ struct PathSegment {
 		seg.curveToPoint.cp2y = cp2y;
 		seg.curveToPoint.x = x;
 		seg.curveToPoint.y = y;
-		return std::move(seg);
+		return seg;
 	}
 	static PathSegment mkQuadCurveToPoint(dl_CGFloat cpx, dl_CGFloat cpy, dl_CGFloat x, dl_CGFloat y) {
 		PathSegment seg(Tag_QuadCurveToPoint);
@@ -105,11 +105,11 @@ struct PathSegment {
 		seg.quadCurveToPoint.cpy = cpy;
 		seg.quadCurveToPoint.x = x;
 		seg.quadCurveToPoint.y = y;
-		return std::move(seg);
+		return seg;
 	}
 	static PathSegment mkClosure() {
 		PathSegment seg(Tag_Closure);
-		return std::move(seg);
+		return seg;
 	}
 
 	inline void geomSinkAddArc(ID2D1GeometrySink *geomSink, D2D1_FIGURE_BEGIN fillType, bool &figureOpen, D2D1_POINT_2F &figureBeginPoint, D2D1_POINT_2F &lastPoint)
@@ -333,7 +333,7 @@ struct SubPath {
 			sp.hasTransform = true;
 			sp.transform = *t;
 		}
-		return std::move(sp);
+		return sp;
 	}
 	static SubPath createEllipse(const dl_CGRect &r, const dl_CGAffineTransform *t) {
 		SubPath sp(Tag_Ellipse);
@@ -342,7 +342,7 @@ struct SubPath {
 			sp.hasTransform = true;
 			sp.transform = *t;
 		}
-		return std::move(sp);
+		return sp;
 	}
 	static SubPath createRoundedRect(const dl_CGRect &r, dl_CGFloat cornerWidth, dl_CGFloat cornerHeight, const dl_CGAffineTransform *t) {
 		SubPath sp(Tag_RoundedRect);
@@ -353,13 +353,13 @@ struct SubPath {
 			sp.hasTransform = true;
 			sp.transform = *t;
 		}
-		return std::move(sp);
+		return sp;
 	}
 	static SubPath createEmptyPath() {
 		SubPath sp(Tag_Segmented);
 		sp.segmented.check = nullptr;
 		// no transform yet, that will be initialized/verified with each segment add
-		return std::move(sp);
+		return sp;
 	}
 
 	void validateTransform(const dl_CGAffineTransform *m) {
@@ -380,13 +380,13 @@ struct SubPath {
 	inline void moveToPoint(const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y) {
 		if (tag != Tag_Segmented) return;
 		validateTransform(m);
-		segments.push_back(std::move(PathSegment::mkMoveToPoint(x, y)));
+		segments.push_back(PathSegment::mkMoveToPoint(x, y));
 	}
 	
 	inline void addLineToPoint(const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y) {
 		if (tag != Tag_Segmented) return;
 		validateTransform(m);
-		segments.push_back(std::move(PathSegment::mkLineToPoint(x, y)));
+		segments.push_back(PathSegment::mkLineToPoint(x, y));
 	}
 
 	inline void addLines(const dl_CGAffineTransform *m, const dl_CGPoint *points, size_t count) {
@@ -394,46 +394,46 @@ struct SubPath {
 		validateTransform(m);
 		//
 		if (count < 1) return;
-		segments.push_back(std::move(PathSegment::mkMoveToPoint(points->x, points->y)));
+		segments.push_back(PathSegment::mkMoveToPoint(points->x, points->y));
 		for (size_t i = 1; i < count; i++) {
 			auto p = &points[i];
-			segments.push_back(std::move(PathSegment::mkLineToPoint(p->x, p->y)));
+			segments.push_back(PathSegment::mkLineToPoint(p->x, p->y));
 		}
 	}
 
 	inline void addArc(const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat endAngle, bool clockwise) {
 		if (tag != Tag_Segmented) return;
 		validateTransform(m);
-		segments.push_back(std::move(PathSegment::mkArc(x, y, radius, startAngle, endAngle, clockwise)));
+		segments.push_back(PathSegment::mkArc(x, y, radius, startAngle, endAngle, clockwise));
 	}
 
 	inline void addRelativeArc(const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat delta) {
 		if (tag != Tag_Segmented) return;
 		validateTransform(m);
-		segments.push_back(std::move(PathSegment::mkRelativeArc(x, y, radius, startAngle, delta)));
+		segments.push_back(PathSegment::mkRelativeArc(x, y, radius, startAngle, delta));
 	}
 
 	inline void addArcToPoint(const dl_CGAffineTransform *m, dl_CGFloat x1, dl_CGFloat y1, dl_CGFloat x2, dl_CGFloat y2, dl_CGFloat radius) {
 		if (tag != Tag_Segmented) return;
 		validateTransform(m);
-		segments.push_back(std::move(PathSegment::mkArcToPoint(x1, y1, x2, y2, radius)));
+		segments.push_back(PathSegment::mkArcToPoint(x1, y1, x2, y2, radius));
 	}
 
 	inline void addCurveToPoint(const dl_CGAffineTransform *m, dl_CGFloat cp1x, dl_CGFloat cp1y, dl_CGFloat cp2x, dl_CGFloat cp2y, dl_CGFloat x, dl_CGFloat y) {
 		if (tag != Tag_Segmented) return;
 		validateTransform(m);
-		segments.push_back(std::move(PathSegment::mkCurveToPoint(cp1x, cp1y, cp2x, cp2y, x, y)));
+		segments.push_back(PathSegment::mkCurveToPoint(cp1x, cp1y, cp2x, cp2y, x, y));
 	}
 
 	inline void addQuadCurveToPoint(const dl_CGAffineTransform *m, dl_CGFloat cpx, dl_CGFloat cpy, dl_CGFloat x, dl_CGFloat y) {
 		if (tag != Tag_Segmented) return;
 		validateTransform(m);
-		segments.push_back(std::move(PathSegment::mkQuadCurveToPoint(cpx, cpy, x, y)));
+		segments.push_back(PathSegment::mkQuadCurveToPoint(cpx, cpy, x, y));
 	}
 
 	inline void close() {
 		if (tag != Tag_Segmented) return;
-		segments.push_back(std::move(PathSegment::mkClosure()));
+		segments.push_back(PathSegment::mkClosure());
 	}
 
 	ID2D1Geometry *maybeTransformedGeom(ID2D1Geometry *input) {
@@ -653,21 +653,21 @@ public:
 	}
 	void addRect(const dl_CGAffineTransform *m, dl_CGRect rect) {
 		open = false;
-		subPaths.push_back(std::move(SubPath::createRect(rect, m)));
+		subPaths.push_back(SubPath::createRect(rect, m));
 	}
 	void addRects(const dl_CGAffineTransform *m, const dl_CGRect *rects, size_t count) {
 		open = false;
 		for (size_t i = 0; i < count; i++) {
-			subPaths.push_back(std::move(SubPath::createRect(rects[i], m)));
+			subPaths.push_back(SubPath::createRect(rects[i], m));
 		}
 	}
 	void addRoundedRect(const dl_CGAffineTransform *transform, dl_CGRect rect, dl_CGFloat cornerWidth, dl_CGFloat cornerHeight) {
 		open = false;
-		subPaths.push_back(std::move(SubPath::createRoundedRect(rect, cornerWidth, cornerHeight, transform)));
+		subPaths.push_back(SubPath::createRoundedRect(rect, cornerWidth, cornerHeight, transform));
 	}
 	void addEllipseInRect(const dl_CGAffineTransform *m, dl_CGRect rect) {
 		open = false;
-		subPaths.push_back(std::move(SubPath::createEllipse(rect, m)));
+		subPaths.push_back(SubPath::createEllipse(rect, m));
 	}
 	void addPath(const dl_CGAffineTransform *m, CGPathRef path2) {
 		open = false;

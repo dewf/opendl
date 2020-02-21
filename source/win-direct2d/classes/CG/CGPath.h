@@ -30,7 +30,7 @@ struct PathSegment {
 
 		struct {
 			dl_CGFloat x, y, radius, startAngle, endAngle;
-			int clockwise;
+			bool clockwise;
 			dl_CGFloat delta; // used instead of endAngle/clockwise
 		} arc; // Arc, RelativeArc
 
@@ -61,7 +61,7 @@ struct PathSegment {
 		seg.point.y = y;
 		return std::move(seg);
 	}
-	static PathSegment mkArc(dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat endAngle, dl_CGFloat clockwise) {
+	static PathSegment mkArc(dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat endAngle, bool clockwise) {
 		PathSegment seg(Tag_Arc);
 		seg.arc.x = x;
 		seg.arc.y = y;

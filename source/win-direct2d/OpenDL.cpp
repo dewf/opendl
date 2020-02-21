@@ -390,8 +390,7 @@ OPENDL_API void CDECL dl_CGPathRelease(dl_CGPathRef path)
 
 OPENDL_API dl_CGPoint CDECL dl_CGPathGetCurrentPoint(dl_CGPathRef path)
 {
-	// TODO
-	return dl_CGPointMake(0, 0);
+	return ((CGPathRef)path)->getCurrentPoint();
 }
 
 OPENDL_API void CDECL dl_CGContextAddPath(dl_CGContextRef context, dl_CGPathRef path)

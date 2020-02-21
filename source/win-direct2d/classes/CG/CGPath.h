@@ -7,6 +7,7 @@
 #include <assert.h>
 
 #include <utility>
+#include <math.h>
 
 #include "../../private_defs.h"
 #include "../../../common/geometry.h" // for calcArcToPoint
@@ -111,14 +112,22 @@ struct PathSegment {
 		return std::move(seg);
 	}
 
-	inline void geomSinkAddArc(ID2D1GeometrySink *geomSink, D2D1_FIGURE_BEGIN fillType, bool *figureOpen)
+	inline void geomSinkAddArc(ID2D1GeometrySink *geomSink, D2D1_FIGURE_BEGIN fillType, bool &figureOpen, D2D1_POINT_2F &figureBeginPoint, D2D1_POINT_2F &lastPoint)
 	{
 		dl_CGFloat clockMul = arc.clockwise ? 1.0 : -1.0;
 		dl_CGFloat p1x = arc.x + (cos(clockMul * arc.startAngle) * arc.radius);
 		dl_CGFloat p1y = arc.y + (sin(clockMul * arc.startAngle) * arc.radius);
 		auto p1 = D2D1::Point2F((FLOAT)p1x, (FLOAT)p1y);
-		geomSink->BeginFigure(p1, fillType);
-		*figureOpen = true;
+		if (figureOpen) {
+			// already in a figure - line to start of arc
+			geomSink->AddLine(p1);
+		}
+		else {
+			// figure not yet started - move to start of arc
+			geomSink->BeginFigure(p1, fillType);
+			figureBeginPoint = p1;
+			figureOpen = true;
+		}
 
 		// this would probably be better to do with epsilon / c++ numeric limits stuff
 		// basically make sure they're not equal (after an fmod(M_PI*2)), otherwise windows puts 360-degree circles in the wrong place
@@ -141,8 +150,15 @@ struct PathSegment {
 		geomSink->AddArc(arc);
 
 		if (fullCircle) {
-			geomSink->EndFigure(D2D1_FIGURE_END_CLOSED);
-			*figureOpen = false;
+			// close with line to p1 (arc begin)
+			geomSink->AddLine(p1);
+			lastPoint = p1;
+			//geomSink->EndFigure(D2D1_FIGURE_END_CLOSED);
+			//*figureOpen = false;
+		}
+		else {
+			// only a semicircle, use p2 as lastpoint instead
+			lastPoint = p2;
 		}
 	}
 
@@ -173,27 +189,44 @@ struct PathSegment {
 		*lastPoint = endPoint;
 	}
 
+	inline void checkBeginFigure(ID2D1GeometrySink *geomSink, D2D1_FIGURE_BEGIN fillType, bool &figureOpen, D2D1_POINT_2F &figureBeginPoint, D2D1_POINT_2F &lastPoint) {
+		if (!figureOpen) {
+			geomSink->BeginFigure(lastPoint, fillType);
+			figureBeginPoint = lastPoint;
+			figureOpen = true;
+		}
+	}
+
 	void writeToSink(ID2D1GeometrySink *geomSink, D2D1_FIGURE_BEGIN fillType, bool &figureOpen, D2D1_POINT_2F &figureBeginPoint, D2D1_POINT_2F &lastPoint) {
 		switch (tag) {
 			case PathSegment::Tag_MoveToPoint: {
-				auto p = D2D1::Point2F((FLOAT)point.x, (FLOAT)point.y);
-				geomSink->BeginFigure(p, fillType);
-				figureOpen = true;
-				figureBeginPoint = p;
-				lastPoint = figureBeginPoint;
+				//geomSink->BeginFigure(p, fillType);
+				//figureOpen = true;
+				//figureBeginPoint = p;
+				//lastPoint = figureBeginPoint;
+				if (figureOpen) {
+					// terminate whatever figure was in progress ...
+					geomSink->EndFigure(D2D1_FIGURE_END_OPEN);
+					figureOpen = false;
+				}
+				lastPoint = D2D1::Point2F((FLOAT)point.x, (FLOAT)point.y);
 				break;
 			}
 			case PathSegment::Tag_LineToPoint: {
+				checkBeginFigure(geomSink, fillType, figureOpen, figureBeginPoint, lastPoint);
 				auto p = D2D1::Point2F((FLOAT)point.x, (FLOAT)point.y);
 				geomSink->AddLine(p);
 				lastPoint = p;
 				break;
 			}
 			case PathSegment::Tag_Arc: {
-				geomSinkAddArc(geomSink, fillType, &figureOpen); // might be a full circle, so pass didClose to be modified in there
-				auto endX = arc.x + cos(arc.endAngle) * arc.radius;
-				auto endY = arc.y + sin(arc.endAngle) * arc.radius;
-				lastPoint = D2D1::Point2F((FLOAT)endX, (FLOAT)endY);
+				// no checkBeginFigure() - arc handling is more complex, that logic is handled internally
+				geomSinkAddArc(geomSink, fillType, figureOpen, figureBeginPoint, lastPoint);
+
+				//geomSinkAddArc(geomSink, fillType, &figureOpen); // might be a full circle, so pass didClose to be modified in there
+				//auto endX = arc.x + cos(arc.endAngle) * arc.radius;
+				//auto endY = arc.y + sin(arc.endAngle) * arc.radius;
+				//lastPoint = D2D1::Point2F((FLOAT)endX, (FLOAT)endY);
 				break;
 			}
 			case PathSegment::Tag_RelativeArc: {
@@ -201,10 +234,12 @@ struct PathSegment {
 				break;
 			}
 			case PathSegment::Tag_ArcToPoint: {
+				checkBeginFigure(geomSink, fillType, figureOpen, figureBeginPoint, lastPoint);
 				geomSinkAddArcToPoint(geomSink, &lastPoint); // updates lastPoint
 				break;
 			}
 			case PathSegment::Tag_CurveToPoint: {
+				checkBeginFigure(geomSink, fillType, figureOpen, figureBeginPoint, lastPoint);
 				D2D1_BEZIER_SEGMENT bez;
 				bez.point1 = D2D1::Point2F((FLOAT)curveToPoint.cp1x, (FLOAT)curveToPoint.cp1y);
 				bez.point2 = D2D1::Point2F((FLOAT)curveToPoint.cp2x, (FLOAT)curveToPoint.cp2y);
@@ -214,6 +249,7 @@ struct PathSegment {
 				break;
 			}
 			case PathSegment::Tag_QuadCurveToPoint: {
+				checkBeginFigure(geomSink, fillType, figureOpen, figureBeginPoint, lastPoint);
 				D2D1_QUADRATIC_BEZIER_SEGMENT quad;
 				quad.point1 = D2D1::Point2F((FLOAT)quadCurveToPoint.cpx, (FLOAT)quadCurveToPoint.cpy);
 				lastPoint = D2D1::Point2F((FLOAT)quadCurveToPoint.x, (FLOAT)quadCurveToPoint.y);
@@ -222,9 +258,11 @@ struct PathSegment {
 				break;
 			}
 			case PathSegment::Tag_Closure: {
-				geomSink->EndFigure(D2D1_FIGURE_END_CLOSED);
-				figureOpen = false;
-				lastPoint = figureBeginPoint;
+				if (figureOpen) {
+					geomSink->EndFigure(D2D1_FIGURE_END_CLOSED);
+					figureOpen = false;
+					lastPoint = figureBeginPoint;
+				}
 				break;
 			}
 			default:
@@ -541,6 +579,10 @@ public:
 		return ret;
 	}
 
+	dl_CGPoint getCurrentPoint() {
+		return dl_CGPointMake(0, 0);
+	}
+
 	RETAIN_AND_AUTORELEASE(CGPath)
 };
 
@@ -581,7 +623,18 @@ public:
 		mutableSub()->addArc(m, x, y, radius, startAngle, endAngle, clockwise);
 	}
 	void addRelativeArc(const dl_CGAffineTransform *matrix, dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat delta) {
-		mutableSub()->addRelativeArc(matrix, x, y, radius, startAngle, delta);
+		//mutableSub()->addRelativeArc(matrix, x, y, radius, startAngle, delta);
+		bool clockwise;
+		dl_CGFloat endAngle;
+		if (delta >= 0) {
+			clockwise = true;
+			endAngle = fmod(startAngle + delta, M_PI * 2.0);
+		}
+		else {
+			clockwise = false;
+			endAngle = fmod(startAngle + M_PI * 2.0 - delta, M_PI * 2.0);
+		}
+		mutableSub()->addArc(matrix, x, y, radius, startAngle, endAngle, clockwise);
 	}
 	void addArcToPoint(const dl_CGAffineTransform *m, dl_CGFloat x1, dl_CGFloat y1, dl_CGFloat x2, dl_CGFloat y2, dl_CGFloat radius) {
 		mutableSub()->addArcToPoint(m, x1, y1, x2, y2, radius);

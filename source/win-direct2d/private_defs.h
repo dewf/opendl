@@ -184,17 +184,17 @@ inline D2D1_ELLIPSE d2dEllipseFromDlRect(dl_CGRect r) {
 	auto yrad = r.size.height / 2.0;
 	auto cx = r.origin.x + xrad;
 	auto cy = r.origin.y + yrad;
-	e.point = D2D1::Point2F(cx, cy);
-	e.radiusX = xrad;
-	e.radiusY = yrad;
+	e.point = D2D1::Point2F((FLOAT)cx, (FLOAT)cy);
+	e.radiusX = (FLOAT)xrad;
+	e.radiusY = (FLOAT)yrad;
 	return e;
 }
 
 inline D2D1_ROUNDED_RECT d2dRoundedRectFromDlRect(dl_CGRect r, dl_CGFloat xrad, dl_CGFloat yrad) {
 	D2D1_ROUNDED_RECT rr;
 	rr.rect = d2dRectFromDlRect(r);
-	rr.radiusX = xrad;
-	rr.radiusY = yrad;
+	rr.radiusX = (FLOAT)xrad;
+	rr.radiusY = (FLOAT)yrad;
 	return rr;
 }
 

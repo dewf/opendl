@@ -9,6 +9,8 @@ extern "C" {
 
 	dl_CGPoint normalizeVec2F(dl_CGPoint vec2f);
 
+	dl_CGPoint applyTransform(const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y);
+
 	bool pointInHalfPlane(dl_CGPoint point, dl_CGPoint hp_point, dl_CGPoint hp_vec);
 
 	bool pointIsCoincident(dl_CGPoint p, dl_CGPoint *compare, int compareCount);

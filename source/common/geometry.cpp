@@ -16,6 +16,19 @@ dl_CGPoint normalizeVec2F(dl_CGPoint vec2f)
 	}
 }
 
+dl_CGPoint applyTransform(const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y)
+{
+	if (m) {
+		return dl_CGPointMake(
+			(x * m->a) + (y * m->c) + m->tx,
+			(x * m->b) + (y * m->d) + m->ty
+		);
+	}
+	else {
+		return dl_CGPointMake(x, y);
+	}
+}
+
 bool pointInHalfPlane(dl_CGPoint point, dl_CGPoint hp_point, dl_CGPoint hp_vec)
 {
 	dl_CGPoint vec2 = normalizeVec2F(dl_CGPointMake(point.x - hp_point.x, point.y - hp_point.y ));

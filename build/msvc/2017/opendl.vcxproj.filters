@@ -132,6 +132,9 @@
     <ClInclude Include="..\..\..\source\win-direct2d\directwrite\MyTextAnalyzer.h">
       <Filter>Source Files\win-direct2d\directwrite</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\common\pathstuff.h">
+      <Filter>Source Files\common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\win-direct2d\classes\CG\CGBitmapContext.cpp">

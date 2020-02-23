@@ -110,6 +110,9 @@ struct SubPath {
 		Tag_Segmented
 	} tag;
 
+	dl_CGPoint startPoint = dl_CGPointZero;
+	dl_CGPoint endPoint = dl_CGPointZero;
+
 	bool hasTransform = false;
 	dl_CGAffineTransform transform;		// current limitation: all items of a given subpath must share same transform
 										// (whereas the quartz methods allow each segment to have its own)
@@ -163,6 +166,7 @@ struct SubPath {
 			sp.hasTransform = true;
 			sp.transform = *t;
 		}
+		sp.endPoint = applyTransform(t, r.origin.x, r.origin.y);
 		return sp;
 	}
 
@@ -173,6 +177,7 @@ struct SubPath {
 			sp.hasTransform = true;
 			sp.transform = *t;
 		}
+		// TODO: not sure about the endpoint here ...
 		return sp;
 	}
 
@@ -185,6 +190,7 @@ struct SubPath {
 			sp.hasTransform = true;
 			sp.transform = *t;
 		}
+		sp.endPoint = applyTransform(t, r.origin.x, r.origin.y);
 		return sp;
 	}
 
@@ -214,12 +220,17 @@ struct SubPath {
 		if (tag != Tag_Segmented) return;
 		validateTransform(m);
 		segments.push_back(PathSegment::mkMoveToPoint(x, y));
+
+		startPoint = applyTransform(m, x, y); // need to store this to go back to when/if we close
+		endPoint = startPoint;
 	}
 
 	inline void addLineToPoint(const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y) {
 		if (tag != Tag_Segmented) return;
 		validateTransform(m);
 		segments.push_back(PathSegment::mkLineToPoint(x, y));
+
+		endPoint = applyTransform(m, x, y);
 	}
 
 	inline void addLines(const dl_CGAffineTransform *m, const dl_CGPoint *points, size_t count) {
@@ -232,12 +243,19 @@ struct SubPath {
 			auto p = &points[i];
 			segments.push_back(PathSegment::mkLineToPoint(p->x, p->y));
 		}
+
+		auto end = &points[count - 1];
+		endPoint = applyTransform(m, end->x, end->y);
 	}
 
 	inline void addArc(const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat endAngle, bool clockwise) {
 		if (tag != Tag_Segmented) return;
 		validateTransform(m);
 		segments.push_back(PathSegment::mkArc(x, y, radius, startAngle, endAngle, clockwise));
+
+		auto x2 = x + cos(endAngle) * radius;
+		auto y2 = y + sin(endAngle) * radius;
+		endPoint = applyTransform(m, x2, y2);
 	}
 
 	//inline void addRelativeArc(const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat delta) {
@@ -250,23 +268,31 @@ struct SubPath {
 		if (tag != Tag_Segmented) return;
 		validateTransform(m);
 		segments.push_back(PathSegment::mkArcToPoint(x1, y1, x2, y2, radius));
+
+		endPoint = applyTransform(m, x2, y2);
 	}
 
 	inline void addCurveToPoint(const dl_CGAffineTransform *m, dl_CGFloat cp1x, dl_CGFloat cp1y, dl_CGFloat cp2x, dl_CGFloat cp2y, dl_CGFloat x, dl_CGFloat y) {
 		if (tag != Tag_Segmented) return;
 		validateTransform(m);
 		segments.push_back(PathSegment::mkCurveToPoint(cp1x, cp1y, cp2x, cp2y, x, y));
+
+		endPoint = applyTransform(m, x, y);
 	}
 
 	inline void addQuadCurveToPoint(const dl_CGAffineTransform *m, dl_CGFloat cpx, dl_CGFloat cpy, dl_CGFloat x, dl_CGFloat y) {
 		if (tag != Tag_Segmented) return;
 		validateTransform(m);
 		segments.push_back(PathSegment::mkQuadCurveToPoint(cpx, cpy, x, y));
+
+		endPoint = applyTransform(m, x, y);
 	}
 
 	inline void close() {
 		if (tag != Tag_Segmented) return;
 		segments.push_back(PathSegment::mkClosure());
+
+		endPoint = startPoint;
 	}
 };
 

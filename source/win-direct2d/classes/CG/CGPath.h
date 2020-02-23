@@ -243,7 +243,6 @@ class CGPath; typedef CGPath* CGPathRef;
 class CGPath : public cf::Object {
 protected:
 	std::vector<SubPath> subPaths;
-	dl_CGPoint currentPoint = dl_CGPointZero;
 
 	SubPath *currentSub() {
 		return &subPaths[subPaths.size() - 1];
@@ -311,7 +310,7 @@ public:
 	}
 
 	dl_CGPoint getCurrentPoint() {
-		return currentPoint;
+		return currentSub()->endPoint;
 	}
 
 	RETAIN_AND_AUTORELEASE(CGPath)
@@ -349,15 +348,9 @@ public:
 
 	void moveToPoint(const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y) {
 		mutableSub()->moveToPoint(m, x, y);
-
-		currentPoint = applyTransform(m, x, y);
 	}
 	void addArc(const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat endAngle, bool clockwise) {
 		mutableSub()->addArc(m, x, y, radius, startAngle, endAngle, clockwise);
-
-		auto x2 = x + cos(endAngle) * radius;
-		auto y2 = y + sin(endAngle) * radius;
-		currentPoint = applyTransform(m, x2, y2);
 	}
 	void addRelativeArc(const dl_CGAffineTransform *matrix, dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat delta) {
 		//mutableSub()->addRelativeArc(matrix, x, y, radius, startAngle, delta);
@@ -372,62 +365,39 @@ public:
 			endAngle = fmod(startAngle + M_PI * 2.0 - delta, M_PI * 2.0);
 		}
 		mutableSub()->addArc(matrix, x, y, radius, startAngle, endAngle, clockwise);
-
-		auto x2 = x + cos(endAngle) * radius;
-		auto y2 = y + sin(endAngle) * radius;
-		currentPoint = applyTransform(matrix, x2, y2);
 	}
 	void addArcToPoint(const dl_CGAffineTransform *m, dl_CGFloat x1, dl_CGFloat y1, dl_CGFloat x2, dl_CGFloat y2, dl_CGFloat radius) {
 		mutableSub()->addArcToPoint(m, x1, y1, x2, y2, radius);
-
-		currentPoint = applyTransform(m, x2, y2);
 	}
 	void addCurveToPoint(const dl_CGAffineTransform *m, dl_CGFloat cp1x, dl_CGFloat cp1y, dl_CGFloat cp2x, dl_CGFloat cp2y, dl_CGFloat x, dl_CGFloat y) {
 		mutableSub()->addCurveToPoint(m, cp1x, cp1y, cp2x, cp2y, x, y);
-
-		currentPoint = applyTransform(m, x, y);
 	}
 	void addLineToPoint(const dl_CGAffineTransform *m, dl_CGFloat x, dl_CGFloat y) {
 		mutableSub()->addLineToPoint(m, x, y);
-
-		currentPoint = applyTransform(m, x, y);
 	}
 	void addLines(const dl_CGAffineTransform *m, const dl_CGPoint *points, size_t count) {
 		mutableSub()->addLines(m, points, count);
-
-		auto p = &points[count - 1];
-		currentPoint = applyTransform(m, p->x, p->y);
 	}
 	void addQuadCurveToPoint(const dl_CGAffineTransform *m, dl_CGFloat cpx, dl_CGFloat cpy, dl_CGFloat x, dl_CGFloat y) {
 		mutableSub()->addQuadCurveToPoint(m, cpx, cpy, x, y);
-
-		currentPoint = applyTransform(m, x, y);
 	}
 	void addRect(const dl_CGAffineTransform *m, dl_CGRect rect) {
 		open = false;
 		subPaths.push_back(SubPath::createRect(rect, m));
-
-		currentPoint = applyTransform(m, rect.origin.x, rect.origin.y);
 	}
 	void addRects(const dl_CGAffineTransform *m, const dl_CGRect *rects, size_t count) {
 		open = false;
 		for (size_t i = 0; i < count; i++) {
 			subPaths.push_back(SubPath::createRect(rects[i], m));
 		}
-
-		auto r = &rects[count - 1];
-		currentPoint = applyTransform(m, r->origin.x, r->origin.y);
 	}
 	void addRoundedRect(const dl_CGAffineTransform *transform, dl_CGRect rect, dl_CGFloat cornerWidth, dl_CGFloat cornerHeight) {
 		open = false;
 		subPaths.push_back(SubPath::createRoundedRect(rect, cornerWidth, cornerHeight, transform));
-
-		currentPoint = applyTransform(transform, rect.origin.x, rect.origin.y);
 	}
 	void addEllipseInRect(const dl_CGAffineTransform *m, dl_CGRect rect) {
 		open = false;
 		subPaths.push_back(SubPath::createEllipse(rect, m));
-
 		// TODO: currentpoint should be ... ?
 	}
 	void addPath(const dl_CGAffineTransform *m, CGPathRef path2) {
@@ -440,17 +410,11 @@ public:
 			}
 			subPaths.push_back(std::move(sp));
 		}
-
-		auto p = path2->getCurrentPoint();
-		currentPoint = applyTransform(m, p.x, p.y);
 	}
 	void closeSubpath() {
 		mutableSub()->close();
 		open = false; // will need to push a new segmented subpath to add further segments (mutableSub() takes care of it)
-
-		// TODO: currentPoint = ??
 	}
-
 	void reset() {
 		subPaths.clear();
 		open = false;

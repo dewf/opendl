@@ -263,38 +263,6 @@ void CGContext::commonTextDraw(dl_CGFloat x, dl_CGFloat y, const PangoRunStruct 
     }
 }
 
-void CGContext::addArc(dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat endAngle, int clockwise)
-{
-    if (clockwise) {
-        // end must be greater than start, otherwise cairo alters the end (by repeatedly adding 2PI)
-        if (startAngle > endAngle) {
-            std::swap(startAngle, endAngle);
-        }
-        cairo_arc(cr, x, y, radius, startAngle, endAngle);
-    } else {
-        // start must be greater than end, otherwise cairo alters the end (by repeatedly subtracting 2PI)
-        if (startAngle < endAngle) {
-            std::swap(startAngle, endAngle);
-        }
-        cairo_arc_negative(cr, x, y, radius, startAngle, endAngle);
-    }
-}
-
-void CGContext::addArcToPoint(dl_CGFloat x1, dl_CGFloat y1, dl_CGFloat x2, dl_CGFloat y2, dl_CGFloat radius)
-{
-    // draw from current point to (almost) x1,y1 - create arc of specified radius there, tangent to line from x1,y1 to x2,y2
-    // find angle between two lines:
-    double x0, y0; // current point
-    cairo_get_current_point(cr, &x0, &y0);
-
-    double centerX, centerY, startX, startY, startAngle, endAngle;
-    calcArcToPoint(x0, y0, x1, y1, x2, y2, radius, &centerX, &centerY, &startX, &startY, &startAngle, &endAngle);
-
-    cairo_line_to(cr, startX, startY);
-    cairo_arc(cr, centerX, centerY, radius, startAngle, endAngle);
-    // we end at the end of that arc, resume drawing from there
-}
-
 void CGContext::drawImage(dl_CGRect rect, CGImageRef image)
 {
     int surfaceWidth, surfaceHeight;

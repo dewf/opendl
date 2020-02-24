@@ -148,6 +148,7 @@ class CGContext : public cf::Object {
     // stuff that isn't part of graphics state:
     cairo_matrix_t textMatrix = {};
     dl_CGPoint textPosition = dl_CGPointZero;
+    CGMutablePathRef path = nullptr;
 
     // misc private utils
     void clipTargetByHalfPlane(dl_CGPoint hp_point, dl_CGPoint hp_vec);
@@ -183,9 +184,13 @@ public:
         currentState()->setStrokeColor(CGColor::Black);
 
         this->cr = rootContext; // initially points to the root, but can refer to other things (mask buffers) as needed
+
+        path = new CGMutablePath();
     }
 
-    ~CGContext() override {}
+    ~CGContext() override {
+        path->release();
+    }
 
     const char *getTypeName() const override {
         return "CGContext";
@@ -228,34 +233,39 @@ public:
     }
 
     void beginPath() {
-        cairo_new_path(cr);
+        path->reset();
     }
 
     void closePath() {
-        cairo_close_path(cr);
+        path->closeSubpath();
     }
 
-    void addPath(CGPathRef path) {
-        path->apply(cr);
+    void addPath(CGPathRef path2) {
+        path->addPath(nullptr, path2);
     }
 
     void moveToPoint(dl_CGFloat x, dl_CGFloat y) {
-        cairo_move_to(cr, x, y);
+        path->moveToPoint(nullptr, x, y);
     }
 
     void addLineToPoint(dl_CGFloat x, dl_CGFloat y) {
-        cairo_line_to(cr, x, y);
+        path->addLineToPoint(nullptr, x, y);
     }
 
     void addRect(dl_CGRect rect) {
-        cairo_rectangle(cr, rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+        path->addRect(nullptr, rect);
     }
 
-    void addArc(dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat endAngle, int clockwise);
+    void addArc(dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat endAngle, int clockwise) {
+        path->addArc(nullptr, x, y, radius, startAngle, endAngle, clockwise);
+    }
 
-    void addArcToPoint(dl_CGFloat x1, dl_CGFloat y1, dl_CGFloat x2, dl_CGFloat y2, dl_CGFloat radius);
+    void addArcToPoint(dl_CGFloat x1, dl_CGFloat y1, dl_CGFloat x2, dl_CGFloat y2, dl_CGFloat radius) {
+        path->addArcToPoint(nullptr, x1, y1, x2, y2, radius);
+    }
 
     void drawPath(dl_CGPathDrawingMode mode) {
+        path->sendToContext(cr);
         if (mode == dl_kCGPathFill || mode == dl_kCGPathFillStroke) {
             currentState()->fillColor->apply(cr);
             cairo_fill_preserve(cr);
@@ -268,17 +278,22 @@ public:
             // clear path because this path didn't clear it
             cairo_new_path(cr);
         }
+        path->reset();
     }
 
     void strokePath()
     {
+        path->sendToContext(cr);
         currentState()->strokeColor->apply(cr);
         cairo_stroke(cr);
+        path->reset();
     }
 
     void fillPath() {
+        path->sendToContext(cr);
         currentState()->fillColor->apply(cr);
         cairo_fill(cr);
+        path->reset();
     }
 
     void setLineWidth(dl_CGFloat width) {
@@ -324,7 +339,9 @@ public:
     }
 
     void clip() {
+        path->sendToContext(cr);
         cairo_clip(cr);
+        path->reset();
     }
 
     void clipToRect(dl_CGRect rect) {

@@ -2,6 +2,7 @@
 #define __PATHSTUFF_H__
 
 #include "../opendl.h"
+#include "geometry.h"
 
 struct PathSegment {
 	enum TagEnum {

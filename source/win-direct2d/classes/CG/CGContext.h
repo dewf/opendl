@@ -14,12 +14,15 @@
 #include "../../COMStuff.h"
 #include "../../caching.h"
 
+#include "CGPath.h" // for CGMutablePath
+//class CGPath; // fwd decl / avoid a circular reference
+//class CGMutablePath;
+
 class CGContext; typedef CGContext* CGContextRef;
 class CGContext : public cf::Object {
 	std::vector<DLDrawState *> drawStateStack;
 
 	// things that are not part of draw state:
-	std::vector<PathElement> pathElements;
 	D2D1::Matrix3x2F textMatrix = D2D1::Matrix3x2F::Identity();
 	D2D1_POINT_2F textPosition = D2D1::Point2F(0, 0); // is this part of the draw state? probably not?
 	dl_CGTextDrawingMode textDrawingMode = dl_kCGTextFill;
@@ -31,7 +34,11 @@ class CGContext : public cf::Object {
 	ID2D1SolidColorBrush *solidFillBrush;
 	ID2D1SolidColorBrush *solidStrokeBrush;
 
-	ID2D1PathGeometry *pathFromElements(D2D1_FIGURE_BEGIN fillType);
+	// TODELETE
+	//std::vector<PathElement> pathElements;
+	//ID2D1PathGeometry *pathFromElements(D2D1_FIGURE_BEGIN fillType);
+	CGMutablePath *path = nullptr;
+
 	void clipTargetByHalfPlane(dl_CGPoint hp_point, dl_CGPoint hp_vec);
 protected:
 	ID2D1RenderTarget *target;
@@ -50,6 +57,9 @@ public:
 		// see declaration note for more details
 		HR(target->CreateSolidColorBrush(D2D1::ColorF(1, 1, 1), &solidFillBrush));
 		HR(target->CreateSolidColorBrush(D2D1::ColorF(0, 0, 0), &solidStrokeBrush));
+
+		// we just use a single mutable path for the life of the context - .reset() clears the contents
+		path = new CGMutablePath();
 	}
 	virtual ~CGContext() override {
 		// clean up / apply any remaining drawstate
@@ -61,6 +71,9 @@ public:
 
 		SafeRelease(&solidFillBrush);
 		SafeRelease(&solidStrokeBrush);
+
+		// CFRelease for CGMutablePath
+		path->release();
 	}
 
 	virtual CGContextRef copy() override {
@@ -240,86 +253,49 @@ public:
 	}
 
 	inline void beginPath() {
-		pathElements.clear();
+		path->reset();
 	}
 
 	inline void closePath() {
-		PathElement e;
-		e.elementType = PathElement_Closure;
-		pathElements.push_back(e);
+		path->closeSubpath();
 	}
 
 	inline void moveToPoint(dl_CGFloat x, dl_CGFloat y)
 	{
-		PathElement e;
-		e.elementType = PathElement_StartPoint;
-		e.point.x = x;
-		e.point.y = y;
-		pathElements.push_back(e);
+		path->moveToPoint(nullptr, x, y);
 	}
 
 	inline void addLineToPoint(dl_CGFloat x, dl_CGFloat y)
 	{
-		PathElement e;
-		e.elementType = PathElement_LineToPoint;
-		e.point.x = x;
-		e.point.y = y;
-		pathElements.push_back(e);
+		path->addLineToPoint(nullptr, x, y);
 	}
 
 	inline void addRect(dl_CGRect rect)
 	{
-		PathElement e;
-		e.elementType = PathElement_Rect;
-		e.rect = rect;
-		pathElements.push_back(e);
+		path->addRect(nullptr, rect);
 	}
 
 	inline void addEllipseInRect(dl_CGRect rect) {
-		PathElement e;
-		e.elementType = PathElement_Ellipse;
-		auto halfWidth = rect.size.width / 2;
-		auto halfHeight = rect.size.height / 2;
-		e.ellipse.point.x = (FLOAT)(rect.origin.x + halfWidth);
-		e.ellipse.point.y = (FLOAT)(rect.origin.y + halfHeight);
-		e.ellipse.radiusX = (FLOAT)halfWidth;
-		e.ellipse.radiusY = (FLOAT)halfHeight;
-		pathElements.push_back(e);
+		path->addEllipseInRect(nullptr, rect);
 	}
 
 	inline void addRoundedRect(dl_CGRect rect, dl_CGFloat cornerWidth, dl_CGFloat cornerHeight)
 	{
-		PathElement e;
-		e.elementType = PathElement_RoundedRect;
-		e.roundedRect.rect = d2dRectFromDlRect(rect);
-		e.roundedRect.radiusX = (FLOAT)cornerWidth;
-		e.roundedRect.radiusY = (FLOAT)cornerHeight;
-		pathElements.push_back(e);
+		path->addRoundedRect(nullptr, rect, cornerWidth, cornerHeight);
 	}
 
 	inline void addArc(dl_CGFloat x, dl_CGFloat y, dl_CGFloat radius, dl_CGFloat startAngle, dl_CGFloat endAngle, int clockwise)
 	{
-		PathElement e;
-		e.elementType = PathElement_Arc;
-		e.arc.x = x;
-		e.arc.y = y;
-		e.arc.radius = radius;
-		e.arc.startAngle = startAngle;
-		e.arc.endAngle = endAngle;
-		e.arc.clockwise = clockwise;
-		pathElements.push_back(e);
+		path->addArc(nullptr, x, y, radius, startAngle, endAngle, clockwise);
 	}
 
-	void addArcToPoint(dl_CGFloat x1, dl_CGFloat y1, dl_CGFloat x2, dl_CGFloat y2, dl_CGFloat radius)
+	inline void addArcToPoint(dl_CGFloat x1, dl_CGFloat y1, dl_CGFloat x2, dl_CGFloat y2, dl_CGFloat radius)
 	{
-		PathElement e;
-		e.elementType = PathElement_ArcToPoint;
-		e.arcToPoint.x1 = x1;
-		e.arcToPoint.y1 = y1;
-		e.arcToPoint.x2 = x2;
-		e.arcToPoint.y2 = y2;
-		e.arcToPoint.radius = radius;
-		pathElements.push_back(e);
+		path->addArcToPoint(nullptr, x1, y1, x2, y2, radius);
+	}
+
+	inline void addPath(CGPathRef path2) {
+		path->addPath(nullptr, path2);
 	}
 
 	inline void setLineWidth(dl_CGFloat width)
@@ -372,36 +348,53 @@ public:
 			break;
 		}
 
-		auto currentPath = pathFromElements(fillType); // this is common to drawing path and clip path creation
+		auto pathGeoms = path->getGeometry(fillType);
 
-		if (mode == dl_kCGPathFill || mode == dl_kCGPathFillStroke) {
-			target->FillGeometry(currentPath, drawState()->fillBrush);
+		for (auto i = pathGeoms.begin(); i != pathGeoms.end(); i++) {
+			if (mode == dl_kCGPathFill || mode == dl_kCGPathFillStroke) {
+				target->FillGeometry(*i, drawState()->fillBrush);
+			}
+			if (mode == dl_kCGPathStroke || mode == dl_kCGPathFillStroke) {
+				//printf("drawing path with stroke style %08X\n", c->strokeStyle);
+				target->DrawGeometry(*i, drawState()->strokeBrush, (FLOAT)drawState()->lineWidth, drawState()->strokeStyle);
+			}
+			(*i)->Release();
 		}
-		if (mode == dl_kCGPathStroke || mode == dl_kCGPathFillStroke) {
-			//printf("drawing path with stroke style %08X\n", c->strokeStyle);
-			target->DrawGeometry(currentPath, drawState()->strokeBrush, (FLOAT)drawState()->lineWidth, drawState()->strokeStyle);
-		}
 
-		SafeRelease(&currentPath);
+		path->reset();
 
-		pathElements.clear();
+		//auto currentPath = pathFromElements(fillType); // this is common to drawing path and clip path creation
+
+		//if (mode == dl_kCGPathFill || mode == dl_kCGPathFillStroke) {
+		//	target->FillGeometry(currentPath, drawState()->fillBrush);
+		//}
+		//if (mode == dl_kCGPathStroke || mode == dl_kCGPathFillStroke) {
+		//	//printf("drawing path with stroke style %08X\n", c->strokeStyle);
+		//	target->DrawGeometry(currentPath, drawState()->strokeBrush, (FLOAT)drawState()->lineWidth, drawState()->strokeStyle);
+		//}
+
+		//SafeRelease(&currentPath);
+
+		//pathElements.clear();
 	}
 
 	inline void strokePath()
 	{
-		// really just the same as dl_CGContextDrawPath(c, dl_kCGPathStroke)
-		auto currentPath = pathFromElements(D2D1_FIGURE_BEGIN_HOLLOW);
-		target->DrawGeometry(currentPath, drawState()->strokeBrush, (FLOAT)drawState()->lineWidth, drawState()->strokeStyle);
-		SafeRelease(&currentPath);
-		pathElements.clear();
+		drawPath(dl_kCGPathStroke);
+		//// really just the same as dl_CGContextDrawPath(c, dl_kCGPathStroke)
+		//auto currentPath = pathFromElements(D2D1_FIGURE_BEGIN_HOLLOW);
+		//target->DrawGeometry(currentPath, drawState()->strokeBrush, (FLOAT)drawState()->lineWidth, drawState()->strokeStyle);
+		//SafeRelease(&currentPath);
+		//pathElements.clear();
 	}
 
 	inline void fillPath() {
-		// really just the same as dl_CGContextDrawPath(c, dl_kCGPathFill)
-		auto currentPath = pathFromElements(D2D1_FIGURE_BEGIN_FILLED);
-		target->FillGeometry(currentPath, drawState()->fillBrush);
-		SafeRelease(&currentPath);
-		pathElements.clear();
+		drawPath(dl_kCGPathFill);
+		//// really just the same as dl_CGContextDrawPath(c, dl_kCGPathFill)
+		//auto currentPath = pathFromElements(D2D1_FIGURE_BEGIN_FILLED);
+		//target->FillGeometry(currentPath, drawState()->fillBrush);
+		//SafeRelease(&currentPath);
+		//pathElements.clear();
 	}
 
 	inline void translateCTM(dl_CGFloat tx, dl_CGFloat ty)
@@ -455,13 +448,29 @@ public:
 
 	inline void clipCurrentPath()
 	{
-		auto currentPath = pathFromElements(D2D1_FIGURE_BEGIN_FILLED); // this is common to drawing path and clip path creation
+		// need to group into a single geometry
+		auto pathGeoms = path->getGeometry(D2D1_FIGURE_BEGIN_FILLED);
 
-		clipToPath(currentPath);
+		ID2D1GeometryGroup *group;
+		HR(d2dFactory->CreateGeometryGroup(D2D1_FILL_MODE_WINDING, pathGeoms.data(), pathGeoms.size(), &group));
 
-		SafeRelease(&currentPath);
+		clipToPath(group);
 
-		pathElements.clear();
+		// release the individual geoms
+		for (auto i = pathGeoms.begin(); i != pathGeoms.end(); i++) {
+			(*i)->Release();
+		}
+
+		// release group geom
+		group->Release();
+
+		// clear
+		path->reset();
+
+		//auto currentPath = pathFromElements(D2D1_FIGURE_BEGIN_FILLED); // this is common to drawing path and clip path creation
+		//clipToPath(currentPath);
+		//SafeRelease(&currentPath);
+		//pathElements.clear();
 	}
 
 	inline void clipToRect(dl_CGRect rect)
@@ -519,16 +528,24 @@ public:
 		auto p2 = xform.TransformPoint(D2D1::Point2F(size.width, size.height));
 		auto p3 = xform.TransformPoint(D2D1::Point2F(0, size.height));
 		beginPath();
+		// TODO: replace this with addLines(), should work the same
 		moveToPoint(p0.x, p0.y);
 		addLineToPoint(p1.x, p1.y);
 		addLineToPoint(p2.x, p2.y);
 		addLineToPoint(p3.x, p3.y);
 		closePath();
 
-		auto currentPath = pathFromElements(D2D1_FIGURE_BEGIN_FILLED);
-		target->FillGeometry(currentPath, gradBrush);
-		SafeRelease(&currentPath);
-		pathElements.clear();
+		auto pathGeoms = path->getGeometry(D2D1_FIGURE_BEGIN_FILLED);
+		for (auto i = pathGeoms.begin(); i != pathGeoms.end(); i++) {
+			target->FillGeometry(*i, gradBrush);
+			(*i)->Release();
+		}
+
+		path->reset();
+		//auto currentPath = pathFromElements(D2D1_FIGURE_BEGIN_FILLED);
+		//target->FillGeometry(currentPath, gradBrush);
+		//SafeRelease(&currentPath);
+		//pathElements.clear();
 	}
 
 	inline void drawLinearGradient(dl_CGGradientRef gradient, dl_CGPoint startPoint, dl_CGPoint endPoint, dl_CGGradientDrawingOptions options)

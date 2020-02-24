@@ -26,38 +26,6 @@ extern ID2D1Factory *d2dFactory;
 extern IDWriteFactory *writeFactory;
 extern IWICImagingFactory *wicFactory;
 
-
-enum PathElementType {
-    PathElement_StartPoint,
-    PathElement_LineToPoint,
-    PathElement_Rect,
-    PathElement_Arc,
-	PathElement_ArcToPoint, // actually a line ending with an arc
-	PathElement_Ellipse,
-	PathElement_RoundedRect,
-    PathElement_Closure
-};
-
-struct PathElement {
-    PathElementType elementType;
-    union {
-        struct {
-            dl_CGFloat x, y;
-        } point; // StartPoint, LineToPoint
-        dl_CGRect rect;
-        struct {
-            dl_CGFloat x, y, radius, startAngle, endAngle;
-            int clockwise;
-        } arc;
-		// TODO: should probably replace the above point/rect/arc with D2D structs ...
-		D2D1_ELLIPSE ellipse;
-		D2D1_ROUNDED_RECT roundedRect;
-		struct {
-			dl_CGFloat x1, y1, x2, y2, radius;
-		} arcToPoint;
-    };
-};
-
 enum ClipStackItemType {
     ClipStackItemType_Layer,
     ClipStackItemType_AxisAligned
@@ -178,6 +146,26 @@ inline D2D1_RECT_F d2dRectFromDlRect(dl_CGRect r) {
 	return D2D1::RectF((FLOAT)r.origin.x, (FLOAT)r.origin.y, (FLOAT)(r.origin.x + r.size.width), (FLOAT)(r.origin.y + r.size.height));
 }
 
+inline D2D1_ELLIPSE d2dEllipseFromDlRect(dl_CGRect r) {
+	D2D1_ELLIPSE e;
+	auto xrad = r.size.width / 2.0;
+	auto yrad = r.size.height / 2.0;
+	auto cx = r.origin.x + xrad;
+	auto cy = r.origin.y + yrad;
+	e.point = D2D1::Point2F((FLOAT)cx, (FLOAT)cy);
+	e.radiusX = (FLOAT)xrad;
+	e.radiusY = (FLOAT)yrad;
+	return e;
+}
+
+inline D2D1_ROUNDED_RECT d2dRoundedRectFromDlRect(dl_CGRect r, dl_CGFloat xrad, dl_CGFloat yrad) {
+	D2D1_ROUNDED_RECT rr;
+	rr.rect = d2dRectFromDlRect(r);
+	rr.radiusX = (FLOAT)xrad;
+	rr.radiusY = (FLOAT)yrad;
+	return rr;
+}
+
 inline dl_CGPoint dlPointFromD2DPoint(D2D1_POINT_2F p) {
 	return dl_CGPointMake(p.x, p.y);
 }
@@ -193,7 +181,7 @@ inline dl_CGAffineTransform dlAffineTransformFromD2DMatrix(D2D1::Matrix3x2F mat)
 	return ret;
 }
 
-inline D2D1::Matrix3x2F d2dMatrixFromDLAffineTransform(dl_CGAffineTransform t) {
+inline D2D1::Matrix3x2F d2dMatrixFromDLAffineTransform(const dl_CGAffineTransform &t) {
 	return D2D1::Matrix3x2F((FLOAT)t.a, (FLOAT)t.b, (FLOAT)t.c, (FLOAT)t.d, (FLOAT)t.tx, (FLOAT)t.ty);
 }
 

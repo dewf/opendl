@@ -178,3 +178,8 @@ void drawLineAt(dl_CGContextRef c, dl_CTLineRef line, dl_CGFloat x, dl_CGFloat y
 	dl_CGContextRestoreGState(c);
 }
 
+dl_CGPoint betweenPoints(dl_CGPoint a, dl_CGPoint b) {
+    auto x = (a.x + b.x) / 2.0;
+    auto y = (a.y + b.y) / 2.0;
+    return dl_CGPointMake(x, y);
+}

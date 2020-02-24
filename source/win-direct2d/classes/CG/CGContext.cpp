@@ -4,184 +4,184 @@
 #include "../../../common/geometry.h"
 #include "../../directwrite/CoreTextFormatSpec.h"
 
-inline void geomSinkAddRect(ID2D1GeometrySink *geomSink, PathElement &e, D2D1_FIGURE_BEGIN fillType, bool *figureOpen)
-{
-	auto point = D2D1::Point2F((FLOAT)e.rect.origin.x, (FLOAT)e.rect.origin.y);
-	geomSink->BeginFigure(point, fillType);
-	*figureOpen = true;
+//inline void geomSinkAddRect(ID2D1GeometrySink *geomSink, PathElement &e, D2D1_FIGURE_BEGIN fillType, bool *figureOpen)
+//{
+//	auto point = D2D1::Point2F((FLOAT)e.rect.origin.x, (FLOAT)e.rect.origin.y);
+//	geomSink->BeginFigure(point, fillType);
+//	*figureOpen = true;
+//
+//	point.x += (FLOAT)e.rect.size.width;
+//	geomSink->AddLine(point);
+//
+//	point.y += (FLOAT)e.rect.size.height;
+//	geomSink->AddLine(point);
+//
+//	point.x -= (FLOAT)e.rect.size.width;
+//	geomSink->AddLine(point);
+//
+//	//point.y -= (FLOAT)e.rect.size.height;
+//	//geomSink->AddLine(point); // implicitly closed, I guess?
+//	geomSink->EndFigure(D2D1_FIGURE_END_CLOSED);
+//	*figureOpen = false;
+//}
+//
+//inline void geomSinkAddArc(ID2D1GeometrySink *geomSink, PathElement &e, D2D1_FIGURE_BEGIN fillType, bool *figureOpen)
+//{
+//	dl_CGFloat clockMul = e.arc.clockwise ? 1.0 : -1.0;
+//	dl_CGFloat p1x = e.arc.x + (cos(clockMul * e.arc.startAngle) * e.arc.radius);
+//	dl_CGFloat p1y = e.arc.y + (sin(clockMul * e.arc.startAngle) * e.arc.radius);
+//	auto p1 = D2D1::Point2F((FLOAT)p1x, (FLOAT)p1y);
+//	geomSink->BeginFigure(p1, fillType);
+//	*figureOpen = true;
+//
+//	// this would probably be better to do with epsilon / c++ numeric limits stuff
+//	// basically make sure they're not equal (after an fmod(M_PI*2)), otherwise windows puts 360-degree circles in the wrong place
+//	auto diff = fmod(abs(e.arc.endAngle - e.arc.startAngle), M_PI * 2.0);
+//	bool fullCircle = diff < 0.0001;
+//	if (fullCircle) {
+//		e.arc.endAngle *= 0.9999;
+//		// and we'll have to manually EndFigure because otherwise there'd be a gap in the stroke
+//	}
+//
+//	dl_CGFloat p2x = e.arc.x + (cos(clockMul * e.arc.endAngle) * e.arc.radius);
+//	dl_CGFloat p2y = e.arc.y + (sin(clockMul * e.arc.endAngle) * e.arc.radius);
+//	auto p2 = D2D1::Point2F((FLOAT)p2x, (FLOAT)p2y);
+//
+//	auto size = D2D1::SizeF((FLOAT)e.arc.radius, (FLOAT)e.arc.radius);
+//	auto dir = e.arc.clockwise ? D2D1_SWEEP_DIRECTION_CLOCKWISE : D2D1_SWEEP_DIRECTION_COUNTER_CLOCKWISE;
+//	auto angle = ((e.arc.endAngle - e.arc.startAngle) * 360.0) / (M_PI * 2.0);
+//	auto big = (angle >= 180.0) ? D2D1_ARC_SIZE_LARGE : D2D1_ARC_SIZE_SMALL;
+//	auto arc = D2D1::ArcSegment(p2, size, 0, dir, big);
+//	geomSink->AddArc(arc);
+//
+//	if (fullCircle) {
+//		geomSink->EndFigure(D2D1_FIGURE_END_CLOSED);
+//		*figureOpen = false;
+//	}
+//}
+//
+//inline void geomSinkAddEllipse(ID2D1GeometrySink *geomSink, PathElement &e, D2D1_FIGURE_BEGIN fillType, bool *figureOpen)
+//{
+//	ID2D1EllipseGeometry *geom;
+//	HR(d2dFactory->CreateEllipseGeometry(&e.ellipse, &geom));
+//
+//	// begin figure? fill type? etc?
+//	HR(geom->Outline(NULL, geomSink));
+//
+//	//// really not sure ...
+//	//geomSink->EndFigure(D2D1_FIGURE_END_CLOSED);
+//	//*figureOpen = false;
+//
+//	SafeRelease(&geom);
+//}
+//
+//inline void geomSinkAddRoundedRect(ID2D1GeometrySink *geomSink, PathElement &e, D2D1_FIGURE_BEGIN fillType, bool *figureOpen)
+//{
+//	ID2D1RoundedRectangleGeometry *geom;
+//	HR(d2dFactory->CreateRoundedRectangleGeometry(&e.roundedRect, &geom));
+//
+//	// begin figure? fill type? etc?
+//	HR(geom->Outline(NULL, geomSink));
+//
+//	// not sure
+//	// geomSink->EndFigure...
+//	// *figureOpen = false
+//
+//	SafeRelease(&geom);
+//}
+//
+//inline void geomSinkAddArcToPoint(ID2D1GeometrySink *geomSink, PathElement &e, D2D1_POINT_2F *lastPoint)
+//{
+//	double centerX, centerY, startX, startY, angle0, angle1;
+//
+//	calcArcToPoint(
+//		lastPoint->x, lastPoint->y,
+//		e.arcToPoint.x1, e.arcToPoint.y1,
+//		e.arcToPoint.x2, e.arcToPoint.y2,
+//		e.arcToPoint.radius,
+//		&centerX, &centerY, &startX, &startY, &angle0, &angle1);
+//
+//	// draw the damn thing
+//	geomSink->AddLine(D2D1::Point2F((FLOAT)startX, (FLOAT)startY));
+//	auto endX = centerX + cos(angle1) * e.arcToPoint.radius;
+//	auto endY = centerY + sin(angle1) * e.arcToPoint.radius;
+//	auto endPoint = D2D1::Point2F((FLOAT)endX, (FLOAT)endY);
+//	auto arc = D2D1::ArcSegment(
+//		endPoint,
+//		D2D1::SizeF((FLOAT)e.arcToPoint.radius, (FLOAT)e.arcToPoint.radius),
+//		0,
+//		D2D1_SWEEP_DIRECTION_CLOCKWISE,
+//		(angle1 - angle0) > M_PI ? D2D1_ARC_SIZE_LARGE : D2D1_ARC_SIZE_SMALL);
+//	geomSink->AddArc(arc);
+//	// we end at the end of that arc, resume drawing from there
+//	*lastPoint = endPoint;
+//}
 
-	point.x += (FLOAT)e.rect.size.width;
-	geomSink->AddLine(point);
-
-	point.y += (FLOAT)e.rect.size.height;
-	geomSink->AddLine(point);
-
-	point.x -= (FLOAT)e.rect.size.width;
-	geomSink->AddLine(point);
-
-	//point.y -= (FLOAT)e.rect.size.height;
-	//geomSink->AddLine(point); // implicitly closed, I guess?
-	geomSink->EndFigure(D2D1_FIGURE_END_CLOSED);
-	*figureOpen = false;
-}
-
-inline void geomSinkAddArc(ID2D1GeometrySink *geomSink, PathElement &e, D2D1_FIGURE_BEGIN fillType, bool *figureOpen)
-{
-	dl_CGFloat clockMul = e.arc.clockwise ? 1.0 : -1.0;
-	dl_CGFloat p1x = e.arc.x + (cos(clockMul * e.arc.startAngle) * e.arc.radius);
-	dl_CGFloat p1y = e.arc.y + (sin(clockMul * e.arc.startAngle) * e.arc.radius);
-	auto p1 = D2D1::Point2F((FLOAT)p1x, (FLOAT)p1y);
-	geomSink->BeginFigure(p1, fillType);
-	*figureOpen = true;
-
-	// this would probably be better to do with epsilon / c++ numeric limits stuff
-	// basically make sure they're not equal (after an fmod(M_PI*2)), otherwise windows puts 360-degree circles in the wrong place
-	auto diff = fmod(abs(e.arc.endAngle - e.arc.startAngle), M_PI * 2.0);
-	bool fullCircle = diff < 0.0001;
-	if (fullCircle) {
-		e.arc.endAngle *= 0.9999;
-		// and we'll have to manually EndFigure because otherwise there'd be a gap in the stroke
-	}
-
-	dl_CGFloat p2x = e.arc.x + (cos(clockMul * e.arc.endAngle) * e.arc.radius);
-	dl_CGFloat p2y = e.arc.y + (sin(clockMul * e.arc.endAngle) * e.arc.radius);
-	auto p2 = D2D1::Point2F((FLOAT)p2x, (FLOAT)p2y);
-
-	auto size = D2D1::SizeF((FLOAT)e.arc.radius, (FLOAT)e.arc.radius);
-	auto dir = e.arc.clockwise ? D2D1_SWEEP_DIRECTION_CLOCKWISE : D2D1_SWEEP_DIRECTION_COUNTER_CLOCKWISE;
-	auto angle = ((e.arc.endAngle - e.arc.startAngle) * 360.0) / (M_PI * 2.0);
-	auto big = (angle >= 180.0) ? D2D1_ARC_SIZE_LARGE : D2D1_ARC_SIZE_SMALL;
-	auto arc = D2D1::ArcSegment(p2, size, 0, dir, big);
-	geomSink->AddArc(arc);
-
-	if (fullCircle) {
-		geomSink->EndFigure(D2D1_FIGURE_END_CLOSED);
-		*figureOpen = false;
-	}
-}
-
-inline void geomSinkAddEllipse(ID2D1GeometrySink *geomSink, PathElement &e, D2D1_FIGURE_BEGIN fillType, bool *figureOpen)
-{
-	ID2D1EllipseGeometry *geom;
-	HR(d2dFactory->CreateEllipseGeometry(&e.ellipse, &geom));
-
-	// begin figure? fill type? etc?
-	HR(geom->Outline(NULL, geomSink));
-
-	//// really not sure ...
-	//geomSink->EndFigure(D2D1_FIGURE_END_CLOSED);
-	//*figureOpen = false;
-
-	SafeRelease(&geom);
-}
-
-inline void geomSinkAddRoundedRect(ID2D1GeometrySink *geomSink, PathElement &e, D2D1_FIGURE_BEGIN fillType, bool *figureOpen)
-{
-	ID2D1RoundedRectangleGeometry *geom;
-	HR(d2dFactory->CreateRoundedRectangleGeometry(&e.roundedRect, &geom));
-
-	// begin figure? fill type? etc?
-	HR(geom->Outline(NULL, geomSink));
-
-	// not sure
-	// geomSink->EndFigure...
-	// *figureOpen = false
-
-	SafeRelease(&geom);
-}
-
-inline void geomSinkAddArcToPoint(ID2D1GeometrySink *geomSink, PathElement &e, D2D1_POINT_2F *lastPoint)
-{
-	double centerX, centerY, startX, startY, angle0, angle1;
-
-	calcArcToPoint(
-		lastPoint->x, lastPoint->y,
-		e.arcToPoint.x1, e.arcToPoint.y1,
-		e.arcToPoint.x2, e.arcToPoint.y2,
-		e.arcToPoint.radius,
-		&centerX, &centerY, &startX, &startY, &angle0, &angle1);
-
-	// draw the damn thing
-	geomSink->AddLine(D2D1::Point2F((FLOAT)startX, (FLOAT)startY));
-	auto endX = centerX + cos(angle1) * e.arcToPoint.radius;
-	auto endY = centerY + sin(angle1) * e.arcToPoint.radius;
-	auto endPoint = D2D1::Point2F((FLOAT)endX, (FLOAT)endY);
-	auto arc = D2D1::ArcSegment(
-		endPoint,
-		D2D1::SizeF((FLOAT)e.arcToPoint.radius, (FLOAT)e.arcToPoint.radius),
-		0,
-		D2D1_SWEEP_DIRECTION_CLOCKWISE,
-		(angle1 - angle0) > M_PI ? D2D1_ARC_SIZE_LARGE : D2D1_ARC_SIZE_SMALL);
-	geomSink->AddArc(arc);
-	// we end at the end of that arc, resume drawing from there
-	*lastPoint = endPoint;
-}
-
-ID2D1PathGeometry *CGContext::pathFromElements(D2D1_FIGURE_BEGIN fillType)
-{
-	ID2D1PathGeometry *currentPath = nullptr;
-	ID2D1GeometrySink *geomSink = nullptr;
-	d2dFactory->CreatePathGeometry(&currentPath);
-	currentPath->Open(&geomSink);
-	geomSink->SetFillMode(D2D1_FILL_MODE_WINDING);
-
-	bool figureOpen = false;
-	D2D1_POINT_2F figureBeginPoint, lastPoint;
-
-	for (auto item = pathElements.begin(); item < pathElements.end(); item++) {
-		switch (item->elementType) {
-		case PathElement_StartPoint:
-			geomSink->BeginFigure(D2D1::Point2F((FLOAT)item->point.x, (FLOAT)item->point.y), fillType);
-			figureOpen = true;
-			figureBeginPoint = D2D1::Point2F((FLOAT)item->point.x, (FLOAT)item->point.y);
-			lastPoint = figureBeginPoint;
-			break;
-		case PathElement_LineToPoint:
-			geomSink->AddLine(D2D1::Point2F((FLOAT)item->point.x, (FLOAT)item->point.y));
-			lastPoint = D2D1::Point2F((FLOAT)item->point.x, (FLOAT)item->point.y);
-			break;
-		case PathElement_Rect:
-			// TODO: look at this and arc and see if they can be simplified, a la ellipse and rounded rect (using D2D geometries directly writing to sink)
-			geomSinkAddRect(geomSink, *item, fillType, &figureOpen);
-			lastPoint = D2D1::Point2F((FLOAT)item->rect.origin.x, (FLOAT)item->rect.origin.y);
-			break;
-		case PathElement_Arc: {
-			// TODO: see todo above
-			geomSinkAddArc(geomSink, *item, fillType, &figureOpen); // might be a full circle, so pass didClose to be modified in there
-			auto endX = item->arc.x + cos(item->arc.endAngle) * item->arc.radius;
-			auto endY = item->arc.y + sin(item->arc.endAngle) * item->arc.radius;
-			lastPoint = D2D1::Point2F((FLOAT)endX, (FLOAT)endY);
-			break;
-		}
-		case PathElement_ArcToPoint:
-			geomSinkAddArcToPoint(geomSink, *item, &lastPoint); // updates lastPoint
-			break;
-		case PathElement_Ellipse: {
-			geomSinkAddEllipse(geomSink, *item, fillType, &figureOpen);
-			auto endX = item->ellipse.point.x + item->ellipse.radiusX;
-			auto endY = item->ellipse.point.y;
-			lastPoint = D2D1::Point2F((FLOAT)endX, (FLOAT)endY);
-			break;
-		}
-		case PathElement_RoundedRect:
-			geomSinkAddRoundedRect(geomSink, *item, fillType, &figureOpen);
-			// TODO: not sure what lastPoint should be here ...
-			break;
-		case PathElement_Closure:
-			geomSink->EndFigure(D2D1_FIGURE_END_CLOSED);
-			figureOpen = false;
-			lastPoint = figureBeginPoint;
-			break;
-		}
-	}
-	if (figureOpen) {
-		geomSink->EndFigure(D2D1_FIGURE_END_OPEN);
-	}
-	geomSink->Close();
-	SafeRelease(&geomSink);
-
-	return currentPath;
-}
+//ID2D1PathGeometry *CGContext::pathFromElements(D2D1_FIGURE_BEGIN fillType)
+//{
+//	ID2D1PathGeometry *currentPath = nullptr;
+//	ID2D1GeometrySink *geomSink = nullptr;
+//	d2dFactory->CreatePathGeometry(&currentPath);
+//	currentPath->Open(&geomSink);
+//	geomSink->SetFillMode(D2D1_FILL_MODE_WINDING);
+//
+//	bool figureOpen = false;
+//	D2D1_POINT_2F figureBeginPoint, lastPoint;
+//
+//	for (auto item = pathElements.begin(); item < pathElements.end(); item++) {
+//		switch (item->elementType) {
+//		case PathElement_StartPoint:
+//			geomSink->BeginFigure(D2D1::Point2F((FLOAT)item->point.x, (FLOAT)item->point.y), fillType);
+//			figureOpen = true;
+//			figureBeginPoint = D2D1::Point2F((FLOAT)item->point.x, (FLOAT)item->point.y);
+//			lastPoint = figureBeginPoint;
+//			break;
+//		case PathElement_LineToPoint:
+//			geomSink->AddLine(D2D1::Point2F((FLOAT)item->point.x, (FLOAT)item->point.y));
+//			lastPoint = D2D1::Point2F((FLOAT)item->point.x, (FLOAT)item->point.y);
+//			break;
+//		case PathElement_Rect:
+//			// TODO: look at this and arc and see if they can be simplified, a la ellipse and rounded rect (using D2D geometries directly writing to sink)
+//			geomSinkAddRect(geomSink, *item, fillType, &figureOpen);
+//			lastPoint = D2D1::Point2F((FLOAT)item->rect.origin.x, (FLOAT)item->rect.origin.y);
+//			break;
+//		case PathElement_Arc: {
+//			// TODO: see todo above
+//			geomSinkAddArc(geomSink, *item, fillType, &figureOpen); // might be a full circle, so pass didClose to be modified in there
+//			auto endX = item->arc.x + cos(item->arc.endAngle) * item->arc.radius;
+//			auto endY = item->arc.y + sin(item->arc.endAngle) * item->arc.radius;
+//			lastPoint = D2D1::Point2F((FLOAT)endX, (FLOAT)endY);
+//			break;
+//		}
+//		case PathElement_ArcToPoint:
+//			geomSinkAddArcToPoint(geomSink, *item, &lastPoint); // updates lastPoint
+//			break;
+//		case PathElement_Ellipse: {
+//			geomSinkAddEllipse(geomSink, *item, fillType, &figureOpen);
+//			auto endX = item->ellipse.point.x + item->ellipse.radiusX;
+//			auto endY = item->ellipse.point.y;
+//			lastPoint = D2D1::Point2F((FLOAT)endX, (FLOAT)endY);
+//			break;
+//		}
+//		case PathElement_RoundedRect:
+//			geomSinkAddRoundedRect(geomSink, *item, fillType, &figureOpen);
+//			// TODO: not sure what lastPoint should be here ...
+//			break;
+//		case PathElement_Closure:
+//			geomSink->EndFigure(D2D1_FIGURE_END_CLOSED);
+//			figureOpen = false;
+//			lastPoint = figureBeginPoint;
+//			break;
+//		}
+//	}
+//	if (figureOpen) {
+//		geomSink->EndFigure(D2D1_FIGURE_END_OPEN);
+//	}
+//	geomSink->Close();
+//	SafeRelease(&geomSink);
+//
+//	return currentPath;
+//}
 
 void CGContext::clipTargetByHalfPlane(dl_CGPoint hp_point, dl_CGPoint hp_vec) {
 	auto size = target->GetSize();

@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\source\common\ExoClass.h" />
     <ClInclude Include="..\..\..\source\common\geometry.h" />
+    <ClInclude Include="..\..\..\source\common\pathstuff.h" />
     <ClInclude Include="..\..\..\source\common\util.h" />
     <ClInclude Include="..\..\..\source\dlcf.h" />
     <ClInclude Include="..\..\..\source\opendl.h" />

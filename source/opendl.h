@@ -413,6 +413,36 @@ extern "C" {
     // testing ===============
 	OPENDL_API void CDECL dl_InternalTesting(dl_CGContextRef c, int width, int height);
 
+    // globals fetching for languages that can't access DLL data ==============
+    typedef struct {
+        dl_CFIndex dl_kCFNotFound;
+        dl_CFRange dl_CFRangeZero;
+        dl_CFBooleanRef dl_kCFBooleanTrue;
+        dl_CFBooleanRef dl_kCFBooleanFalse;
+        dl_CGPoint dl_CGPointZero;
+        dl_CGRect dl_CGRectZero;
+        dl_CGAffineTransform dl_CGAffineTransformIdentity;
+        dl_CFStringRef dl_kCGColorSpaceGenericGray;
+        dl_CFStringRef dl_kCGColorSpaceGenericRGB;
+        dl_CFStringRef dl_kCGColorSpaceGenericCMYK;
+        dl_CFStringRef dl_kCGColorSpaceGenericRGBLinear;
+        dl_CFStringRef dl_kCGColorSpaceAdobeRGB1998;
+        dl_CFStringRef dl_kCGColorSpaceSRGB;
+        dl_CFStringRef dl_kCGColorSpaceGenericGrayGamma2_2;
+        dl_CFStringRef dl_kCGColorWhite;
+        dl_CFStringRef dl_kCGColorBlack;
+        dl_CFStringRef dl_kCGColorClear;
+        dl_CFStringRef dl_kCTForegroundColorAttributeName;
+        dl_CFStringRef dl_kCTForegroundColorFromContextAttributeName;
+        dl_CFStringRef dl_kCTFontAttributeName;
+        dl_CFStringRef dl_kCTStrokeWidthAttributeName;
+        dl_CFStringRef dl_kCTStrokeColorAttributeName;
+        dl_CFStringRef dl_kCTParagraphStyleAttributeName;
+    } dl_Globals;
+
+    OPENDL_API void CDECL dl_GetGlobals(dl_Globals* dest);
+
+
 #ifdef __cplusplus
 }
 #endif

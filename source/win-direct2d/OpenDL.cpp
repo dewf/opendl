@@ -741,6 +741,33 @@ OPENDL_API void CDECL dl_InternalTesting(dl_CGContextRef c, int width, int heigh
 	//
 }
 
+OPENDL_API void CDECL dl_GetGlobals(dl_Globals* dest)
+{
+	dest->dl_kCFNotFound = dl_kCFNotFound;
+	dest->dl_CFRangeZero = dl_CFRangeZero;
+	dest->dl_kCFBooleanTrue = dl_kCFBooleanTrue;
+	dest->dl_kCFBooleanFalse = dl_kCFBooleanFalse;
+	dest->dl_CGPointZero = dl_CGPointZero;
+	dest->dl_CGRectZero = dl_CGRectZero;
+	dest->dl_CGAffineTransformIdentity = dl_CGAffineTransformIdentity;
+	dest->dl_kCGColorSpaceGenericGray = dl_kCGColorSpaceGenericGray;
+	dest->dl_kCGColorSpaceGenericRGB = dl_kCGColorSpaceGenericRGB;
+	dest->dl_kCGColorSpaceGenericCMYK = dl_kCGColorSpaceGenericCMYK;
+	dest->dl_kCGColorSpaceGenericRGBLinear = dl_kCGColorSpaceGenericRGBLinear;
+	dest->dl_kCGColorSpaceAdobeRGB1998 = dl_kCGColorSpaceAdobeRGB1998;
+	dest->dl_kCGColorSpaceSRGB = dl_kCGColorSpaceSRGB;
+	dest->dl_kCGColorSpaceGenericGrayGamma2_2 = dl_kCGColorSpaceGenericGrayGamma2_2;
+	dest->dl_kCGColorWhite = dl_kCGColorWhite;
+	dest->dl_kCGColorBlack = dl_kCGColorBlack;
+	dest->dl_kCGColorClear = dl_kCGColorClear;
+	dest->dl_kCTForegroundColorAttributeName = dl_kCTForegroundColorAttributeName;
+	dest->dl_kCTForegroundColorFromContextAttributeName = dl_kCTForegroundColorFromContextAttributeName;
+	dest->dl_kCTFontAttributeName = dl_kCTFontAttributeName;
+	dest->dl_kCTStrokeWidthAttributeName = dl_kCTStrokeWidthAttributeName;
+	dest->dl_kCTStrokeColorAttributeName = dl_kCTStrokeColorAttributeName;
+	dest->dl_kCTParagraphStyleAttributeName = dl_kCTParagraphStyleAttributeName;
+}
+
 //device - independent resources :
 //============================ =
 //-WICImagingFactory

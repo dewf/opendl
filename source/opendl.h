@@ -413,7 +413,7 @@ extern "C" {
     // testing ===============
 	OPENDL_API void CDECL dl_InternalTesting(dl_CGContextRef c, int width, int height);
 
-    // globals fetching for languages that can't access DLL data ==============
+    // globals fetching for languages where direct access is a pain (eg C#) ==============
     typedef struct {
         dl_CFIndex dl_kCFNotFound;
         dl_CFRange dl_CFRangeZero;

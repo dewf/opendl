@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\win-direct2d">
+      <UniqueIdentifier>{0aa72fc4-786d-4b53-8b21-9ba2c5c3e697}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\win-direct2d\classes">
+      <UniqueIdentifier>{60c36145-f166-40d4-90ac-78a55911a1b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\win-direct2d\classes\CG">
+      <UniqueIdentifier>{23c9fef9-1ccf-4b22-b2ce-4bada71988d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\win-direct2d\classes\CT">
+      <UniqueIdentifier>{a5ca36e8-608f-448e-8302-78772d2ee4d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\win-direct2d\directwrite">
+      <UniqueIdentifier>{b0518128-7638-4794-ace0-3f3fd8c66732}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common">
+      <UniqueIdentifier>{de891ae7-3f1a-49a3-b4eb-82eb73eaa762}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CG\CGBitmapContext.h">
+      <Filter>Source Files\win-direct2d\classes\CG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CG\CGColor.h">
+      <Filter>Source Files\win-direct2d\classes\CG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CG\CGColorSpace.h">
+      <Filter>Source Files\win-direct2d\classes\CG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CG\CGContext.h">
+      <Filter>Source Files\win-direct2d\classes\CG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CG\CGGradient.h">
+      <Filter>Source Files\win-direct2d\classes\CG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CG\CGImage.h">
+      <Filter>Source Files\win-direct2d\classes\CG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CG\CGPath.h">
+      <Filter>Source Files\win-direct2d\classes\CG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CT\CTFont.h">
+      <Filter>Source Files\win-direct2d\classes\CT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CT\CTFrame.h">
+      <Filter>Source Files\win-direct2d\classes\CT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CT\CTFrameSetter.h">
+      <Filter>Source Files\win-direct2d\classes\CT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CT\CTLine.h">
+      <Filter>Source Files\win-direct2d\classes\CT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CT\CTParagraphStyle.h">
+      <Filter>Source Files\win-direct2d\classes\CT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CT\CTRun.h">
+      <Filter>Source Files\win-direct2d\classes\CT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\directwrite\CoreTextFormatSpec.h">
+      <Filter>Source Files\win-direct2d\directwrite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\directwrite\CoreTextRenderer.h">
+      <Filter>Source Files\win-direct2d\directwrite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\directwrite\DWriteFontUtils.h">
+      <Filter>Source Files\win-direct2d\directwrite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\directwrite\MyTextRenderer.h">
+      <Filter>Source Files\win-direct2d\directwrite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\directwrite\MyUnknown.h">
+      <Filter>Source Files\win-direct2d\directwrite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\caching.h">
+      <Filter>Source Files\win-direct2d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\COMStuff.h">
+      <Filter>Source Files\win-direct2d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\header.h">
+      <Filter>Source Files\win-direct2d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\private_defs.h">
+      <Filter>Source Files\win-direct2d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\targetver.h">
+      <Filter>Source Files\win-direct2d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\unicodestuff.h">
+      <Filter>Source Files\win-direct2d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\common\ExoClass.h">
+      <Filter>Source Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\common\geometry.h">
+      <Filter>Source Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\common\util.h">
+      <Filter>Source Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\dlcf.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\opendl.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\prologue.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\classes\CT\CTFontDescriptor.h">
+      <Filter>Source Files\win-direct2d\classes\CT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\directwrite\DWriteLayout.h">
+      <Filter>Source Files\win-direct2d\directwrite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\win-direct2d\directwrite\MyTextAnalyzer.h">
+      <Filter>Source Files\win-direct2d\directwrite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\common\pathstuff.h">
+      <Filter>Source Files\common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CG\CGBitmapContext.cpp">
+      <Filter>Source Files\win-direct2d\classes\CG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CG\CGColor.cpp">
+      <Filter>Source Files\win-direct2d\classes\CG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CG\CGColorSpace.cpp">
+      <Filter>Source Files\win-direct2d\classes\CG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CG\CGContext.cpp">
+      <Filter>Source Files\win-direct2d\classes\CG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CG\CGGradient.cpp">
+      <Filter>Source Files\win-direct2d\classes\CG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CG\CGImage.cpp">
+      <Filter>Source Files\win-direct2d\classes\CG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CG\CGPath.cpp">
+      <Filter>Source Files\win-direct2d\classes\CG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CT\CTFont.cpp">
+      <Filter>Source Files\win-direct2d\classes\CT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CT\CTFrame.cpp">
+      <Filter>Source Files\win-direct2d\classes\CT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CT\CTFrameSetter.cpp">
+      <Filter>Source Files\win-direct2d\classes\CT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CT\CTLine.cpp">
+      <Filter>Source Files\win-direct2d\classes\CT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CT\CTParagraphStyle.cpp">
+      <Filter>Source Files\win-direct2d\classes\CT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CT\CTRun.cpp">
+      <Filter>Source Files\win-direct2d\classes\CT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\directwrite\CoreTextFormatSpec.cpp">
+      <Filter>Source Files\win-direct2d\directwrite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\directwrite\CoreTextRenderer.cpp">
+      <Filter>Source Files\win-direct2d\directwrite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\directwrite\DWriteFontUtils.cpp">
+      <Filter>Source Files\win-direct2d\directwrite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\directwrite\MyTextRenderer.cpp">
+      <Filter>Source Files\win-direct2d\directwrite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\directwrite\MyUnknown.cpp">
+      <Filter>Source Files\win-direct2d\directwrite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\caching.cpp">
+      <Filter>Source Files\win-direct2d</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\dllmain.cpp">
+      <Filter>Source Files\win-direct2d</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\OpenDL.cpp">
+      <Filter>Source Files\win-direct2d</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\unicodestuff.cpp">
+      <Filter>Source Files\win-direct2d</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\common\ExoClass.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\common\util.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\classes\CT\CTFontDescriptor.cpp">
+      <Filter>Source Files\win-direct2d\classes\CT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\directwrite\DWriteLayout.cpp">
+      <Filter>Source Files\win-direct2d\directwrite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\common\geometry.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\common\dlcf.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\win-direct2d\directwrite\MyTextAnalyzer.cpp">
+      <Filter>Source Files\win-direct2d\directwrite</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

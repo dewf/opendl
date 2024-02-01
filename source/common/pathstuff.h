@@ -132,7 +132,7 @@ struct SubPath {
 			dl_CGFloat cornerWidth, cornerHeight;
 		} rounded;
 		struct {
-			const dl_CGAffineTransform *check;   // used to quickly check that all segments are using the same transform
+			int reserved;
 			//std::vector<PathSegment> segments; // moved out of union because issues
 		} segmented;
 	};
@@ -197,22 +197,57 @@ struct SubPath {
 
 	static SubPath createEmptyPath() {
 		SubPath sp(Tag_Segmented);
-		sp.segmented.check = nullptr;
+		// sp.segmented.check = nullptr;
 		// no transform yet, that will be initialized/verified with each segment add
 		return sp;
 	}
 
+	static inline bool transformsAreEqual(const dl_CGAffineTransform& a, const dl_CGAffineTransform& b) {
+		return (a.a == b.a)
+			&& (a.b == b.b)
+			&& (a.c == b.c)
+			&& (a.d == b.d)
+			&& (a.tx == b.tx)
+			&& (a.ty == b.ty);
+	}
+
 	void validateTransform(const dl_CGAffineTransform *m) {
-		if (m != segmented.check) {
-			// either it's the first provided one, or a new one mid-subpath which we don't yet support
-			if (segmented.check == nullptr && segments.size() == 0) {
-				// first element, first provided matrix - OK
-				segmented.check = m; // will be used to verify subsequent segments - they all must match, because subpath/geom transformed as a unit
-				transform = *m; // copy
-				hasTransform = true;
+		// user-provided 'm' is something:
+		if (m != nullptr) {
+			//   - on 1st segment, set transform to m / hasTransform = true
+			if (segments.size() == 0) {
+				if (!hasTransform) {
+					// first element, first provided matrix - OK
+					transform = *m;
+					hasTransform = true;
+				}
+				else {
+					throw cf::Exception("CGPath SubPath validation: segments.size() == 0 but already had transform? unhandled condition");
+				}
 			}
-			else {
-				throw cf::Exception("CGPath SubPath validation: provided transform didn't match existing for current subpath");
+			//   - on 2nd+ segment, do we have an existing transform?
+			else if (segments.size() > 0) {
+				//     - if yes, verify m matches existing completely, else error
+				if (hasTransform) {
+					if (transformsAreEqual(transform, *m)) {
+						// OK
+					}
+					else {
+						throw cf::Exception("CGPath SubPath validation: provided transform didn't match existing on this subpath (present limitation win/linux)");
+					}
+				}
+				//     - if no, immediate error because transform needed to be provided on 1st segment, but wasn't provided until now
+				else {
+					throw cf::Exception("CGPath SubPath validation: provided 1st subpath transform on non-1st segment (win/linux limitation)");
+				}
+			}
+		}
+		// user-provided 'm' is nothing:
+		else {
+			//   - verify we don't have any set transform already
+			if (hasTransform) {
+				// oops, the user provided something previously, but this call provided null ...
+				throw cf::Exception("CGPath SubPath validation: all subpath segment transforms must match (null provided, didn't match prior transform)");
 			}
 		}
 	}

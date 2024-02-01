@@ -142,7 +142,7 @@ void miscShapes(dl_CGContextRef context, dl_CGPoint center, dl_CGAffineTransform
     
     dl_CGContextSetLineWidth(context, 2.0f);
     
-    const int POINTS_SIDE = 230.0;
+    const int POINTS_SIDE = 230;
     dl_CGPoint points[] = {
         { center.x - POINTS_SIDE/2, center.y - POINTS_SIDE/2 },
         { center.x + POINTS_SIDE/2, center.y - POINTS_SIDE/2 },
